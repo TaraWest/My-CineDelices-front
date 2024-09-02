@@ -1,7 +1,26 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './RecipePage.scss';
+import { useEffect } from 'react';
 
 function RecipePage() {
+    const { id } = useParams();
+    async function fetchRecipe(id) {
+        try {
+            const response = await fetch(`url/recipe/${id}`);
+            if (!response.ok) {
+                console.log('erreur dans la récupération de la recette');
+            }
+
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchRecipe(id);
+    }, [id]);
     return (
         <div className="recipe-page-container">
             <header className="recipe-page-header">
