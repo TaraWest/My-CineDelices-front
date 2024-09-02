@@ -1,0 +1,33 @@
+@use '../../../../styles/variables' as var;
+
+.icon-padding {
+    padding-right: 8px;
+}
+
+li {
+    line-height: 1.3em;
+}
+
+.img_presentation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img_presentation img {
+    width: 100vw;
+    height: auto;
+}
+
+.recipe-movie {
+    display: flex;
+}
+
+.recipe-movie img {
+    width: 25%;
+}
+
+.inspiration-subtitle {
+    background-color: rgba(0, 0, 0, 0.386);
+    color: white;
+}

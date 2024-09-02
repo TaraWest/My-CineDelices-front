@@ -1,3 +1,74 @@
-function HomePage() {}
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import './homePage.scss';
+
+function HomePage() {
+    return (
+        <div className="homePage">
+            <h1>
+                Bienvenue dans Ciné Délices !
+                <br />
+                Plongez dans un univers où la cuisine rencontre le cinéma...
+            </h1>
+            <h2>
+                Notre site vous propose des recettes de cuisine inspirées de
+                films, séries et animés.
+            </h2>
+            <h3>Explorez nos fonctionnalités :</h3>
+            <ul>
+                <li>
+                    <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="icon-padding"
+                    />
+                    Catalogue de recettes : Trouvez votre prochaine création
+                    culinaire
+                </li>
+                <li>
+                    <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="icon-padding"
+                    />
+                    Ajoutez vos propres recettes
+                </li>
+            </ul>
+            <h3>Bon appétit et bon visionnage !</h3>
+
+            <div className="img_presentation">
+                <img
+                    src="./JackIsInTheKitchen.jpg"
+                    alt="Jack Sparrow, héros du film Pirates des Caraïbes, fait la cuisine chez toi !"
+                />
+            </div>
+            <div className="inspiration">
+                <h3>Tu cherches une inspiration pour ce soir ?</h3>
+                <div className="recipe-movie">
+                    <div className="img-left">
+                        <img
+                            src="./dorade.png"
+                            alt="image illustrant la recette : nom_de_la_recette"
+                        />
+                        <p className="inspiration-subtitle">
+                            Cuisine ce soir "Titre_de_la_recette"
+                        </p>
+                    </div>
+                    <div className="img-right">
+                        <img
+                            src="./les-dents-de-la-mer.jpg"
+                            alt="image illustrant la recette : nom_de_la_recette"
+                        />
+                        <p className="inspiration-subtitle">
+                            Cuisine ce soir "Titre_de_la_recette"
+                        </p>
+                    </div>
+                </div>
+                <h3>
+                    Met ton plus beau tablier et prépare ta soirée avec notre
+                    proposition !
+                </h3>
+            </div>
+        </div>
+    );
+}
 
 export default HomePage;
