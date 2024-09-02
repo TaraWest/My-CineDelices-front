@@ -1,0 +1,83 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/variables' as var;
+
+li {
+    padding: 0.5em;
+}
+
+p {
+    line-height: 1.2em;
+}
+
+//header
+div header h1 {
+    font-size: 2.5em;
+}
+.recipe-page-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.recipe-page-author {
+    padding: 1em;
+    margin: 1em;
+    font-style: italic;
+    font-size: 1em;
+    align-self: self-end;
+}
+
+.images-container {
+    margin: 1.5em 2.5em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+}
+
+.recipe-page-image {
+    width: 100%;
+}
+
+.table-preparation {
+    text-align: center;
+}
+.table-preparation-cell-line {
+    padding: 0.5em;
+}
+
+.categories-container {
+    margin: 1em;
+    display: flex;
+    gap: 1.2em;
+}
+
+.categories-item {
+    background-color: var.$color-skin;
+    text-align: center;
+    min-width: 80px;
+    min-height: 30px;
+    line-height: 30px;
+    color: var.$color-dark;
+}
+
+//body
+.number-of-persons {
+    font-style: italic;
+}
+
+.preparation-list-step {
+    margin-bottom: 0.4em;
+}
+
+.anecdote-container {
+    margin: 1em;
+}
+
+.recipe-page-footer {
+    margin: 1.5em;
+    text-align: center;
+    font-style: italic;
+}
+
+.recipe-page-link-to-connection {
+}

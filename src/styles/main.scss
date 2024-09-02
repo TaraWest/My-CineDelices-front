@@ -1,5 +1,6 @@
 @use './reset';
 @use './variables' as var;
+@import '../components/App/Routes/RecipePage/RecipePage.scss';
 // @tailwind base;
 // @tailwind components;
 // @tailwind utilities;
@@ -23,18 +24,38 @@
     text-align: left;
 }
 
-a {
+a,
+.link {
     font-weight: 500;
     color: var.$color-skin;
-    text-decoration: inherit;
+    text-decoration: underline;
+    &:hover {
+        color: var.$color-gold;
+    }
+    &:visited {
+        color: var.$color-light-grey;
+    }
+    &:visited:hover {
+        color: var.$color-gold;
+    }
 }
 
-a:hover {
-    color: var.$color-gold;
+button {
+    font-family: 'Cinzel', serif;
+    background-color: var.$color-skin;
+    color: var.$color-dark;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 15px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
-a:visited {
-    color: var.$color-light-grey;
+button:hover {
+    background-color: var.$color-dark-red;
+    color: var.$color-skin;
+    transition-duration: 200ms;
+    font-weight: 600;
 }
 
 body {
@@ -53,6 +74,10 @@ h1 {
     margin-top: 1rem;
     margin-bottom: 1rem;
     text-align: center;
+
+    // @media (min-width: var.$breakpoint-l) {
+    //     font-size: 1.5rem;
+    // }
 }
 
 h2 {
@@ -77,22 +102,4 @@ h4 {
     font-family: 'Merriweather Sans', sans-serif;
     margin-top: 1rem;
     margin-bottom: 1rem;
-}
-
-button {
-    font-family: 'Cinzel', serif;
-    background-color: var.$color-skin;
-    color: var.$color-dark;
-    padding: 0.5em 1em;
-    border: none;
-    border-radius: 15px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-button:hover {
-    background-color: var.$color-dark-red;
-    color: var.$color-skin;
-    transition-duration: 200ms;
-    font-weight: 600;
 }
