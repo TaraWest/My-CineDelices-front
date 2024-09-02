@@ -1,3 +1,9 @@
-function CatalogPage() {}
+import { Catalog } from './pages';
 
-export default CatalogPage;
+export const CatalogPage = () => {
+    return (
+        <>
+            <Catalog></Catalog>
+        </>
+    );
+};
