@@ -1,8 +1,26 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import './homePage.scss';
+import { IRecipe } from './homePagetype';
+import { useEffect, useState } from 'react';
 
 function HomePage() {
+    const [data, setData] = useState<IRecipe | null>(null);
+    async function fetchOneRandom() {
+        try {
+            const response = await fetch('/dataForIndex.json');
+            const data = await response.json();
+            console.log('then/success', data);
+            setData(data);
+        } catch (error) {
+            console.log('catch/error', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchOneRandom();
+    }, []);
+
     return (
         <div className="homePage">
             <h1>
@@ -36,7 +54,7 @@ function HomePage() {
 
             <div className="img_presentation">
                 <img
-                    src="./JackIsInTheKitchen.jpg"
+                    src="/JackIsInTheKitchen.jpg"
                     alt="Jack Sparrow, héros du film Pirates des Caraïbes, fait la cuisine chez toi !"
                 />
             </div>
@@ -45,20 +63,20 @@ function HomePage() {
                 <div className="recipe-movie">
                     <div className="img-left">
                         <img
-                            src="./dorade.png"
-                            alt="image illustrant la recette : nom_de_la_recette"
+                            src="/dorade.png"
+                            alt={`image illustrant la recette : ${data?.name}`}
                         />
                         <p className="inspiration-subtitle">
-                            Cuisine ce soir "Titre_de_la_recette"
+                            Cuisine ce soir {data?.name}
                         </p>
                     </div>
                     <div className="img-right">
                         <img
-                            src="./les-dents-de-la-mer.jpg"
-                            alt="image illustrant la recette : nom_de_la_recette"
+                            src="/les-dents-de-la-mer.jpg"
+                            alt={`image illustrant la recette : ${data?.name}`}
                         />
                         <p className="inspiration-subtitle">
-                            Cuisine ce soir "Titre_de_la_recette"
+                            Cuisine ce soir {data?.name}
                         </p>
                     </div>
                 </div>
