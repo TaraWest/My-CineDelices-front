@@ -1,5 +1,6 @@
 @use './reset';
 @use './variables' as var;
+@import '../components//App/Header/header.scss';
 @import '../components/App/Routes/RecipePage/RecipePage.scss';
 // @tailwind base;
 // @tailwind components;

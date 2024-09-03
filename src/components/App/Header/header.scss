@@ -1,0 +1,21 @@
+@use '../../../styles/variables' as var;
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.link-container {
+    width: 30%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.line {
+    width: 25px;
+    height: 3px;
+    margin: 4px 0;
+    background-color: var.$color-skin;
+    border: 1px solid var.$color-skin;
+}
