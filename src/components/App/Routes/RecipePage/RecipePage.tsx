@@ -1,42 +1,55 @@
 import { Link, useParams } from 'react-router-dom';
 import './RecipePage.scss';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { IRecipe } from './RecipePageTypes';
 
 function RecipePage() {
-    const { id } = useParams();
-    async function fetchRecipe(id) {
+    // récupération de l'id fourni par l'url de la page catalogue
+    // const { id } = useParams();
+    //State qui permet de stocker les data reçus de l'API pour les utiliser dans la page
+    const [dataFetch, setDataFetch] = useState<IRecipe | null>(null);
+
+    async function fetchRecipe(/*id: string | undefined*/) {
         try {
-            const response = await fetch(`url/recipe/${id}`);
+            const response = await fetch(`/dataRecipe.json`);
             if (!response.ok) {
                 console.log('erreur dans la récupération de la recette');
+                return;
             }
 
             const data = await response.json();
-            console.log(data);
+            console.log('then/success', data);
+
+            setDataFetch(data);
         } catch (error) {
             console.log(error);
         }
     }
-
+    //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
-        fetchRecipe(id);
-    }, [id]);
+        fetchRecipe(/*id*/);
+    }, []);
+    console.log(dataFetch);
+
+    if (!dataFetch)
+        return <div>Le plat finit de mijoter, c'est bientôt prêt ^^</div>;
+
     return (
         <div className="recipe-page-container">
             <header className="recipe-page-header">
-                <h1 className="recipe-page-title">Ramen de Naruto</h1>
+                <h1 className="recipe-page-title">{dataFetch.name}</h1>
                 <span className="recipe-page-author">
-                    Recette proposée par Jungkookmavie
+                    Recette proposée par {dataFetch.user.username}
                 </span>
                 <div className="images-container">
                     <img
                         className="recipe-page-image image-dish"
-                        src="/ramen.png"
+                        src={dataFetch.picture}
                         alt="Photos des ramens préférés de Naruto"
                     />
                     <img
                         className="recipe-page-image image-film"
-                        src="/naruto.png"
+                        src={dataFetch.movie.picture}
                         alt="Photo de Naruto dégustant ses ramens"
                     />
                 </div>
@@ -44,25 +57,23 @@ function RecipePage() {
                     <thead className="table-preparation-head">
                         <tr className="table-preparation-line">
                             <th className="table-preparation-cell-line">
-                                Préparation
-                            </th>
-                            <th className="table-preparation-cell-line">
-                                Cuisson
+                                Temps de préparation
                             </th>
                         </tr>
                     </thead>
                     <tbody className="table-preparation-body">
                         <tr className="table-preparation-line">
                             <td className="table-preparation-cell-line">
-                                25 min
+                                {dataFetch.total_duration} min
                             </td>
-                            <td className="table-preparation-cell-line"> 1h</td>
                         </tr>
                     </tbody>
                 </table>
                 <div className="categories-container">
-                    <p className="categories-item">Anime</p>
-                    <p className="categories-item"> Plat</p>
+                    <p className="categories-item">
+                        {dataFetch.movie.category.name}
+                    </p>
+                    <p className="categories-item"> {dataFetch.type.name}</p>
                 </div>
             </header>
             <main className="recipe-page-main">
@@ -70,7 +81,17 @@ function RecipePage() {
                     <h2>Ingrédients</h2>
                     <p className="number-of-persons">Pour 1 personne</p>
                     <ul className="ingredient-list">
-                        <li className="ingredient-list-item">5kg Ramen</li>
+                        {/* map les ingredients */}
+                        {dataFetch.ingredients.map((ingredient) => (
+                            <li
+                                key={ingredient.id}
+                                className="ingredient-list-item"
+                            >
+                                {ingredient.quantity} {ingredient.name}
+                            </li>
+                        ))}
+
+                        {/* <li className="ingredient-list-item">5kg Ramen</li>
                         <li className="ingredient-list-item">
                             5 Steacks végétariens à base de haricot mungo
                         </li>
@@ -80,12 +101,23 @@ function RecipePage() {
                         <li className="ingredient-list-item">100g Carottes</li>
                         <li className="ingredient-list-item">
                             10L eau potable sans fluor
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <div className="preparation-container">
                     <h2>Préparation</h2>
                     <ul className="preparation-list">
+                        {dataFetch.preparation.map((step) => (
+                            <li key={step.id} className="preparation-list-item">
+                                <p className="preparation-list-step">
+                                    Etape {step.step_position}:
+                                </p>
+                                <p className="preparation-list-paragraph">
+                                    {step.description}
+                                </p>
+                            </li>
+                        ))}
+                        {/*                         
                         <li className="preparation-list-item">
                             <p className="preparation-list-step">Etape 1:</p>
                             <p className="preparation-list-paragraph">
@@ -111,8 +143,8 @@ function RecipePage() {
                         <li className="preparation-list-item">
                             <p className="preparation-list-step">Etape 4:</p>
                             <p className="preparation-list-paragraph">
-                                Emietter les steacks de haricot mungo, laisser
-                                reposer 1 minute.
+                                Découpez les steacks de haricot mungo, disposez
+                                les au dessus.
                             </p>
                         </li>
                         <li className="preparation-list-item">
@@ -120,30 +152,23 @@ function RecipePage() {
                             <p className="preparation-list-paragraph">
                                 C'est prêt!
                             </p>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <div className="anecdote-container">
                     <h2>Anecdote</h2>
-                    <p>
-                        Naruto déteste attendre que les ramens refroidissent.
-                        Ils sont un symbole de célébration et de réconfort.
-                        Surtout ceux d'Ichiraku.
-                    </p>
+                    <p>{dataFetch.anecdote}</p>
                 </div>
             </main>
 
             <footer className="recipe-page-footer">
-                <p>
-                    Une recette à proposer?
-                    <Link
-                        to="/connexion"
-                        className="link recipe-page-link-to-connection"
-                    >
-                        connectez vous
-                    </Link>
-                    !
-                </p>
+                <p>Une recette à proposer?</p>
+                <Link
+                    to="/connexion"
+                    className="link recipe-page-link-to-connection"
+                >
+                    connectez vous!
+                </Link>
             </footer>
         </div>
     );

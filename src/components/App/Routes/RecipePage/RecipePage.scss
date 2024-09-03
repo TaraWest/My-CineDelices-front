@@ -1,12 +1,18 @@
 @use '../../../../styles/mixins';
 @use '../../../../styles/variables' as var;
 
+ul {
+    margin: 0;
+    padding: 0;
+}
+
 li {
     padding: 0.5em;
 }
 
 p {
     line-height: 1.2em;
+    font-size: 1rem;
 }
 
 //header
@@ -23,15 +29,25 @@ div header h1 {
     margin: 1em;
     font-style: italic;
     font-size: 1em;
-    align-self: self-end;
+    @media (min-width: var.$breakpoint-s) {
+        align-self: self-end;
+    }
 }
 
 .images-container {
     margin: 1.5em 2.5em;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     max-width: 100%;
+    @media (min-width: var.$breakpoint-s) {
+        flex-direction: row;
+        max-width: 50%;
+    }
+    @media (min-width: var.$breakpoint-m) {
+        min-width: 80%;
+    }
 }
 
 .recipe-page-image {
@@ -58,6 +74,7 @@ div header h1 {
     min-height: 30px;
     line-height: 30px;
     color: var.$color-dark;
+    border-radius: 15px;
 }
 
 //body
@@ -67,16 +84,25 @@ div header h1 {
 
 .preparation-list-step {
     margin-bottom: 0.4em;
+    font-weight: 600;
+    text-decoration: underline;
 }
 
 .anecdote-container {
-    margin: 1em;
+    width: 100%;
+    text-align: center;
+}
+
+.anecdote-container p {
+    margin: 0.6em;
 }
 
 .recipe-page-footer {
     margin: 1.5em;
     text-align: center;
     font-style: italic;
+    display: flex;
+    flex-direction: column;
 }
 
 .recipe-page-link-to-connection {

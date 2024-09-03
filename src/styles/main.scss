@@ -20,7 +20,7 @@
     color: var.$color-skin;
     font-family: 'Merriweather Sans', sans-serif;
     max-width: 1280px;
-    margin: 0;
+    margin: auto;
     text-align: left;
 }
 
@@ -33,7 +33,7 @@ a,
         color: var.$color-gold;
     }
     &:visited {
-        color: var.$color-light-grey;
+        color: var.$color-visited-link;
     }
     &:visited:hover {
         color: var.$color-gold;
