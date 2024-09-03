@@ -10,7 +10,7 @@ interface IPreparation {
     step_position: number;
 }
 
-interface IType {
+interface IDishType {
     id: number;
     name: string;
 }
@@ -19,7 +19,7 @@ interface IMovie {
     id: number;
     name: string;
     picture: string;
-    category: ICategory;
+    Category: ICategory;
 }
 
 interface ICategory {
@@ -40,9 +40,9 @@ export interface IRecipe {
     anecdote: string | null;
     difficulty: string;
     is_checked: boolean;
-    movie: IMovie;
-    type: IType;
-    preparation: IPreparation[];
-    ingredients: IIngredients[];
-    user: IUser;
+    Movie: IMovie;
+    DishType: IDishType;
+    Preparations: IPreparation[];
+    Ingredient: IIngredients[];
+    User: IUser;
 }

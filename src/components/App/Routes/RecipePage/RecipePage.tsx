@@ -6,12 +6,15 @@ import { IRecipe } from './RecipePageTypes';
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
     // const { id } = useParams();
+    const id: number = 1;
     //State qui permet de stocker les data reçus de l'API pour les utiliser dans la page
     const [dataFetch, setDataFetch] = useState<IRecipe | null>(null);
 
-    async function fetchRecipe(/*id: string | undefined*/) {
+    async function fetchRecipe(id: number) {
         try {
-            const response = await fetch(`/dataRecipe.json`);
+            const response = await fetch(`http://localhost:3000/Recipes/${id}`);
+            console.log(id);
+
             if (!response.ok) {
                 console.log('erreur dans la récupération de la recette');
                 return;
@@ -27,7 +30,7 @@ function RecipePage() {
     }
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
-        fetchRecipe(/*id*/);
+        fetchRecipe(id);
     }, []);
     console.log(dataFetch);
 
@@ -38,18 +41,19 @@ function RecipePage() {
         <div className="recipe-page-container">
             <header className="recipe-page-header">
                 <h1 className="recipe-page-title">{dataFetch.name}</h1>
+
                 <span className="recipe-page-author">
-                    Recette proposée par {dataFetch.user.username}
+                    Recette proposée par {dataFetch.User.username}
                 </span>
                 <div className="images-container">
                     <img
                         className="recipe-page-image image-dish"
-                        src={dataFetch.picture}
+                        src=/*{dataFetch.picture}*/ "/ramen.png"
                         alt="Photos des ramens préférés de Naruto"
                     />
                     <img
                         className="recipe-page-image image-film"
-                        src={dataFetch.movie.picture}
+                        src=/*{dataFetch.Movie.picture}*/ "/naruto.png"
                         alt="Photo de Naruto dégustant ses ramens"
                     />
                 </div>
@@ -71,9 +75,12 @@ function RecipePage() {
                 </table>
                 <div className="categories-container">
                     <p className="categories-item">
-                        {dataFetch.movie.category.name}
+                        {dataFetch.Movie.Category.name}
                     </p>
-                    <p className="categories-item"> {dataFetch.type.name}</p>
+                    <p className="categories-item">
+                        {' '}
+                        {dataFetch.DishType.name}
+                    </p>
                 </div>
             </header>
             <main className="recipe-page-main">
@@ -82,7 +89,7 @@ function RecipePage() {
                     <p className="number-of-persons">Pour 1 personne</p>
                     <ul className="ingredient-list">
                         {/* map les ingredients */}
-                        {dataFetch.ingredients.map((ingredient) => (
+                        {dataFetch.Ingredient.map((ingredient) => (
                             <li
                                 key={ingredient.id}
                                 className="ingredient-list-item"
@@ -107,7 +114,7 @@ function RecipePage() {
                 <div className="preparation-container">
                     <h2>Préparation</h2>
                     <ul className="preparation-list">
-                        {dataFetch.preparation.map((step) => (
+                        {dataFetch.Preparations.map((step) => (
                             <li key={step.id} className="preparation-list-item">
                                 <p className="preparation-list-step">
                                     Etape {step.step_position}:

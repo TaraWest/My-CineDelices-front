@@ -7,7 +7,7 @@
     "anecdote": "Naruto déteste attendre que les ramens refroidissent. Ils sont un symbole de célébration et de réconfort. Surtout ceux d'Ichiraku.",
     "is_checked": true,
     "type": { "id": 2, "name": "Plat" },
-    "ingredients": [
+    "Ingredients": [
         { "id": 8, "name": "Ramen", "quantity": "5kg" },
         {
             "id": 65,
@@ -41,7 +41,7 @@
         },
         { "id": 5, "description": "C'est prêt!", "step_position": 5 }
     ],
-    "movie": {
+    "Movie": {
         "id": 5,
         "name": "Naruto",
         "category": {
@@ -50,7 +50,7 @@
         },
         "picture": "/naruto.png"
     },
-    "user": {
+    "User": {
         "id": 1,
         "username": "Quentin_Bogoss_du_34"
     }
