@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import { NavBarCalogue } from '../components/navbarCalogue';
-import { Recipes } from '../models';
+import { Recipe, Recipes } from '../models';
 import { getRecipes } from '../services';
 import './index.scss';
 
 export const Catalog = () => {
     const [recipes, setRecipes] = useState<Recipes>(getRecipes);
+
+    // Pour lors de l'ajout d'une recette, on ajoute la recette à la liste des recettes et on change le state de la liste des recettes
+    const addRecipeToCatalog = (recipe: Recipe) => {
+        setRecipes([...recipes, recipe]);
+    };
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
