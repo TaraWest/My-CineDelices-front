@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
 import './homePage.scss';
 import { IRecipe } from './homePagetype';
-import { useEffect, useState } from 'react';
+import Slider from './UI/slider';
 
 function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);
@@ -85,6 +86,7 @@ function HomePage() {
                     proposition !
                 </h3>
             </div>
+            <Slider></Slider>
         </div>
     );
 }

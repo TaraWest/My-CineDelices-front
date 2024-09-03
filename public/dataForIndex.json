@@ -6,13 +6,11 @@
     "total_duration": 45,
     "anecdote": "lorem ipsum dolor magnat alea jacta est",
     "is_checked": true,
-    "movie": [
-        {
-            "id": 8,
-            "name": "Les dents de la mer",
-            "picture": "/requin.png",
-            "category_id": 2
-        }
-    ],
+    "movie": {
+        "id": 8,
+        "name": "Les dents de la mer",
+        "picture": "/requin.png",
+        "category_id": 2
+    },
     "user_id": 458
 }
