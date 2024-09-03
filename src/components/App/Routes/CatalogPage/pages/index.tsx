@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { NavBarCalogue } from '../components/navbarCalogue';
 import { Recipes } from '../models';
 import { getRecipes } from '../services';
 import './index.scss';
@@ -13,30 +14,7 @@ export const Catalog = () => {
                     Catalogue
                 </h1>
 
-                {/* Ajout d'une barre de filtres */}
-                <div className="flex justify-center space-x-4 mb-6">
-                    <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                        Facile
-                    </button>
-                    <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                        Moyen
-                    </button>
-                    <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                        Difficile
-                    </button>
-                    <button className="text-sm font-medium text-white bg-blue-600 rounded-lg px-4 py-2 hover:bg-blue-700">
-                        Ajouter une recette
-                    </button>
-                    <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                        Entrée
-                    </button>
-                    <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                        Plat
-                    </button>
-                    <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                        Dessert
-                    </button>
-                </div>
+                <NavBarCalogue></NavBarCalogue>
 
                 <div className="flex justify-center">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
