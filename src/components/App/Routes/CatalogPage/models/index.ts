@@ -2,6 +2,7 @@ export interface Recipe {
     id: number;
     name: string;
     picture: string;
+    movie_id: number | null;
 }
 
 export interface Movie {
@@ -12,9 +13,3 @@ export interface Movie {
 
 export type Recipes = Recipe[];
 export type Movies = Movie[];
-
-// nom de la recette;
-// nom du film;
-// image du film;
-// image de la recette;
-// id;

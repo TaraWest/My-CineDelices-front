@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavBarCalogue } from '../components/navbarCalogue';
 import { Movies, Recipes } from '../models';
 import './index.scss';
+import { Link } from 'react-router-dom';
 
 export const Catalog = () => {
     const [recipes, setRecipes] = useState<Recipes>([]);
@@ -38,44 +39,47 @@ export const Catalog = () => {
                     Catalogue
                 </h1>
 
-                <NavBarCalogue></NavBarCalogue>
+                <NavBarCalogue />
 
-                <div className="flex justify-center">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
-                        {recipes.map((recipe) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    {recipes.map((recipe) => {
+                        // Associe le film à la recette en utilisant un ID correspondant
+                        const movie = movies.find(
+                            (m) => m.id === recipe.movie_id,
+                        );
+
+                        return (
                             <div
                                 key={recipe.id}
-                                className="bg-white shadow rounded-lg p-4"
+                                className="bg-white shadow rounded-lg overflow-hidden"
                             >
-                                <h2 className="text-lg font-semibold mb-2">
-                                    {recipe.name}
-                                </h2>
                                 <img
                                     src={recipe.picture}
                                     alt={recipe.name}
-                                    className="h-32 w-full object-cover rounded-md"
+                                    className="h-32 w-full object-cover"
                                 />
+                                {movie && (
+                                    <img
+                                        src={movie.picture}
+                                        alt={movie.name}
+                                        className="h-20 w-full object-cover mt-2"
+                                    />
+                                )}
+                                <div className="p-4">
+                                    {movie && (
+                                        <h3 className="text-md font-medium mb-2 text-gray-700">
+                                            {movie.name}
+                                        </h3>
+                                    )}
+                                    <Link to={`/recipes/${recipe.id}`}>
+                                        <button className="text-sm font-medium text-blue-600 hover:underline">
+                                            {recipe.name}
+                                        </button>
+                                    </Link>
+                                </div>
                             </div>
-                        ))}
-                    </div>
-                    <h2 className="text-2xl font-bold mt-6">Films associés</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
-                        {movies.map((movie) => (
-                            <div
-                                key={movie.id}
-                                className="bg-white shadow rounded-lg p-4"
-                            >
-                                <h3 className="text-lg font-semibold mb-2">
-                                    {movie.name}
-                                </h3>
-                                <img
-                                    src={movie.picture}
-                                    alt={movie.name}
-                                    className="h-32 w-full object-cover rounded-md"
-                                />
-                            </div>
-                        ))}
-                    </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>
