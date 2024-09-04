@@ -2,35 +2,25 @@ import { Link, useParams } from 'react-router-dom';
 import './RecipePage.scss';
 import { useEffect, useState } from 'react';
 import { IRecipe } from './RecipePageTypes';
+import { fetchRecipe } from './services/services';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
-    // const { id } = useParams();
-    const id: number = 1;
+    const { id } = useParams();
     //State qui permet de stocker les data reçus de l'API pour les utiliser dans la page
     const [dataFetch, setDataFetch] = useState<IRecipe | null>(null);
 
-    async function fetchRecipe(id: number) {
-        try {
-            const response = await fetch(`http://localhost:3000/Recipes/${id}`);
-            console.log(id);
-
-            if (!response.ok) {
-                console.log('erreur dans la récupération de la recette');
-                return;
-            }
-
-            const data = await response.json();
-            console.log('then/success', data);
-
-            setDataFetch(data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
-        fetchRecipe(id);
+        const getRecipe = async () => {
+            try {
+                const data = await fetchRecipe(Number(id));
+                setDataFetch(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getRecipe();
     }, []);
     console.log(dataFetch);
 
@@ -48,13 +38,13 @@ function RecipePage() {
                 <div className="images-container">
                     <img
                         className="recipe-page-image image-dish"
-                        src=/*{dataFetch.picture}*/ "/ramen.png"
-                        alt="Photos des ramens préférés de Naruto"
+                        src={dataFetch.picture}
+                        alt="Photo illustrant la recette"
                     />
                     <img
                         className="recipe-page-image image-film"
-                        src=/*{dataFetch.Movie.picture}*/ "/naruto.png"
-                        alt="Photo de Naruto dégustant ses ramens"
+                        src={dataFetch.Movie.picture}
+                        alt="Photo illustrant le film"
                     />
                 </div>
                 <table className="table-preparation">
