@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import './RegistrationPage.scss';
+import { IDataForm, IError } from './RegistrationPageType';
 function RegistrationPage() {
+    const [error, setError] = useState<IError | null>(null);
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         console.log(event);
 
@@ -9,7 +12,41 @@ function RegistrationPage() {
         console.log(formData);
 
         const data = Object.fromEntries(formData);
-const {password, password-verification} = data
+        console.log(data);
+
+        const { password, passwordVerification, username, email_address } =
+            data;
+
+        if (password !== passwordVerification) {
+            setError({
+                message:
+                    'Les mots de passe ne correspondent pas. Veuillez vérifier que le mot de passe et la confirmation soient identiques.',
+            });
+            return;
+        } else {
+            if (error) {
+                setError(null);
+            }
+        }
+
+        if (!username || !email_address || !password || !passwordVerification) {
+            setError({
+                message: 'Veuillez renseigner tous les champs obligatoires',
+            });
+            console.log('erreur déclenchée');
+            return;
+        } else {
+            if (error) {
+                setError(null);
+            }
+        }
+
+        handleRegistration(data);
+
+        console.log(data);
+    }
+
+    async function handleRegistration(data: IDataForm) {
         console.log(data);
     }
 
@@ -54,7 +91,7 @@ const {password, password-verification} = data
                     <input
                         className="form-input"
                         type="email"
-                        name="email"
+                        name="email_address"
                         required
                     />
                 </label>
@@ -73,10 +110,13 @@ const {password, password-verification} = data
                     <input
                         className="form-input"
                         type="password"
-                        name="password-verification"
+                        name="passwordVerification"
                         required
                     />
                 </label>
+                {error && (
+                    <div className="error-container">{error.message}</div>
+                )}
                 <button className="form-button">S'inscrire</button>
             </form>
         </div>
