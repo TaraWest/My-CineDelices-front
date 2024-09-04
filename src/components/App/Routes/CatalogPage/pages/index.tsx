@@ -14,10 +14,28 @@ export const Catalog = () => {
         null,
     );
 
+    //  FOnction reset pour retourner sur le catalogue avec toutes les recetes
+    const resetFilters = () => {
+        setSelectedDifficulty(null);
+        setSelectedDishType(null);
+    };
+
+    // Fonction sélection de difficulté
+    const handleDifficultyChange = (difficulty: string) => {
+        setSelectedDishType(null);
+        setSelectedDifficulty(difficulty);
+    };
+
+    // Fonction sélection type de plat
+    const handleDishTypeChange = (dishTypeId: number) => {
+        setSelectedDifficulty(null);
+        setSelectedDishType(dishTypeId);
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Par défaut, l'URL pour les recettes
+                // Initial URL pour les recettes
                 let recipesUrl = 'http://localhost:3000/recipes';
 
                 // Si un type de plat est sélectionné, on utilise la route spécifique du backend
@@ -30,8 +48,6 @@ export const Catalog = () => {
                     const separator = recipesUrl.includes('?') ? '&' : '?';
                     recipesUrl += `${separator}difficulty=${selectedDifficulty}`;
                 }
-
-                console.log('URL de la requête:', recipesUrl); // Vérifie l'URL générée
 
                 const recipesResponse = await fetch(recipesUrl);
                 if (!recipesResponse.ok) {
@@ -59,19 +75,22 @@ export const Catalog = () => {
         };
 
         fetchData();
-    }, [selectedDifficulty, selectedDishType]); // La requête change si la difficulté ou le type de plat change
+    }, [selectedDifficulty, selectedDishType]); // Appel à fetchData chaque fois que l'un des filtres change
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="w-full max-w-screen-lg">
-                <h1 className="text-2xl font-bold mb-4 text-center">
+                <h1
+                    onClick={resetFilters} // Appel de la fonction resetFilters au clic
+                    className="text-2xl font-bold mb-4 text-center cursor-pointer"
+                >
                     Catalogue
                 </h1>
 
                 {/* Intégration de la NavBar avec les filtres */}
                 <NavBarCalogue
-                    onDifficultyFilterChange={setSelectedDifficulty}
-                    onDishTypeFilterChange={setSelectedDishType}
+                    onDifficultyFilterChange={handleDifficultyChange}
+                    onDishTypeFilterChange={handleDishTypeChange}
                 />
 
                 {/* Grille des recettes */}
