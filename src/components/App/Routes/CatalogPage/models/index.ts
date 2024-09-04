@@ -11,5 +11,9 @@ export interface Movie {
     picture: string;
 }
 
+export interface AddRecipeModalProps {
+    onAddRecipe: (newRecipe: any) => void;
+}
+
 export type Recipes = Recipe[];
 export type Movies = Movie[];

@@ -10,6 +10,32 @@ const AddRecipeModal = () => {
         setIsOpen(!isOpen);
     };
 
+    const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+
+        const data = Object.fromEntries(formData);
+        console.log(data);
+
+        try {
+            const response = await fetch('http://localhost:3000/recipes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to save recipe');
+            }
+
+            toggleModal(); // Fermer la modale après soumission
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de la recette:", error);
+        }
+    };
+
     return (
         <>
             {/* Bouton pour ouvrir la modale, au clic la fonction toggleModal est appelée, c'est alors ici que le useState est inversé */}
@@ -28,13 +54,14 @@ const AddRecipeModal = () => {
                         <h2 className="text-2xl font-bold mb-4">
                             Ajouter une recette
                         </h2>
-                        <form>
+                        <form method="POST" onSubmit={submitForm}>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Nom de la recette
                                     </label>
                                     <input
+                                        name="name"
                                         type="text"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         placeholder="Nom de la recette"
@@ -46,6 +73,7 @@ const AddRecipeModal = () => {
                                         Image de la recette
                                     </label>
                                     <input
+                                        name="picture"
                                         type="text"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         placeholder="URL de l'image"
@@ -57,6 +85,7 @@ const AddRecipeModal = () => {
                                         Film de la recette
                                     </label>
                                     <input
+                                        name="movies.name"
                                         type="text"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         placeholder="Nom du film"
@@ -68,6 +97,7 @@ const AddRecipeModal = () => {
                                         Image du film de la recette
                                     </label>
                                     <input
+                                        name="movies.picture"
                                         type="text"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         placeholder="URL de l'image du film"
@@ -78,10 +108,14 @@ const AddRecipeModal = () => {
                                     <label className="block text-sm font-medium text-gray-700">
                                         Type de recette
                                     </label>
-                                    <select className="mt-1 block w-full p-2 border border-gray-300 rounded">
-                                        <option>Entrée</option>
-                                        <option>Plat</option>
-                                        <option>Dessert</option>
+                                    <select
+                                        name="dish_types_id"
+                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                    >
+                                        <option value="1">Boisson</option>
+                                        <option value="4">Entrée</option>
+                                        <option value="2">Plat</option>
+                                        <option value="3">Dessert</option>
                                     </select>
                                 </div>
 
@@ -89,7 +123,10 @@ const AddRecipeModal = () => {
                                     <label className="block text-sm font-medium text-gray-700">
                                         Difficulté de la recette
                                     </label>
-                                    <select className="mt-1 block w-full p-2 border border-gray-300 rounded">
+                                    <select
+                                        name="difficulty"
+                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                    >
                                         <option>Facile</option>
                                         <option>Moyen</option>
                                         <option>Difficile</option>
@@ -123,6 +160,7 @@ const AddRecipeModal = () => {
                                         Anecdote
                                     </label>
                                     <textarea
+                                        name="anecdote"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         rows="2"
                                         placeholder="Anecdote liée à la recette"
