@@ -1,8 +1,10 @@
 @use '../../../styles/variables' as var;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .header {
-    display: flex;
-    justify-content: space-between;
+    position: relative;
 }
 
 .link-container {
@@ -10,6 +12,12 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.link-container .account-icon,
+.link-container .add-recipe-icon,
+.link-container .search-recipe-icon {
+    font-size: 15px;
 }
 
 .line {
