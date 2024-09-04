@@ -4,12 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 function Header() {
+    // est ce que mon burger menu est ouvert ou fermé
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    // fonction pour basculer l'état du menu ouvert ou fermé
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     return (
-        <div className="header flex justify-between items-center p-4 bg-custom-dark-red text-white">
+        <div className="header flex justify-between items-center p-4 bg-custom-dark-red text-white border-b-2 border-custom-beige">
             {/* logo */}
             <div className="logo-container">
                 <Link to="/" className="text-2l font-bold">
@@ -37,7 +39,7 @@ function Header() {
                     <div className="line bg-custom-beige"></div>
                 </div>
             </div>
-            {/* menu mobile */}
+            {/* Menu mobile qui s'affiche ou se cache selon l'état isMenuOpen */}
             <div
                 className={`mobile-menu absolute top-0 right-0 mt-16 bg-custom-dark-red text-white w-64 transition-transform duration-300 ${isMenuOpen ? 'transform translate-x-0' : 'transform translate-x-full'}`}
             >
@@ -45,7 +47,7 @@ function Header() {
                     <Link to="/" className="block py-2">
                         Accueil
                     </Link>
-                    <Link to="/catalog" className="block py-2">
+                    <Link to="/catalogue" className="block py-2">
                         Catalogue
                     </Link>
                     <Link to="/connexion" className="block py-2">

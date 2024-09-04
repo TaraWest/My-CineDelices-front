@@ -4,26 +4,41 @@
 @tailwind utilities;
 
 .header {
-    position: relative;
-}
+    @apply flex justify-between items-center p-4 bg-[var.$color-dark-red] text-[var.$color-skin] border-b-2 border-[var.$color-skin];
 
-.link-container {
-    width: 30%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
+    .logo-container {
+        .text-2l {
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: 'Times New Roman', serif;
+        }
+    }
 
-.link-container .account-icon,
-.link-container .add-recipe-icon,
-.link-container .search-recipe-icon {
-    font-size: 15px;
-}
+    .link-container {
+        @apply flex items-center space-x-4;
 
-.line {
-    width: 25px;
-    height: 3px;
-    margin: 4px 0;
-    background-color: var.$color-skin;
-    border: 1px solid var.$color-skin;
+        .icon {
+            @apply text-xl;
+        }
+
+        .burger-menu {
+            @apply flex flex-col cursor-pointer;
+
+            .line {
+                @apply w-6 h-0.5 bg-[var.$color-skin] my-1;
+            }
+        }
+    }
+
+    .mobile-menu {
+        @apply absolute top-0 right-0 mt-16 bg-[var.$color-dark-red] text-[var.$color-skin] w-64 transition-transform duration-300;
+
+        .block {
+            @apply py-2 border-b border-[var.$color-light-red];
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
 }
