@@ -1,36 +1,29 @@
-import AddRecipeModal from '../modal';
+import React from 'react';
 
-export const NavBarCalogue = () => {
+import AddRecipeModal from '../modal';
+import { DifficultyFilter } from '../difficultyFIlter';
+import { DishTypeFilter } from '../dishtypeFIlter';
+
+interface NavBarCalogueProps {
+    onDifficultyFilterChange: (difficulty: string) => void;
+    onDishTypeFilterChange: (dishType: number) => void;
+}
+
+export const NavBarCalogue: React.FC<NavBarCalogueProps> = ({
+    onDifficultyFilterChange,
+    onDishTypeFilterChange,
+}) => {
     return (
         <>
             <div className="flex justify-center space-x-4 mb-6">
-                <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                    Facile
-                </button>
+                {/* Filtres par difficulté */}
+                <DifficultyFilter onFilterChange={onDifficultyFilterChange} />
 
-                <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                    Moyen
-                </button>
+                {/* Filtres par type de plat */}
+                <DishTypeFilter onFilterChange={onDishTypeFilterChange} />
 
-                <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                    Difficile
-                </button>
-
-                <AddRecipeModal></AddRecipeModal>
-                <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                    Boisson
-                </button>
-                <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                    Entrée
-                </button>
-
-                <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                    Plat
-                </button>
-
-                <button className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200">
-                    Dessert
-                </button>
+                {/* Modale pour ajouter une recette */}
+                <AddRecipeModal />
             </div>
         </>
     );

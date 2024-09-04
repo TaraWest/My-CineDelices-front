@@ -16,19 +16,19 @@ export const DishTypeFilter: React.FC<DishTypeFilterProps> = ({
                 Boisson
             </button>
             <button
-                onClick={() => onFilterChange(2)} // 2 correspond à Entrée
+                onClick={() => onFilterChange(4)} // 2 correspond à Entrée
                 className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200"
             >
                 Entrée
             </button>
             <button
-                onClick={() => onFilterChange(3)} // 3 correspond à Plat
+                onClick={() => onFilterChange(2)} // 3 correspond à Plat
                 className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200"
             >
                 Plat
             </button>
             <button
-                onClick={() => onFilterChange(4)} // 4 correspond à Dessert
+                onClick={() => onFilterChange(3)} // 4 correspond à Dessert
                 className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-200"
             >
                 Dessert
