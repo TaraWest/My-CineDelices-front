@@ -14,7 +14,12 @@ export const Catalog = () => {
         null,
     );
 
-    //  FOnction reset pour retourner sur le catalogue avec toutes les recetes
+    // Fonction pour ajouter une nouvelle recette
+    const handleAddRecipe = (newRecipe: any) => {
+        setRecipes((prevRecipes) => [...prevRecipes, newRecipe]); // Ajout de la nouvelle recette dans l'état
+    };
+
+    // Fonction reset pour retourner sur le catalogue avec toutes les recettes
     const resetFilters = () => {
         setSelectedDifficulty(null);
         setSelectedDishType(null);
@@ -22,14 +27,14 @@ export const Catalog = () => {
 
     // Fonction sélection de difficulté
     const handleDifficultyChange = (difficulty: string) => {
-        setSelectedDishType(null);
-        setSelectedDifficulty(difficulty);
+        setSelectedDishType(null); // Réinitialise le type de plat
+        setSelectedDifficulty(difficulty); // Met à jour la difficulté sélectionnée
     };
 
     // Fonction sélection type de plat
     const handleDishTypeChange = (dishTypeId: number) => {
-        setSelectedDifficulty(null);
-        setSelectedDishType(dishTypeId);
+        setSelectedDifficulty(null); // Réinitialise la difficulté
+        setSelectedDishType(dishTypeId); // Met à jour le type de plat sélectionné
     };
 
     useEffect(() => {
@@ -81,7 +86,7 @@ export const Catalog = () => {
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="w-full max-w-screen-lg">
                 <h1
-                    onClick={resetFilters} // Appel de la fonction resetFilters au clic
+                    onClick={resetFilters} // Réinitialise les filtres au clic sur "Catalogue"
                     className="text-2xl font-bold mb-4 text-center cursor-pointer"
                 >
                     Catalogue
@@ -91,6 +96,7 @@ export const Catalog = () => {
                 <NavBarCalogue
                     onDifficultyFilterChange={handleDifficultyChange}
                     onDishTypeFilterChange={handleDishTypeChange}
+                    onAddRecipe={handleAddRecipe}
                 />
 
                 {/* Grille des recettes */}

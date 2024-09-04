@@ -1,12 +1,14 @@
 import { useState } from 'react';
 
-const AddRecipeModal = () => {
+interface AddRecipeModalProps {
+    onAddRecipe: (newRecipe: any) => void;
+}
+
+const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [error, setError] = useState<string | null>(null); // Pour gérer les erreurs
 
     const toggleModal = () => {
-        {
-            /* Inverse l'état pour ouvrir/fermer la modale*/
-        }
         setIsOpen(!isOpen);
     };
 
@@ -14,8 +16,17 @@ const AddRecipeModal = () => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
 
+        // Conversion des données du formulaire en un objet
         const data = Object.fromEntries(formData);
-        console.log(data);
+
+        // Recréer l'objet imbriqué pour les films
+        const formattedData = {
+            ...data,
+            movies: {
+                name: data.movie_name,
+                picture: data.movie_picture,
+            },
+        };
 
         try {
             const response = await fetch('http://localhost:3000/recipes', {
@@ -23,22 +34,26 @@ const AddRecipeModal = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify(formattedData),
             });
 
             if (!response.ok) {
                 throw new Error('Failed to save recipe');
             }
 
-            toggleModal(); // Fermer la modale après soumission
+            const savedRecipe = await response.json();
+            onAddRecipe(savedRecipe);
+            console.log(savedRecipe);
+
+            toggleModal();
         } catch (error) {
             console.error("Erreur lors de l'ajout de la recette:", error);
+            setError("Une erreur est survenue lors de l'ajout de la recette.");
         }
     };
 
     return (
         <>
-            {/* Bouton pour ouvrir la modale, au clic la fonction toggleModal est appelée, c'est alors ici que le useState est inversé */}
             <button
                 onClick={toggleModal}
                 className="text-sm font-medium text-white bg-blue-600 rounded-lg px-4 py-2 hover:bg-blue-700"
@@ -46,14 +61,17 @@ const AddRecipeModal = () => {
                 Ajouter une recette
             </button>
 
-            {/* Si l'utilisateur clique sur le bouton, alors isOpen  est TRUE, donc on affiche la modale */}
-            {/* Dans le cas où  isOpen est false, on ne montre pas la modale */}
             {isOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white rounded-lg w-full max-w-2xl p-6">
                         <h2 className="text-2xl font-bold mb-4">
                             Ajouter une recette
                         </h2>
+
+                        {error && (
+                            <div className="text-red-500 mb-4">{error}</div>
+                        )}
+
                         <form method="POST" onSubmit={submitForm}>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
@@ -65,6 +83,7 @@ const AddRecipeModal = () => {
                                         type="text"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         placeholder="Nom de la recette"
+                                        required
                                     />
                                 </div>
 
@@ -82,10 +101,10 @@ const AddRecipeModal = () => {
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Film de la recette
+                                        Nom du film associé
                                     </label>
                                     <input
-                                        name="movies.name"
+                                        name="movie_name"
                                         type="text"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         placeholder="Nom du film"
@@ -94,10 +113,10 @@ const AddRecipeModal = () => {
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Image du film de la recette
+                                        Image du film
                                     </label>
                                     <input
-                                        name="movies.picture"
+                                        name="movie_picture"
                                         type="text"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         placeholder="URL de l'image du film"
@@ -111,6 +130,7 @@ const AddRecipeModal = () => {
                                     <select
                                         name="dish_types_id"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        required
                                     >
                                         <option value="1">Boisson</option>
                                         <option value="4">Entrée</option>
@@ -126,6 +146,7 @@ const AddRecipeModal = () => {
                                     <select
                                         name="difficulty"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        required
                                     >
                                         <option>Facile</option>
                                         <option>Moyen</option>
@@ -138,6 +159,7 @@ const AddRecipeModal = () => {
                                         Ingrédients de la recette
                                     </label>
                                     <textarea
+                                        name="ingredients"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         rows="3"
                                         placeholder="Liste des ingrédients"
@@ -149,9 +171,21 @@ const AddRecipeModal = () => {
                                         Préparation de la recette
                                     </label>
                                     <textarea
+                                        name="preparation"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         rows="4"
                                         placeholder="Détails de la préparation"
+                                    ></textarea>
+                                </div>
+                                <div className="sm:col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Durée totale de la recette
+                                    </label>
+                                    <textarea
+                                        name="total_duration"
+                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        rows="2"
+                                        placeholder="Anecdote liée à la recette"
                                     ></textarea>
                                 </div>
 
@@ -169,7 +203,6 @@ const AddRecipeModal = () => {
                             </div>
 
                             <div className="mt-6 flex justify-end space-x-4">
-                                {/* Ici on appelle toggleModal pour fermer la modale, on iverse l'état */}
                                 <button
                                     type="button"
                                     onClick={toggleModal}

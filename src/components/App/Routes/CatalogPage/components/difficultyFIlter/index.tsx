@@ -1,12 +1,8 @@
-import React from 'react';
-
 interface DifficultyFilterProps {
     onFilterChange: (difficulty: string) => void;
 }
 
-export const DifficultyFilter: React.FC<DifficultyFilterProps> = ({
-    onFilterChange,
-}) => {
+export const DifficultyFilter = ({ onFilterChange }: DifficultyFilterProps) => {
     return (
         <div className="flex space-x-4">
             <button
