@@ -21,7 +21,7 @@ function RecipePage() {
             }
         };
         getRecipe();
-    }, []);
+    }, [id]);
     console.log(dataFetch);
 
     if (!dataFetch)
