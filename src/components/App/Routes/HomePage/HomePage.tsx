@@ -2,14 +2,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import './homePage.scss';
+import './UI/slider.scss';
 import { IRecipe } from './homePagetype';
-import Slider from './UI/slider';
+import Slider from './UI/slider.tsx';
 
 function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);
     async function fetchOneRandom() {
         try {
-            const response = await fetch('/dataForIndex.json');
+            const response = await fetch(
+                'http://localhost:3000/recipes/random',
+            );
             const data = await response.json();
             console.log('then/success', data);
             setData(data);

@@ -17,6 +17,6 @@ export interface IRecipe {
     total_duration: number | null;
     anecdote: string | null;
     is_checked: boolean;
-    movie: IMovie | null;
+    Movie: IMovie | null;
     user_id: IUser | null;
 }
