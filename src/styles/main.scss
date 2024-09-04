@@ -1,17 +1,16 @@
 @use './reset';
 @use './variables' as var;
 @import '../components/App/Routes/RecipePage/RecipePage.scss';
+@import '../components/App/Routes/RegistrationPage/RegistrationPage.scss';
 // @tailwind base;
 // @tailwind components;
 // @tailwind utilities;
-
 // $color-light-red: #8C0B23;
 // $color-dark-red: #59041B;
 // $color-gold:#BB7133;
 // $color-skin: #D9C7B8;
 // $color-light-grey: #F2F2F2;
 // $color-dark: #0D0D0D;
-
 :root {
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -47,9 +46,10 @@ button {
     color: var.$color-dark;
     padding: 0.5em 1em;
     border: none;
-    border-radius: 15px;
+    border-radius: 10px;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    font-size: 1.1rem;
 }
 
 button:hover {
