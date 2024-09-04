@@ -1,4 +1,11 @@
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faUser,
+    faPlus,
+    faSearch,
+    faBars,
+} from '@fortawesome/free-solid-svg-icons';
 
 function Header() {
     return (
@@ -9,9 +16,15 @@ function Header() {
             </div>
             <div className="link-container">
                 {/* barre de raccourci */}
-                <div className="account-icon">Bonhomme</div>
-                <div className="add-recipe-icon">+</div>
-                <div className="search-recipe-icon">Loupe</div>
+                <div className="account-icon">
+                    <FontAwesomeIcon icon={faUser} />
+                </div>
+                <div className="add-recipe-icon">
+                    <FontAwesomeIcon icon={faPlus} />
+                </div>
+                <div className="search-recipe-icon">
+                    <FontAwesomeIcon icon={faSearch} />
+                </div>
                 {/* burger menu */}
                 <div className="burger-menu">
                     <div className="line"></div>
