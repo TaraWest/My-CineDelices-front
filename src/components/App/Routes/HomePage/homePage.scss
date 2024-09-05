@@ -2,6 +2,8 @@
 
 .homePage {
     justify-content: center;
+    display: flex;
+    flex-direction: column;
 }
 .icon-padding {
     padding-right: 8px;
@@ -12,12 +14,12 @@ li {
 }
 
 .img_presentation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-position: center;
     background-image: url('/movies/Jack-small.webp');
     width: 100vw;
-    height: auto;
+    height: 400px;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .recipe-movie {
@@ -68,4 +70,16 @@ ul {
     align-items: center;
     display: flex;
     flex-direction: column;
+}
+
+@media (max-width: 600px) {
+    .img_presentation {
+        background-image: url('/movies/Jack-medium.webp');
+    }
+}
+
+@media (max-width: 900px) {
+    .img_presentation {
+        background-image: url('/movies/Jack-normal.webp');
+    }
 }
