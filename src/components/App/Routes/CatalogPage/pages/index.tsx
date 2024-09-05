@@ -147,7 +147,7 @@ export const Catalog = () => {
                                                 {movie.name}
                                             </h3>
                                         )}
-                                        <Link to={`/recipes/${recipe.id}`}>
+                                        <Link to={`/recette/${recipe.id}`}>
                                             <button className="text-sm font-medium text-blue-600 hover:underline">
                                                 {recipe.name}
                                             </button>

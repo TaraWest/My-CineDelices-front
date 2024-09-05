@@ -2,15 +2,8 @@
 @use './variables' as var;
 
 @import '../components/App/Routes/HomePage/homePage.scss';
-// @tailwind base;
-// @tailwind components;
-// @tailwind utilities;
-// $color-light-red: #8C0B23;
-// $color-dark-red: #59041B;
-// $color-gold:#BB7133;
-// $color-skin: #D9C7B8;
-// $color-light-grey: #F2F2F2;
-// $color-dark: #0D0D0D;
+@import '../components/App/Routes/RecipePage/RecipePage.scss';
+
 :root {
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -21,20 +14,41 @@
     max-width: 1800px;
     margin: auto;
     text-align: left;
+    background-color: var.$color-dark;
 }
 
-a {
+a,
+.link {
     font-weight: 500;
     color: var.$color-skin;
-    text-decoration: inherit;
+    text-decoration: underline;
+    &:hover {
+        color: var.$color-gold;
+    }
+    &:visited {
+        color: var.$color-visited-link;
+    }
+    &:visited:hover {
+        color: var.$color-gold;
+    }
 }
 
-a:hover {
-    color: var.$color-gold;
+button {
+    font-family: 'Cinzel', serif;
+    background-color: var.$color-skin;
+    color: var.$color-dark;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 15px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
-a:visited {
-    color: var.$color-light-grey;
+button:hover {
+    background-color: var.$color-dark-red;
+    color: var.$color-skin;
+    transition-duration: 200ms;
+    font-weight: 600;
 }
 
 body {
@@ -42,8 +56,11 @@ body {
     min-width: 320px;
     min-height: 100vh;
     text-align: left;
-    margin: 0;
-    padding: 1em;
+
+    @media (min-width: var.$breakpoint-desktop-s) {
+        padding: 2em;
+        margin: 0 5em;
+    }
 }
 
 h1 {
@@ -53,6 +70,10 @@ h1 {
     margin-top: 1rem;
     margin-bottom: 1rem;
     text-align: center;
+
+    // @media (min-width: var.$breakpoint-l) {
+    //     font-size: 1.5rem;
+    // }
 }
 
 h2 {
@@ -77,22 +98,4 @@ h4 {
     font-family: 'Merriweather Sans', sans-serif;
     margin-top: 1rem;
     margin-bottom: 1rem;
-}
-
-button {
-    font-family: 'Cinzel', serif;
-    background-color: var.$color-skin;
-    color: var.$color-dark;
-    padding: 0.5em 1em;
-    border: none;
-    border-radius: 15px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-button:hover {
-    background-color: var.$color-dark-red;
-    color: var.$color-skin;
-    transition-duration: 200ms;
-    font-weight: 600;
 }

@@ -11,7 +11,7 @@ import ProfilePage from './components/App/Routes/ProfilePage/ProfilePage';
 import { CatalogPage } from './components/App/Routes/CatalogPage/CatalogPage';
 
 function App() {
-    //si besoin d'écrire ici, communiquer avant pour éviter des doublons dans les noms des variables, toujours mettre un commentaire pour expliquer ce qu'on fait
+    //si besoin d'écrire ici, communiquer avant pour évitr des doublons dans les noms des variables, toujours mettre un commentaire pour expliquer ce qu'on fait
     return (
         <div className="app">
             <Header />
