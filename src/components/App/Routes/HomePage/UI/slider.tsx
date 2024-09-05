@@ -58,7 +58,7 @@ function Slider() {
                 </div>
             </div>
             <Link
-                to={`/recipes/${tenrecipes[currentIndex]?.id}`}
+                to={`/recette/${tenrecipes[currentIndex]?.id}`}
                 className="italic"
             >
                 Voir le détail

@@ -75,7 +75,7 @@ function HomePage() {
                 </div>
                 <div className="right-div">
                     <h4>Tu cherches une inspiration pour ce soir ?</h4>
-                    <Link to={`/recipes/${data?.id}`} className="link-button">
+                    <Link to={`/recette/${data?.id}`} className="link-button">
                         voir notre proposition
                     </Link>
                 </div>
