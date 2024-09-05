@@ -39,6 +39,14 @@ div header h1 {
     align-items: center;
     margin-bottom: 2em;
 }
+.recipe-page-film {
+    font-family: 'Cinzel', serif;
+    margin: 2em;
+    text-align: center;
+    @media (min-width: var.$breakpoint-m) {
+        font-size: 1.2rem;
+    }
+}
 .recipe-page-author {
     padding: 1em;
     margin: 1em;

@@ -32,9 +32,13 @@ function RecipePage() {
             <header className="recipe-page-header">
                 <h1 className="recipe-page-title">{dataFetch.name}</h1>
 
+                <span className="recipe-page-film">
+                    Recette inspirée du film {dataFetch.Movie.name}
+                </span>
                 <span className="recipe-page-author">
                     Recette proposée par {dataFetch.User.username}
                 </span>
+
                 <div className="images-container">
                     <img
                         className="recipe-page-image image-dish"
