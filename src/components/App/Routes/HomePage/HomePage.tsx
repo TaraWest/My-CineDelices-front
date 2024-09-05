@@ -56,7 +56,7 @@ function HomePage() {
                 <div className="recipe-movie">
                     <div className="img-left">
                         <img
-                            src={`/movies/${data?.Movie?.picture}`}
+                            src={`/recipes/${data?.picture}`}
                             alt={`image illustrant la recette : ${data?.name}`}
                         />
                         <p className="inspiration-subtitle">
