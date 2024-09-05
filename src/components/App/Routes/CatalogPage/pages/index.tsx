@@ -98,7 +98,8 @@ export const Catalog = () => {
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-screen-lg">
+            {/* <div className="w-full max-w-screen-lg"> */}
+            <div className="w-full px-6">
                 <h1
                     onClick={resetFilters} // Réinitialise les filtres au clic sur "Catalogue"
                     className="text-2xl font-bold mb-4 text-center cursor-pointer"
@@ -142,7 +143,7 @@ export const Catalog = () => {
                                     )}
                                     <div className="p-4">
                                         {movie && (
-                                            <h3 className="text-md font-medium mb-2 text-gray-700">
+                                            <h3 className="text-md font-medium mb-2 text-gray-700 text-center">
                                                 {movie.name}
                                             </h3>
                                         )}
