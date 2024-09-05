@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './LoginPage.scss';
-import { IError } from './LoginPageType';
-import { ILogin } from './LoginPageType';
+import { IError } from './models';
+import { ILogin } from './models';
 function LoginPage() {
     const [error, setError] = useState<IError | null>(null);
 

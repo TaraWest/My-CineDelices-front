@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .header {
-    @apply flex justify-between items-center p-4 bg-custom-dark-red text-white border-b-2 relative;
+    @apply flex justify-between items-center p-4 bg-dark-red text-white border-b-2 relative;
 
     .logo-container {
         @apply text-2xl font-bold;
@@ -18,15 +18,16 @@
     }
 
     .burger-menu {
+        height: 10px;
         @apply flex flex-col cursor-pointer md:hidden;
 
         .line {
-            @apply w-6 h-0.5 bg-custom-beige my-1;
+            @apply w-6 h-0.5 bg-white my-1;
         }
     }
 
     .search-bar {
-        @apply absolute top-16 right-28 bg-white text-black w-64 transition-transform duration-300;
+        @apply absolute top-16 right-28 bg-light-grey text-black w-64 transition-transform duration-300;
 
         @media (min-width: 400px) {
             @apply md:translate-x-0 md:relative md:w-auto md:bg-transparent md:text-white;
@@ -34,10 +35,10 @@
     }
 
     .mobile-menu {
-        @apply absolute top-0 right-1 mt-16 bg-custom-dark-red w-64 transition-transform duration-300;
+        @apply absolute top-0 right-1 mt-16 bg-dark-red w-64 transition-transform duration-300;
 
         .block {
-            @apply py-2 border-b bg-custom-dark-red;
+            @apply py-2 border-b bg-dark-red;
             &:last-child {
                 @apply border-b-0;
             }

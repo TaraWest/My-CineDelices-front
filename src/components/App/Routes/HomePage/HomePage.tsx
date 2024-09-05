@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import './homePage.scss';
-import './UI/slider.scss';
-import { IRecipe } from './homePagetype';
-import Slider from './UI/slider.tsx';
+import './components/slider/index.scss';
+import { IRecipe } from './models';
+import Slider from './components/slider';
 import { Link } from 'react-router-dom';
-import AddRecipeModal from './UI/modaleQuentin.tsx';
+import AddRecipeModal from './components/modal';
 
 function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);

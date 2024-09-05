@@ -1,8 +1,8 @@
 import { Link, useParams } from 'react-router-dom';
 import './RecipePage.scss';
 import { useEffect, useState } from 'react';
-import { IRecipe } from './RecipePageTypes';
-import { fetchRecipe } from './services/services';
+import { IRecipe } from './models';
+import { fetchRecipe } from './services';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue

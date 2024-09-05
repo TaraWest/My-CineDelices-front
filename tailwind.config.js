@@ -6,10 +6,10 @@ export default {
             colors: {
                 'light-red': '#8c0b23',
                 'dark-red': '#59041b',
-                'gold': '#bb7133',
-                'skin': '#d9c7b8',
+                gold: '#bb7133',
+                skin: '#d9c7b8',
                 'light-grey': '#f2f2f2',
-                'dark': '#0d0d0d',
+                dark: '#0d0d0d',
                 'visited-link': '#e38b44',
             },
             breakpoints: {

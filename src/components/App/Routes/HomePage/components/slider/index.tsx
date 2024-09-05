@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { IRecipe } from '../homePagetype';
+import { IRecipe } from '../../models';
 import { Link } from 'react-router-dom';
-import './slider.scss';
+import './index.scss';
 
 function Slider() {
     const [tenrecipes, setTenrecipes] = useState<IRecipe[]>([]);

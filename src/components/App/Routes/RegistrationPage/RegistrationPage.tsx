@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './RegistrationPage.scss';
-import { IDataForm, IError } from './RegistrationPageType';
+import { IDataForm, IError } from './models';
 function RegistrationPage() {
     const [error, setError] = useState<IError | null>(null);
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {

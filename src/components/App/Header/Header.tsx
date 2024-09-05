@@ -18,7 +18,7 @@ function Header() {
     const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
     return (
-        <div className="header flex justify-between items-center p-4 bg-custom-dark-red text-white border-b-2 relative">
+        <div className="header flex justify-between items-center p-4 bg-dark-red text-white border-b-2 relative">
             {/* logo */}
             <div className="logo-container">
                 <Link to="/" className="text-2xl font-bold ">
@@ -45,9 +45,9 @@ function Header() {
                     className="burger-menu flex flex-col cursor-pointer md:hidden"
                     onClick={toggleMenu}
                 >
-                    <div className="line bg-custom-beige"></div>
-                    <div className="line bg-custom-beige"></div>
-                    <div className="line bg-custom-beige"></div>
+                    <div className="line bg-skin"></div>
+                    <div className="line bg-skin"></div>
+                    <div className="line bg-skin"></div>
                 </div>
                 {/* Barre de recherche */}
                 <div
@@ -62,7 +62,7 @@ function Header() {
             </div>
             {/* Menu mobile qui s'affiche ou se cache selon l'état isMenuOpen */}
             <div
-                className={`mobile-menu absolute top-0 right-0 mt-16 bg-custom-dark-red w-64 transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`mobile-menu absolute top-0 right-0 mt-16 bg-dark-red w-64 transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
             >
                 <div className="p-4">
                     <Link to="/" className="block py-2">
