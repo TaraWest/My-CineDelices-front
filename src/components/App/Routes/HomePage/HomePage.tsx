@@ -1,17 +1,17 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import './homePage.scss';
 import './UI/slider.scss';
 import { IRecipe } from './homePagetype';
 import Slider from './UI/slider.tsx';
+import { Link } from 'react-router-dom';
+import AddRecipeModal from './UI/modaleQuentin.tsx';
 
 function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);
     async function fetchOneRandom() {
         try {
             const response = await fetch(
-                'http://localhost:3000/recipes/random',
+                'http://localhost:3000/recipes/randomOne',
             );
             const data = await response.json();
             console.log('then/success', data);
@@ -36,38 +36,27 @@ function HomePage() {
                 Notre site vous propose des recettes de cuisine inspirées de
                 films, séries et animés.
             </h2>
-            <h3>Explorez nos fonctionnalités :</h3>
             <ul>
                 <li>
-                    <FontAwesomeIcon
-                        icon={faArrowRight}
-                        className="icon-padding"
-                    />
-                    Catalogue de recettes : Trouvez votre prochaine création
-                    culinaire
+                    <Link
+                        to="/catalogue"
+                        className="text-sm font-medium text-white bg-blue-600 rounded-lg px-4 py-2 hover:bg-blue-700"
+                    >
+                        Catalogue de recettes
+                    </Link>
                 </li>
                 <li>
-                    <FontAwesomeIcon
-                        icon={faArrowRight}
-                        className="icon-padding"
-                    />
-                    Ajoutez vos propres recettes
+                    <AddRecipeModal></AddRecipeModal>
                 </li>
             </ul>
             <h3>Bon appétit et bon visionnage !</h3>
 
-            <div className="img_presentation">
-                <img
-                    src="/JackIsInTheKitchen.jpg"
-                    alt="Jack Sparrow, héros du film Pirates des Caraïbes, fait la cuisine chez toi !"
-                />
-            </div>
+            <div className="img_presentation"></div>
             <div className="inspiration">
-                <h3>Tu cherches une inspiration pour ce soir ?</h3>
                 <div className="recipe-movie">
                     <div className="img-left">
                         <img
-                            src="/dorade.png"
+                            src={`/movies/${data?.Movie?.picture}`}
                             alt={`image illustrant la recette : ${data?.name}`}
                         />
                         <p className="inspiration-subtitle">
@@ -76,19 +65,25 @@ function HomePage() {
                     </div>
                     <div className="img-right">
                         <img
-                            src="/les-dents-de-la-mer.jpg"
-                            alt={`image illustrant la recette : ${data?.name}`}
+                            src={`/movies/${data?.Movie?.picture}`}
+                            alt={`image illustrant le film  : ${data?.Movie?.name}`}
                         />
                         <p className="inspiration-subtitle">
-                            Cuisine ce soir {data?.name}
+                            En regardant : {data?.Movie?.name}
                         </p>
                     </div>
                 </div>
-                <h3>
-                    Met ton plus beau tablier et prépare ta soirée avec notre
-                    proposition !
-                </h3>
+                <div className="right-div">
+                    <h4>Tu cherches une inspiration pour ce soir ?</h4>
+                    <Link to={`/recipes/${data?.id}`} className="link-button">
+                        voir notre proposition
+                    </Link>
+                </div>
             </div>
+            <h4>
+                Met ton plus beau tablier et prépare ta soirée avec notre
+                proposition !
+            </h4>
             <Slider></Slider>
         </div>
     );

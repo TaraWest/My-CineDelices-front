@@ -1,5 +1,8 @@
 @use '../../../../styles/variables' as var;
 
+.homePage {
+    justify-content: center;
+}
 .icon-padding {
     padding-right: 8px;
 }
@@ -12,9 +15,7 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.img_presentation img {
+    background-image: url('/movies/Jack-small.webp');
     width: 100vw;
     height: auto;
 }
@@ -29,7 +30,14 @@ li {
 
 .img-left,
 .img-left {
-    width: 40%;
+    width: 100%;
+    height: 90px;
+}
+
+.inspiration {
+    display: flex;
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
 }
 
 .inspiration-subtitle {
@@ -38,6 +46,26 @@ li {
 }
 
 h2,
-h3 {
+h3,
+h4 {
+    text-align: center;
+}
+
+h4 {
+    font-size: 0.9rem;
+}
+
+.right-div {
+    margin-left: 2rem;
+}
+.link-button {
+    background-color: black;
+    color: antiquewhite;
+}
+
+ul {
     justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 }

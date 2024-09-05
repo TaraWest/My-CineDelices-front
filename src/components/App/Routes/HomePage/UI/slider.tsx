@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { IRecipe } from '../homePagetype';
 import { Link } from 'react-router-dom';
 import './slider.scss';
@@ -32,20 +34,33 @@ function Slider() {
         fetchTenRecipes();
     }, []);
     return (
-        <div className="main_slider">
-            <div className="img-left" onClick={previousSlide}>
-                <img
-                    src={tenrecipes[currentIndex]?.picture}
-                    alt={`image illustrant la recette : "${tenrecipes[currentIndex]?.name}"`}
-                />
+        <div>
+            <div className="main_slider">
+                <div className="img-left" onClick={previousSlide}>
+                    <img
+                        src={tenrecipes[currentIndex]?.picture}
+                        alt={`image illustrant la recette : "${tenrecipes[currentIndex]?.name}"`}
+                    />
+                    <FontAwesomeIcon
+                        icon={faArrowLeft}
+                        className="icon-arrow left"
+                    />
+                </div>
+                <div className="img-right" onClick={nextSlide}>
+                    <img
+                        src={tenrecipes[currentIndex]?.Movie?.picture}
+                        alt={`image illustrant le film : "${tenrecipes[currentIndex]?.Movie?.name}"`}
+                    />
+                    <FontAwesomeIcon
+                        icon={faArrowRight}
+                        className="icon-arrow right"
+                    />
+                </div>
             </div>
-            <div className="img-right" onClick={nextSlide}>
-                <img
-                    src={tenrecipes[currentIndex]?.Movie?.picture}
-                    alt={`image illustrant le film : "${tenrecipes[currentIndex]?.Movie?.name}"`}
-                />
-            </div>
-            <Link to={`/recipes/${tenrecipes[currentIndex]?.id}`}>
+            <Link
+                to={`/recipes/${tenrecipes[currentIndex]?.id}`}
+                className="italic"
+            >
                 Voir le détail
             </Link>
         </div>
