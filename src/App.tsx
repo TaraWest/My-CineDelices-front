@@ -1,16 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.scss';
 import HomePage from './components/App/Routes/HomePage/HomePage';
-import CatalogPage from './components/App/Routes/CatalogPage/CatalogPage';
+
 import RecipePage from './components/App/Routes/RecipePage/RecipePage';
 import Header from './components/App/Header/Header';
 import Footer from './components/App/Footer/Footer';
 import RegistrationPage from './components/App/Routes/RegistrationPage/RegistrationPage';
 import LoginPage from './components/App/Routes/LoginPage/LoginPage';
 import ProfilePage from './components/App/Routes/ProfilePage/ProfilePage';
+import { CatalogPage } from './components/App/Routes/CatalogPage/CatalogPage';
 
 function App() {
-    //si besoin d'écrire ici, communiquer avant pour éviter des doublons dans les noms des variables, toujours mettre un commentaire pour expliquer ce qu'on fait
+    //si besoin d'écrire ici, communiquer avant pour évitr des doublons dans les noms des variables, toujours mettre un commentaire pour expliquer ce qu'on fait
     return (
         <div className="app">
             <Header />
