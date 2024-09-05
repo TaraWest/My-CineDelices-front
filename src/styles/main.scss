@@ -1,5 +1,6 @@
 @use './reset';
 @use './variables' as var;
+
 // @tailwind base;
 // @tailwind components;
 // @tailwind utilities;
@@ -18,8 +19,8 @@
     -moz-osx-font-smoothing: grayscale;
     color: var.$color-skin;
     font-family: 'Merriweather Sans', sans-serif;
-    max-width: 1280px;
-    margin: 0;
+    max-width: 1800px;
+    margin: auto;
     text-align: left;
 }
 

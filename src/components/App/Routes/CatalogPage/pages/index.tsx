@@ -14,6 +14,10 @@ export const Catalog = () => {
         null,
     );
 
+    // Variables d'état pour la pagination
+    const [currentPage, setCurrentPage] = useState(1); // Page actuelle
+    const recipesPerPage = 10; // Nombre de recettes par page
+
     // Fonction pour ajouter une nouvelle recette
     const handleAddRecipe = (newRecipe: any) => {
         setRecipes((prevRecipes) => [...prevRecipes, newRecipe]); // Ajout de la nouvelle recette dans l'état
@@ -29,12 +33,14 @@ export const Catalog = () => {
     const handleDifficultyChange = (difficulty: string) => {
         setSelectedDishType(null); // Réinitialise le type de plat
         setSelectedDifficulty(difficulty); // Met à jour la difficulté sélectionnée
+        setCurrentPage(1); // Réinitialiser la page actuelle
     };
 
     // Fonction sélection type de plat
     const handleDishTypeChange = (dishTypeId: number) => {
         setSelectedDifficulty(null); // Réinitialise la difficulté
         setSelectedDishType(dishTypeId); // Met à jour le type de plat sélectionné
+        setCurrentPage(1); // Réinitialiser la page actuelle
     };
 
     useEffect(() => {
@@ -82,6 +88,14 @@ export const Catalog = () => {
         fetchData();
     }, [selectedDifficulty, selectedDishType]); // Appel à fetchData chaque fois que l'un des filtres change
 
+    // Calcul des indices pour afficher les recettes paginées
+    const indexOfLastRecipe = currentPage * recipesPerPage;
+    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+    const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+
+    // Fonction pour changer de page
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="w-full max-w-screen-lg">
@@ -101,10 +115,10 @@ export const Catalog = () => {
 
                 {/* Grille des recettes */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                    {recipes.length === 0 ? (
+                    {currentRecipes.length === 0 ? (
                         <p>Aucune recette trouvée</p>
                     ) : (
-                        recipes.map((recipe) => {
+                        currentRecipes.map((recipe) => {
                             const movie = movies.find(
                                 (m) => m.id === recipe.movie_id,
                             );
@@ -142,6 +156,27 @@ export const Catalog = () => {
                             );
                         })
                     )}
+                </div>
+
+                {/* Pagination */}
+                <div className="flex justify-center space-x-4 mt-6">
+                    {/* Précédent */}
+                    <button
+                        onClick={() => paginate(currentPage - 1)}
+                        disabled={currentPage === 1} // Désactiver si on est sur la première page
+                        className={`px-4 py-2 text-sm ${currentPage === 1 ? 'bg-gray-300' : 'bg-blue-600'} text-white rounded-lg`}
+                    >
+                        Précédent
+                    </button>
+
+                    {/* Suivant */}
+                    <button
+                        onClick={() => paginate(currentPage + 1)}
+                        disabled={indexOfLastRecipe >= recipes.length} // Désactiver si on est à la dernière page
+                        className={`px-4 py-2 text-sm ${indexOfLastRecipe >= recipes.length ? 'bg-gray-300' : 'bg-blue-600'} text-white rounded-lg`}
+                    >
+                        Suivant
+                    </button>
                 </div>
             </div>
         </div>
