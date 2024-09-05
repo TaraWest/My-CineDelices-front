@@ -27,7 +27,9 @@
     }
 
     .search-bar {
-        @apply absolute top-16 right-28 bg-light-grey text-black w-64 transition-transform duration-300;
+        @apply absolute top-9 right-28 bg-light-grey text-black w-64 transition-transform duration-300;
+
+        right: 7.5rem;
 
         @media (min-width: 400px) {
             @apply md:translate-x-0 md:relative md:w-auto md:bg-transparent md:text-white;
@@ -43,5 +45,22 @@
                 @apply border-b-0;
             }
         }
+    }
+}
+
+@media (min-width: 500px) {
+    .icon .faPlus {
+        display: none;
+    }
+    .icon span {
+        display: inline-block;
+    }
+}
+@media (max-width: 500px) {
+    .icon .faPlus {
+        display: inline-block;
+    }
+    .icon span {
+        display: none;
     }
 }

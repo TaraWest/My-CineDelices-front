@@ -27,11 +27,20 @@ function Header() {
             </div>
             <div className="link-container flex items-center space-x-4 relative">
                 {/* Icônes de raccourci */}
-                <div className="icon">
+                <div className="icon cursor-pointer">
                     <FontAwesomeIcon icon={faUser} />
                 </div>
-                <div className="icon">
-                    <FontAwesomeIcon icon={faPlus} />
+                <div className="icon flex items-center">
+                    {/* Afficher l'icône sur les petits écrans */}
+                    <FontAwesomeIcon
+                        icon={faPlus}
+                        className="block sm:hidden"
+                    />
+
+                    {/* Afficher le texte sur les écrans de plus de 500px */}
+                    <span className="hidden sm:block cursor-pointer">
+                        Ajouter une recette
+                    </span>
                 </div>
                 {/* Icône de recherche avec gestionnaire de clic */}
                 <div className="icon cursor-pointer" onClick={toggleSearch}>
