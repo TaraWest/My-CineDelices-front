@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as var;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,23 +19,23 @@
         @apply text-xl;
     }
 
-    .burger-menu {
-        height: 10px;
-        @apply flex flex-col cursor-pointer md:hidden;
-
-        .line {
-            @apply w-6 h-0.5 bg-white my-1;
-        }
+    .burger-menu .line {
+        width: 25px;
+        height: 3px;
+        background-color: bg-skin;
+        margin: 4px 0;
     }
 
     .search-bar {
-        @apply absolute top-16 right-28 bg-light-grey text-black w-64 transition-transform duration-300;
+        @apply absolute top-9 right-28 bg-light-grey text-black w-64 transition-transform duration-300;
+
+        right: 7.5rem;
 
         @media (min-width: 400px) {
             @apply md:translate-x-0 md:relative md:w-auto md:bg-transparent md:text-white;
         }
     }
-
+    // burger menu
     .mobile-menu {
         @apply absolute top-0 right-1 mt-16 bg-dark-red w-64 transition-transform duration-300;
 
@@ -43,5 +45,22 @@
                 @apply border-b-0;
             }
         }
+    }
+}
+
+@media (min-width: 500px) {
+    .icon .faPlus {
+        display: none;
+    }
+    .icon span {
+        display: inline-block;
+    }
+}
+@media (max-width: 500px) {
+    .icon .faPlus {
+        display: inline-block;
+    }
+    .icon span {
+        display: none;
     }
 }
