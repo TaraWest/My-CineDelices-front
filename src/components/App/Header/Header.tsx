@@ -55,7 +55,7 @@ function Header() {
                 >
                     <input
                         type="text"
-                        placeholder="Rechercher..."
+                        placeholder="Ramen"
                         className="w-full p-2"
                     />
                 </div>
