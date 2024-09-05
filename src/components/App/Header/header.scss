@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as var;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,13 +19,11 @@
         @apply text-xl;
     }
 
-    .burger-menu {
-        height: 10px;
-        @apply flex flex-col cursor-pointer md:hidden;
-
-        .line {
-            @apply w-6 h-0.5 bg-white my-1;
-        }
+    .burger-menu .line {
+        width: 25px;
+        height: 3px;
+        background-color: bg-skin;
+        margin: 4px 0;
     }
 
     .search-bar {
@@ -33,7 +33,7 @@
             @apply md:translate-x-0 md:relative md:w-auto md:bg-transparent md:text-white;
         }
     }
-
+    // burger menu
     .mobile-menu {
         @apply absolute top-0 right-1 mt-16 bg-dark-red w-64 transition-transform duration-300;
 

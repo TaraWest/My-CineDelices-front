@@ -34,15 +34,12 @@ function Header() {
                     <FontAwesomeIcon icon={faPlus} />
                 </div>
                 {/* Icône de recherche avec gestionnaire de clic */}
-                <div
-                    className="icon md:hidden cursor-pointer"
-                    onClick={toggleSearch}
-                >
+                <div className="icon cursor-pointer" onClick={toggleSearch}>
                     <FontAwesomeIcon icon={faSearch} />
                 </div>
                 {/* Menu burger pour mobile */}
                 <div
-                    className="burger-menu flex flex-col cursor-pointer md:hidden"
+                    className="burger-menu flex flex-col cursor-pointer"
                     onClick={toggleMenu}
                 >
                     <div className="line bg-skin"></div>
