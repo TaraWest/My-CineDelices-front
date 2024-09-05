@@ -1,0 +1,85 @@
+@use '../../../../styles/variables' as var;
+
+.homePage {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+.icon-padding {
+    padding-right: 8px;
+}
+
+li {
+    line-height: 1.3em;
+}
+
+.img_presentation {
+    background-position: center;
+    background-image: url('/movies/Jack-small.webp');
+    width: 100vw;
+    height: 400px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.recipe-movie {
+    display: flex;
+}
+
+.recipe-movie img {
+    width: 100%;
+}
+
+.img-left,
+.img-left {
+    width: 100%;
+    height: 90px;
+}
+
+.inspiration {
+    display: flex;
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+
+.inspiration-subtitle {
+    background-color: rgba(0, 0, 0, 0.386);
+    color: white;
+}
+
+h2,
+h3,
+h4 {
+    text-align: center;
+}
+
+h4 {
+    font-size: 0.9rem;
+}
+
+.right-div {
+    margin-left: 2rem;
+}
+.link-button {
+    background-color: black;
+    color: antiquewhite;
+}
+
+ul {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 600px) {
+    .img_presentation {
+        background-image: url('/movies/Jack-medium.webp');
+    }
+}
+
+@media (max-width: 900px) {
+    .img_presentation {
+        background-image: url('/movies/Jack-normal.webp');
+    }
+}
