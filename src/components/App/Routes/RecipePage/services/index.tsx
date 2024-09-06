@@ -1,18 +1,12 @@
-export async function fetchRecipe(id: number) {
-    try {
-        const response = await fetch(`http://localhost:3000/Recipes/${id}`);
-        console.log(id);
+import axios from 'axios';
 
-        if (!response.ok) {
-            console.log('erreur dans la récupération de la recette');
-            return;
-        }
-
-        const data = await response.json();
-        console.log('then/success', data);
-
-        return data;
-    } catch (error) {
-        console.log(error);
-    }
+export function fetchRecipe(id: number) {
+    return axios
+        .get(`http://localhost:3000/Recipes/${id}`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return error;
+        });
 }

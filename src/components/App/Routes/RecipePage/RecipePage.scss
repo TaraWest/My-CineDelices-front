@@ -15,7 +15,19 @@ p {
     font-size: 1rem;
 }
 
-h2 {
+.recipe-part {
+    text-align: left;
+    border-bottom: 1px dashed;
+    width: 20%;
+    padding-bottom: 1em;
+    &.anecdote {
+        text-align: center;
+        margin-bottom: 1em;
+        width: 100%;
+    }
+}
+
+.homepage {
     width: 30%;
     padding-bottom: 0.3em;
     border-bottom: 1px dashed var.$color-skin;
@@ -165,14 +177,6 @@ div header h1 {
     width: 100%;
     text-align: center;
     margin: 3em 0 1.5em 0;
-}
-
-.anecdote-container h2 {
-    margin: auto;
-}
-
-.anecdote-container p {
-    margin: 0.6em;
 }
 
 .recipe-page-footer {

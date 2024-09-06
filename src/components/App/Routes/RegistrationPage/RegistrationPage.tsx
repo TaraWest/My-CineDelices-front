@@ -1,24 +1,38 @@
 import { useState } from 'react';
 import './RegistrationPage.scss';
-import { IDataForm, IError } from './models';
+import { IError } from './models';
+import { handleRegistration } from './services';
+import { useNavigate } from 'react-router-dom';
 function RegistrationPage() {
     const [error, setError] = useState<IError | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
+    const [lastName, setLastName] = useState<string | null>(null);
+
+    const [firstName, setFirstName] = useState<string | null>(null);
+
+    const [userName, setUserName] = useState<string | null>(null);
+    const [userNameError, setUserNameError] = useState<string | null>(null);
+
+    const [email, setEmail] = useState<string | null>(null);
+    // const [emailError, setEmailError] = useState<string | null>(null);
+
+    const [password, setPassword] = useState<string | null>(null);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+
+    const [passwordConfirm, setPasswordConfirm] = useState<string | null>(null);
+    const [passwordConfirmError, setPasswordConfirmError] = useState<
+        string | null
+    >(null);
+
+    const [focusedInput, setFocusedInput] = useState<string | null>(null);
+
+    const navigate = useNavigate();
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         //On enpêche le comportement par défaut du bouton type submit
         event.preventDefault();
 
-        //On récupère les données du formulaire et on les stocke dans data
-        const formData = new FormData(event.currentTarget);
-
-        const data = Object.fromEntries(formData);
-        console.log(data);
-
-        //Destructuration pour avoir chaque propriété de data dans une constante
-        const { password, passwordVerification, username, email_address } =
-            data;
-
         //Vérification de la conformité entre le mot de passe et sa vérification, et affichage de l'erreur correspondante
-        if (password !== passwordVerification) {
+        if (password !== passwordConfirm) {
             setError({
                 message:
                     'Les mots de passe ne correspondent pas. Veuillez vérifier que le mot de passe et la confirmation soient identiques.',
@@ -32,7 +46,7 @@ function RegistrationPage() {
         }
 
         //Vérification des champs obligatoires à remplir, qui complète le 'required' des input concernés
-        if (!username || !email_address || !password || !passwordVerification) {
+        if (!userName || !email || !password || !passwordConfirm) {
             setError({
                 message: 'Veuillez renseigner tous les champs obligatoires',
             });
@@ -45,48 +59,94 @@ function RegistrationPage() {
             }
         }
 
-        //Retypage des données du formulaire qui sont de type FormDataEntryValue en données
-        function retypeFormData(data: { [key: string]: FormDataEntryValue }) {
-            const typedData = {
-                email_address: data.email_address as string,
-                first_name: (data.first_name as string) || null,
-                last_name: (data.last_name as string) || null,
-                password: data.password as string,
-                username: data.username as string,
-            };
-            return typedData;
-        }
-        const typedData = retypeFormData(data);
-
         //Envoie des données dans une fonction à part qui communique avec l'API.
-        await handleRegistration(typedData);
+        const dataToSend = {
+            first_name: firstName,
+            last_name: lastName,
+            username: userName,
+            email_address: email,
+            password,
+        };
+        const response = await handleRegistration(dataToSend);
+        if (response.status === 201) {
+            setMessage(response.data.message);
+            console.log(message);
 
-        console.log(data);
+            navigate('/');
+        }
+        {
+            setError({
+                message:
+                    "Problème lors de l'inscription, vérifiez le remplissage des données",
+            });
+        }
+
+        console.log(dataToSend);
         //Fin de la fonction handleSubmit
     }
 
-    async function handleRegistration(data: IDataForm) {
-        const response = await fetch('http://localhost:3000/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.log(errorData);
+    // Gestion des champs controlés
+    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        switch (e.target.name) {
+            case 'last_name':
+                setLastName(e.target.value);
 
-            setError({
-                message: 'Problème de serveur, veuillez réessayer plus tard',
-            });
-            throw new Error(
-                "Problème dans l'inscription du nouvel utilisateur",
+                break;
+            case 'first_name':
+                setFirstName(e.target.value);
+
+                break;
+            case 'username':
+                setUserName(e.target.value);
+                if (
+                    userName &&
+                    (userName.length === 1 || userName.length === 0)
+                ) {
+                    setUserNameError(null);
+                }
+
+                break;
+            case 'email_address':
+                setEmail(e.target.value);
+                break;
+            case 'password':
+                setPassword(e.target.value);
+                if (password && password.length === 5) {
+                    setPasswordError(null);
+                }
+
+                break;
+            case 'passwordConfirm':
+                setPasswordConfirm(e.target.value);
+
+                break;
+        }
+    };
+
+    const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+        setFocusedInput(event.target.name);
+    };
+
+    const handleBlur = () => {
+        if (userName && userName.length < 2) {
+            setUserNameError(
+                "Le nom d'utilisateur doit comporter au moins 2 lettres",
             );
         }
-        const message = await response.json();
-        console.log(message);
-    }
+
+        if (password && password.length < 6) {
+            setPasswordError(
+                "Le nom d'utilisateur doit comporter au moins 6 caractères",
+            );
+        }
+        if (passwordConfirm && passwordConfirm.length < 6) {
+            setPasswordConfirmError(
+                "Le nom d'utilisateur doit comporter au moins 6 caractères",
+            );
+        }
+
+        setFocusedInput(null);
+    };
 
     return (
         <div className="register-page-container">
@@ -105,6 +165,7 @@ function RegistrationPage() {
                         className="form-input"
                         type="text"
                         name="last_name"
+                        onChange={handleChangeInput}
                     />
                 </label>
                 <label className="form-label">
@@ -113,6 +174,7 @@ function RegistrationPage() {
                         className="form-input"
                         type="text"
                         name="first_name"
+                        onChange={handleChangeInput}
                     />
                 </label>
                 <label className="form-label">
@@ -120,9 +182,13 @@ function RegistrationPage() {
                     <input
                         className="form-input"
                         type="text"
-                        required
                         name="username"
+                        onChange={handleChangeInput}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        required
                     />
+                    {userNameError && <div>{userNameError}</div>}
                 </label>
                 <label className="form-label">
                     Adresse mail *
@@ -130,6 +196,9 @@ function RegistrationPage() {
                         className="form-input"
                         type="email"
                         name="email_address"
+                        onChange={handleChangeInput}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         required
                     />
                 </label>
@@ -139,8 +208,12 @@ function RegistrationPage() {
                         className="form-input"
                         type="password"
                         name="password"
+                        onChange={handleChangeInput}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         required
                     />
+                    {passwordError && <div>{passwordError}</div>}
                 </label>
                 <label className="form-label">
                     Entrez à nouveau <br />
@@ -148,9 +221,13 @@ function RegistrationPage() {
                     <input
                         className="form-input"
                         type="password"
-                        name="passwordVerification"
+                        name="passwordConfirm"
+                        onChange={handleChangeInput}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         required
                     />
+                    {passwordConfirmError && <div>{passwordConfirmError}</div>}
                 </label>
                 {error && (
                     <div className="error-container">{error.message}</div>
