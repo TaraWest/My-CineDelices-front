@@ -144,7 +144,7 @@ export const Catalog = () => {
                                         <img
                                             src={`/movies/${movie.picture}`}
                                             alt={movie.name}
-                                            className="h-32 w-full object-cover object-center mt-2"
+                                            className="h-32 w-full object-cover object-center mt-1"
                                         />
                                     )}
                                     <div className="p-4">
