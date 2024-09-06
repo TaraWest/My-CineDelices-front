@@ -53,7 +53,7 @@ function HomePage() {
                 <div className="recipe-movie">
                     <div className="img-left">
                         <img
-                            src={`/recipes/${data?.picture}`}
+                            src={`http://localhost:3000/recipes/${data?.picture}`} 
                             alt={`image illustrant la recette : ${data?.name}`}
                             className="random-img"
                         />
@@ -64,7 +64,7 @@ function HomePage() {
                     </div>
                     <div className="img-right">
                         <img
-                            src={`/movies/${data?.Movie?.picture}`}
+                            src={`http://localhost:3000/movies/${data?.Movie?.picture}`}
                             alt={`image illustrant le film  : ${data?.Movie?.name}`}
                             className="random-img"
                         />

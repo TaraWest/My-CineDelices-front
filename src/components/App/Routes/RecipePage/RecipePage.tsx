@@ -42,13 +42,13 @@ function RecipePage() {
                 <div className="images-container">
                     <img
                         className="recipe-page-image image-dish"
-                        src={`/recipes/${dataFetch.picture}`}
+                        src={`http://localhost:3000/recipes/${dataFetch.picture}`} 
                         // src="/recipes/ramen.png"
                         alt="Photo illustrant la recette"
                     />
                     <img
                         className="recipe-page-image image-film"
-                        src={`/movies/${dataFetch.Movie.picture}`}
+                        src={`http://localhost:3000/movies/${dataFetch.Movie.picture}`}
                         // src="/movies/naruto.png"
                         alt="Photo illustrant le film"
                     />
