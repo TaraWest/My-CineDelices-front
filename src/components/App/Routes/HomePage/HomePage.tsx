@@ -24,7 +24,10 @@ function HomePage() {
     useEffect(() => {
         fetchOneRandom();
     }, []);
-    // créer une condition pour laquelle data n'existe pas avec un return ^
+
+    if (!data) {
+        return <div>Oups, petit problème !? Merci de revenir plus tard...</div>;
+    }
     return (
         <div className="homePage">
             <h1 className="homepage-title">
@@ -33,13 +36,13 @@ function HomePage() {
                 Plongez dans un univers où la cuisine rencontre le cinéma...
             </h1>
             <h2 className="homepage-subtitle">
-                Notre site vous propose des recettes de cuisine inspirées de
-                films, séries et animés.
+                Pas d'idée pour ce soir ? Trouve l'inspiration avec des recettes
+                tirées de tes films et séries préférés !
             </h2>
             <ul>
                 <li>
-                    <Link to="/catalogue" className="see-catalog-link link">
-                        Voir notre catalogue de recettes
+                    <Link to="/catalogue" className="button-link">
+                        Nos recettes
                     </Link>
                 </li>
                 <li>
@@ -50,35 +53,33 @@ function HomePage() {
 
             <div className="img_presentation"></div>
             <div className="inspiration">
-                <div className="recipe-movie">
+                <h4>Envie d'un dîner original ?</h4>
+                <div className="img-container">
                     <div className="img-left">
                         <img
-                            src={`/recipes/${data?.picture}`}
-                            alt={`image illustrant la recette : ${data?.name}`}
+                            src={`/recipes/${data.picture}`}
+                            alt={`image illustrant la recette : ${data.name}`}
                             className="random-img"
                         />
 
                         <p className="inspiration-subtitle">
-                            Cuisine ce soir {data?.name}
+                            Ce soir c'est "{data.name}"
                         </p>
                     </div>
                     <div className="img-right">
                         <img
-                            src={`/movies/${data?.Movie?.picture}`}
-                            alt={`image illustrant le film  : ${data?.Movie?.name}`}
+                            src={`/movies/${data.Movie?.picture}`}
+                            alt={`image illustrant le film  : ${data.Movie?.name}`}
                             className="random-img"
                         />
                         <p className="inspiration-subtitle">
-                            En regardant : {data?.Movie?.name}
+                            En regardant : {data.Movie?.name}
                         </p>
                     </div>
                 </div>
-                <div className="right-div">
-                    <h4>Tu cherches une inspiration pour ce soir ?</h4>
-                    <Link to={`/recette/${data?.id}`} className="link">
-                        Voici notre proposition
-                    </Link>
-                </div>
+                <Link to={`/recette/${data.id}`} className="button-link">
+                    Voir le détail
+                </Link>
             </div>
             <h4>
                 Met ton plus beau tablier et prépare ta soirée avec notre

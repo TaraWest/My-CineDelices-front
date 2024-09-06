@@ -67,6 +67,31 @@ body {
         margin: 0 5em;
     }
 }
+.button-link {
+    font-family: 'Cinzel', serif;
+    background-color: var.$color-skin;
+    color: var.$color-dark;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 10px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    text-decoration: none;
+
+    &:hover {
+        background-color: var.$color-dark-red;
+        color: var.$color-skin;
+        transition-duration: 200ms;
+        font-weight: 600;
+    }
+    &:visited {
+        color: var.$color-dark;
+        &:hover {
+            color: var.$color-skin;
+        }
+    }
+}
 
 h1 {
     font-size: 1.5rem;
@@ -75,6 +100,7 @@ h1 {
     margin-top: 1rem;
     margin-bottom: 1rem;
     text-align: center;
+    font-weight: 600;
 
     // @media (min-width: var.$breakpoint-l) {
     //     font-size: 1.5rem;

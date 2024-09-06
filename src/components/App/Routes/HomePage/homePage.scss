@@ -3,7 +3,6 @@
 .homePage {
     display: flex;
     flex-direction: column;
-    // justify-content: center;
     align-items: center;
 }
 
@@ -59,10 +58,14 @@ li {
 
 .inspiration {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-top: 1.2rem;
-    margin-bottom: 1.2rem;
+    margin: 10%;
+}
+
+.img-container {
+    display: flex;
 }
 
 .right-div {
@@ -75,6 +78,8 @@ li {
     background-color: rgba(0, 0, 0, 0.386);
     color: white;
     position: absolute;
+    bottom: 0%;
+    text-align: center;
 }
 
 h2,
