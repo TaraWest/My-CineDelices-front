@@ -31,7 +31,7 @@ li {
 
 .img_presentation {
     background-position: center;
-    background-image: url('http://localhost:3000/movies/Jack-small.webp');
+    background-image: url('/Jack-small.webp');
     width: 100vw;
     min-height: 400px;
     background-size: contain;
@@ -112,12 +112,12 @@ ul {
 
 @media (max-width: 600px) {
     .img_presentation {
-        background-image: url('/movies/Jack-medium.webp');
+        background-image: url('/Jack-medium.webp');
     }
 }
 
 @media (max-width: 900px) {
     .img_presentation {
-        background-image: url('/movies/Jack-normal.webp');
+        background-image: url('/Jack-normal.webp');
     }
 }

@@ -3,7 +3,7 @@ img {
 }
 
 .main_slider {
-    width: 90vw;
+    width: 90%;
     overflow: hidden;
     position: relative;
     display: flex;
@@ -64,4 +64,10 @@ img {
 
 .img-img-right {
     border-top-right-radius: 15px;
+}
+
+@media (min-width: 600px) {
+    .icon-arrow {
+        padding: 15px;
+    }
 }

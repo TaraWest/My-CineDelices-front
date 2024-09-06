@@ -3,7 +3,7 @@ import './Footer.scss';
 
 function Footer() {
     return (
-        <div>
+        <div className="pb-6">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 1440 320"
@@ -16,8 +16,8 @@ function Footer() {
                 {/* Bordure en haut uniquement */}
                 <path
                     fill="none"
-                    stroke="white" // Bordure blanche
-                    strokeWidth="2" // Épaisseur de la bordure
+                    stroke="#d9c7b8" // Bordure blanche
+                    strokeWidth="3" // Épaisseur de la bordure
                     d="M0,224L40,240C80,256,160,288,240,282.7C320,277,400,235,480,202.7C560,171,640,149,720,144C800,139,880,149,960,160C1040,171,1120,181,1200,176C1280,171,1360,149,1400,138.7L1440,128"
                 />
                 {/* Vague principale */}
@@ -28,9 +28,15 @@ function Footer() {
                 />
             </svg>
             <div className="grid gap-4 grid-cols-3 justify-center items-center text-center">
-                <Link to="/mentions-legales">Mentions légales</Link>
-                <Link to="/copyrigth">Copyright</Link>
-                <Link to="/contact">Contact</Link>
+                <Link className="no-underline" to="/mentions-legales">
+                    Mentions légales
+                </Link>
+                <Link className="no-underline" to="/copyrigth">
+                    Copyright
+                </Link>
+                <Link className="no-underline" to="/contact">
+                    Contact
+                </Link>
             </div>
         </div>
     );
