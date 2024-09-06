@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import './homePage.scss';
-import './components/slider/index.scss';
-import { IRecipe } from './models';
-import Slider from './components/slider';
 import { Link } from 'react-router-dom';
+import { IRecipe } from './models';
+import Slider from './components/slider/slider';
 import AddRecipeModal from './components/modal';
+import './components/slider/slider.scss';
+import './homePage.scss';
 
 function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);
@@ -53,7 +53,7 @@ function HomePage() {
 
             <div className="img_presentation"></div>
             <div className="inspiration">
-                <h4>Envie d'un dîner original ?</h4>
+                <h3>Envie d'un dîner original ?</h3>
                 <div className="img-container">
                     <div className="img-left">
                         <img
@@ -78,7 +78,7 @@ function HomePage() {
                     </div>
                 </div>
                 <Link to={`/recette/${data.id}`} className="button-link">
-                    Voir le détail
+                    Découvre la recette
                 </Link>
             </div>
             <h4>
