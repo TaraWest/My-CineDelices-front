@@ -84,8 +84,6 @@ function RegistrationPage() {
         console.log(dataToSend);
         //Fin de la fonction handleSubmit
     }
-    console.log(focusedInput);
-    console.log(userNameError);
 
     // Gestion des champs controlés
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
