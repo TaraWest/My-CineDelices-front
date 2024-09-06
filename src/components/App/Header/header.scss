@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 .header {
-    @apply flex justify-between items-center p-4 bg-dark-red text-white border-b-2 relative;
+    @apply flex justify-between items-center p-4 bg-dark-red text-skin border-b-2 relative;
 
     .logo-container {
         @apply text-2xl font-bold;

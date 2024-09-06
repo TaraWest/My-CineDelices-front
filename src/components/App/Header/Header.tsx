@@ -19,46 +19,55 @@ function Header() {
 
     return (
         <div className="header flex justify-between items-center p-4 bg-dark-red text-white border-b-2 relative">
-            {/* logo */}
+            {/* Conteneur du logo */}
             <div className="logo-container">
+                {/* Lien vers la page d'accueil */}
                 <Link to="/" className="text-2xl font-bold ">
-                    Ciné Délices
+                    CinéDélices
                 </Link>
             </div>
-            <div className="link-container flex items-center space-x-4 relative">
-                {/* Icônes de raccourci */}
-                <div className="icon cursor-pointer">
+
+            {/* Conteneur des icônes et des liens */}
+            <div className="link-container flex items-center space-x-4 relative ">
+                {/* Icône utilisateur */}
+                <div className="icon cursor-pointer ">
                     <FontAwesomeIcon icon={faUser} />
                 </div>
+
+                {/* Icône pour ajouter une recette */}
                 <div className="icon flex items-center">
-                    {/* Afficher l'icône sur les petits écrans */}
+                    {/* Affichage de l'icône sur petits écrans */}
                     <FontAwesomeIcon
                         icon={faPlus}
                         className="block sm:hidden"
                     />
-
-                    {/* Afficher le texte sur les écrans de plus de 500px */}
+                    {/* Texte "Ajouter une recette" visible sur les écrans de plus de 500px */}
                     <span className="hidden sm:block cursor-pointer">
                         Ajouter une recette
                     </span>
                 </div>
-                {/* Icône de recherche avec gestionnaire de clic */}
+
+                {/* Icône de recherche */}
                 <div className="icon cursor-pointer" onClick={toggleSearch}>
                     <FontAwesomeIcon icon={faSearch} />
                 </div>
-                {/* Menu burger pour mobile */}
+
+                {/* Menu burger pour les petits écrans */}
                 <div
                     className="burger-menu flex flex-col cursor-pointer"
                     onClick={toggleMenu}
                 >
+                    {/* Trois lignes du menu burger */}
                     <div className="line bg-skin"></div>
                     <div className="line bg-skin"></div>
                     <div className="line bg-skin"></div>
                 </div>
-                {/* Barre de recherche */}
+
+                {/* Barre de recherche - affichée/cachée instantanément selon l'état */}
                 <div
-                    className={`search-bar absolute top-16 right-0 bg-white text-black w-64 transition-transform duration-300 ${isSearchOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:relative md:w-auto md:bg-transparent md:text-white`}
+                    className={`search-bar absolute top-16 right-0 bg-white text-black w-64 ${isSearchOpen ? 'block' : 'hidden'} md:block md:relative md:w-auto md:bg-transparent md:text-white`}
                 >
+                    {/* Champ de saisie pour la recherche */}
                     <input
                         type="text"
                         placeholder="Ramen"
@@ -66,10 +75,12 @@ function Header() {
                     />
                 </div>
             </div>
-            {/* Menu mobile qui s'affiche ou se cache selon l'état isMenuOpen */}
+
+            {/* Menu mobile - affiché/caché instantanément selon l'état */}
             <div
-                className={`mobile-menu absolute top-0 right-0 mt-16 bg-dark-red w-64 transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`mobile-menu absolute top-0 right-0 mt-16 bg-dark-red w-64 ${isMenuOpen ? 'block' : 'hidden'}`}
             >
+                {/* Liens du menu mobile */}
                 <div className="p-4">
                     <Link to="/" className="block py-2">
                         Accueil
