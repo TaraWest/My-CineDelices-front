@@ -1,46 +1,57 @@
+// Importation des variables SCSS
 @use '../../../styles/variables' as var;
 
+// Importation des styles de Tailwind CSS
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 .header {
+    // Style de base pour l'en-tête : flexbox, espacement, couleur de fond, etc.
     @apply flex justify-between items-center p-4 bg-dark-red text-skin border-b-2 relative;
 
     .logo-container {
+        // Styles pour le conteneur du logo : taille du texte et gras
         @apply text-2xl font-bold;
     }
 
     .link-container {
+        // Styles pour le conteneur des liens : alignement et espacement
         @apply flex items-center space-x-4 relative;
     }
 
     .icon {
+        // Styles pour les icônes : taille du texte
         @apply text-xl;
     }
 
     .burger-menu .line {
+        // Styles pour les lignes du menu burger : dimensions et couleur
         width: 25px;
         height: 3px;
         background-color: bg-skin;
         margin: 4px 0;
     }
-
     .search-bar {
         @apply absolute top-9 right-28 bg-light-grey text-black w-64 transition-transform duration-300;
-
         right: 7.5rem;
 
-        @media (min-width: 400px) {
-            @apply md:translate-x-0 md:relative md:w-auto md:bg-transparent md:text-white;
+        @media (min-width: 500px) {
+            @apply md:relative md:w-auto md:bg-transparent md:text-white;
+            top: 0;
+            right: 0;
         }
     }
-    // burger menu
+
+    // Styles pour le menu mobile
     .mobile-menu {
         @apply absolute top-0 right-1 mt-16 bg-dark-red w-64 transition-transform duration-300;
 
         .block {
+            // Styles pour les éléments du menu mobile : espacement et bordure
             @apply py-2 border-b bg-dark-red;
+
+            // Supprimer la bordure du dernier élément
             &:last-child {
                 @apply border-b-0;
             }
@@ -48,19 +59,21 @@
     }
 }
 
+// Styles pour les icônes en fonction de la largeur de l'écran
 @media (min-width: 500px) {
     .icon .faPlus {
-        display: none;
+        display: none; // Masquer l'icône faPlus sur les grands écrans
     }
     .icon span {
-        display: inline-block;
+        display: inline-block; // Afficher le texte sur les grands écrans
     }
 }
+
 @media (max-width: 500px) {
     .icon .faPlus {
-        display: inline-block;
+        display: inline-block; // Afficher l'icône faPlus sur les petits écrans
     }
     .icon span {
-        display: none;
+        display: none; // Masquer le texte sur les petits écrans
     }
 }
