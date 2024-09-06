@@ -40,13 +40,13 @@ function Slider() {
         return <div>Un instant, ça charge...</div>;
     }
     return (
-        <div>
+        <div className="slider">
             <div className="main_slider">
                 <div className="img-left" onClick={previousSlide}>
                     <img
                         className="img-img-left"
-                        src={`/recipes/${tenrecipes[currentIndex].picture}`}
-                        alt={`image illustrant la recette : "${tenrecipes[currentIndex].name}"`}
+                        src={`http://localhost:3000/recipes/${tenrecipes[currentIndex]?.picture}`}
+                        alt={`image illustrant la recette : "${tenrecipes[currentIndex]?.name}"`}
                     />
                     <p className="inspiration-subtitle">
                         {`MANGE "${tenrecipes[currentIndex].name}
@@ -60,8 +60,8 @@ function Slider() {
                 <div className="img-right" onClick={nextSlide}>
                     <img
                         className="img-img-right"
-                        src={`/movies/${tenrecipes[currentIndex].Movie?.picture}`}
-                        alt={`image illustrant le film : "${tenrecipes[currentIndex].Movie?.name}"`}
+                        src={`http://localhost:3000/movies/${tenrecipes[currentIndex]?.Movie?.picture}`}
+                        alt={`image illustrant le film : "${tenrecipes[currentIndex]?.Movie?.name}"`}
                     />
                     <p className="inspiration-subtitle">
                         {`REGARDE "${tenrecipes[currentIndex].Movie?.name}
