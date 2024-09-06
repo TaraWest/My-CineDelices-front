@@ -1,59 +1,87 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './RegistrationPage.scss';
 import { IError } from './models';
 import { handleRegistration } from './services';
-import { useNavigate } from 'react-router-dom';
+import {
+    passwordValidation,
+    isEmailEmpty,
+    isUsernameEmpty,
+    validateEmailFormat,
+} from './services/fieldsValidation';
 function RegistrationPage() {
     const [error, setError] = useState<IError | null>(null);
     const [message, setMessage] = useState<string | null>(null);
-    const [lastName, setLastName] = useState<string | null>(null);
+    const [lastName, setLastName] = useState<string>('');
 
-    const [firstName, setFirstName] = useState<string | null>(null);
+    const [firstName, setFirstName] = useState<string>('');
 
-    const [userName, setUserName] = useState<string | null>(null);
-    const [userNameError, setUserNameError] = useState<string | null>(null);
+    const [userName, setUserName] = useState<string>('');
+    const [userNameError, setUserNameError] = useState<string>('');
 
-    const [email, setEmail] = useState<string | null>(null);
-    // const [emailError, setEmailError] = useState<string | null>(null);
+    const [email, setEmail] = useState<string>('');
+    const [emailError, setEmailError] = useState<string>('');
 
-    const [password, setPassword] = useState<string | null>(null);
-    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [password, setPassword] = useState<string>('');
+    const [passwordError, setPasswordError] = useState<string>('');
 
-    const [passwordConfirm, setPasswordConfirm] = useState<string | null>(null);
-    const [passwordConfirmError, setPasswordConfirmError] = useState<
-        string | null
-    >(null);
-
-    const [focusedInput, setFocusedInput] = useState<string | null>(null);
+    const [passwordConfirm, setPasswordConfirm] = useState<string>('');
+    const [passwordConfirmError, setPasswordConfirmError] =
+        useState<string>('');
 
     const navigate = useNavigate();
+    const inputFocusRef = useRef<HTMLInputElement | null>(null);
+    const usernameRef = useRef<HTMLInputElement | null>(null);
+    const emailRef = useRef<HTMLInputElement | null>(null);
+    const passwordRef = useRef<HTMLInputElement | null>(null);
+    const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
+
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         //On enpêche le comportement par défaut du bouton type submit
         event.preventDefault();
 
         //Vérification de la conformité entre le mot de passe et sa vérification, et affichage de l'erreur correspondante
-        if (password !== passwordConfirm) {
-            setError({
-                message:
-                    'Les mots de passe ne correspondent pas. Veuillez vérifier que le mot de passe et la confirmation soient identiques.',
-            });
+
+        const validationResult = passwordValidation(
+            password,
+            passwordConfirm,
+            passwordRef,
+            passwordConfirmRef,
+        );
+        if (!validationResult.isValid && validationResult.message) {
+            setError({ message: validationResult.message });
             return;
         } else {
-            //Remise à zéro du state error en cas de correction
             if (error) {
                 setError(null);
             }
         }
 
         //Vérification des champs obligatoires à remplir, qui complète le 'required' des input concernés
-        if (!userName || !email || !password || !passwordConfirm) {
-            setError({
-                message: 'Veuillez renseigner tous les champs obligatoires',
-            });
-            console.log('erreur déclenchée');
+        const usernameFieldValidationResult = isUsernameEmpty(
+            userName,
+            usernameRef,
+        );
+        if (
+            !usernameFieldValidationResult.isValid &&
+            usernameFieldValidationResult.message
+        ) {
+            setError({ message: usernameFieldValidationResult.message });
             return;
         } else {
-            //Remise à zéro du state error en cas de correction
+            if (error) {
+                setError(null);
+            }
+        }
+
+        const emailFieldValidationResult = isEmailEmpty(email, emailRef);
+        if (
+            !emailFieldValidationResult.isValid &&
+            emailFieldValidationResult.message
+        ) {
+            setError({ message: emailFieldValidationResult.message });
+            return;
+        } else {
             if (error) {
                 setError(null);
             }
@@ -67,6 +95,9 @@ function RegistrationPage() {
             email_address: email,
             password,
         };
+
+        console.log(dataToSend);
+
         const response = await handleRegistration(dataToSend);
         if (response.status === 201) {
             setMessage(response.data.message);
@@ -98,12 +129,6 @@ function RegistrationPage() {
                 break;
             case 'username':
                 setUserName(e.target.value);
-                if (
-                    userName &&
-                    (userName.length === 1 || userName.length === 0)
-                ) {
-                    setUserNameError(null);
-                }
 
                 break;
             case 'email_address':
@@ -111,9 +136,6 @@ function RegistrationPage() {
                 break;
             case 'password':
                 setPassword(e.target.value);
-                if (password && password.length === 5) {
-                    setPasswordError(null);
-                }
 
                 break;
             case 'passwordConfirm':
@@ -123,30 +145,56 @@ function RegistrationPage() {
         }
     };
 
-    const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-        setFocusedInput(event.target.name);
-    };
+    useEffect(() => {
+        //Confirmation en temps réel des conditions du remplissage de l'input Nom d'utilisateur
 
-    const handleBlur = () => {
-        if (userName && userName.length < 2) {
+        if (userName && userName.length === 1) {
             setUserNameError(
-                "Le nom d'utilisateur doit comporter au moins 2 lettres",
+                "Le nom d'utilisateur doit comporter au moins 2 caractères",
             );
+        } else {
+            setUserNameError('');
         }
 
-        if (password && password.length < 6) {
+        //Confirmation en temps réel des conditions du remplissage de l'input email
+
+        if (email && !validateEmailFormat(email)) {
+            setEmailError("L'adresse mail doit avoir un format valide ");
+        } else {
+            setEmailError('');
+        }
+
+        //Confirmation en temps réel des conditions du remplissage de l'input password
+
+        if (password && password.length > 0 && password.length < 6) {
             setPasswordError(
-                "Le nom d'utilisateur doit comporter au moins 6 caractères",
+                'Le mot de passe doit comporter au moins 6 caractères',
             );
-        }
-        if (passwordConfirm && passwordConfirm.length < 6) {
-            setPasswordConfirmError(
-                "Le nom d'utilisateur doit comporter au moins 6 caractères",
-            );
+        } else {
+            setPasswordError('');
         }
 
-        setFocusedInput(null);
-    };
+        //Confirmation en temps réel des conditions du remplissage de l'input de passwordConfirm
+
+        if (
+            passwordConfirm &&
+            passwordConfirm.length > 0 &&
+            password !== passwordConfirm
+        ) {
+            setPasswordConfirmError(
+                'Les mots de passe doivent être identiques',
+            );
+        } else {
+            setPasswordConfirmError('');
+        }
+    }, [password, passwordConfirm, userName, email]);
+
+    //Focus sur l'input name au chargement de la page
+    useEffect(() => {
+        if (inputFocusRef.current) {
+            inputFocusRef.current.focus();
+        }
+    }, []);
 
     return (
         <div className="register-page-container">
@@ -162,6 +210,7 @@ function RegistrationPage() {
                 <label className="form-label">
                     Nom
                     <input
+                        ref={inputFocusRef}
                         className="form-input"
                         type="text"
                         name="last_name"
@@ -180,54 +229,57 @@ function RegistrationPage() {
                 <label className="form-label">
                     Nom d'utilisateur *
                     <input
+                        ref={usernameRef}
                         className="form-input"
                         type="text"
                         name="username"
                         onChange={handleChangeInput}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                         required
                     />
-                    {userNameError && <div>{userNameError}</div>}
+                    {userNameError !== '' && <div>{userNameError}</div>}
                 </label>
                 <label className="form-label">
                     Adresse mail *
                     <input
+                        ref={emailRef}
                         className="form-input"
                         type="email"
                         name="email_address"
                         onChange={handleChangeInput}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                         required
                     />
+                    {emailError !== '' && <div>{emailError}</div>}
                 </label>
                 <label className="form-label">
                     Mot de passe *
                     <input
+                        ref={passwordRef}
                         className="form-input"
                         type="password"
                         name="password"
                         onChange={handleChangeInput}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                         required
                     />
-                    {passwordError && <div>{passwordError}</div>}
+                    {passwordError !== '' && <div>{passwordError}</div>}
                 </label>
                 <label className="form-label">
                     Entrez à nouveau <br />
                     le mot de passe *
                     <input
+                        ref={passwordConfirmRef}
                         className="form-input"
                         type="password"
                         name="passwordConfirm"
                         onChange={handleChangeInput}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                         required
                     />
-                    {passwordConfirmError && <div>{passwordConfirmError}</div>}
+                    {passwordConfirmError !== '' && (
+                        <div>{passwordConfirmError}</div>
+                    )}
                 </label>
                 {error && (
                     <div className="error-container">{error.message}</div>
