@@ -7,16 +7,14 @@ function RegistrationPage() {
     const [error, setError] = useState<IError | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [lastName, setLastName] = useState<string | null>(null);
-    const [lastNameError, setLastNameError] = useState<string | null>(null);
 
     const [firstName, setFirstName] = useState<string | null>(null);
-    const [firstNameError, setFirstNameError] = useState<string | null>(null);
 
     const [userName, setUserName] = useState<string | null>(null);
     const [userNameError, setUserNameError] = useState<string | null>(null);
 
     const [email, setEmail] = useState<string | null>(null);
-    const [emailError, setEmailError] = useState<string | null>(null);
+    // const [emailError, setEmailError] = useState<string | null>(null);
 
     const [password, setPassword] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -72,6 +70,8 @@ function RegistrationPage() {
         const response = await handleRegistration(dataToSend);
         if (response.status === 201) {
             setMessage(response.data.message);
+            console.log(message);
+
             navigate('/');
         }
         {
@@ -100,13 +100,22 @@ function RegistrationPage() {
                 break;
             case 'username':
                 setUserName(e.target.value);
+                if (
+                    userName &&
+                    (userName.length === 1 || userName.length === 0)
+                ) {
+                    setUserNameError(null);
+                }
+
                 break;
             case 'email_address':
                 setEmail(e.target.value);
-
                 break;
             case 'password':
                 setPassword(e.target.value);
+                if (password && password.length === 5) {
+                    setPasswordError(null);
+                }
 
                 break;
             case 'passwordConfirm':
@@ -121,6 +130,23 @@ function RegistrationPage() {
     };
 
     const handleBlur = () => {
+        if (userName && userName.length < 2) {
+            setUserNameError(
+                "Le nom d'utilisateur doit comporter au moins 2 lettres",
+            );
+        }
+
+        if (password && password.length < 6) {
+            setPasswordError(
+                "Le nom d'utilisateur doit comporter au moins 6 caractères",
+            );
+        }
+        if (passwordConfirm && passwordConfirm.length < 6) {
+            setPasswordConfirmError(
+                "Le nom d'utilisateur doit comporter au moins 6 caractères",
+            );
+        }
+
         setFocusedInput(null);
     };
 
@@ -164,7 +190,7 @@ function RegistrationPage() {
                         onBlur={handleBlur}
                         required
                     />
-                    <div></div>
+                    {userNameError && <div>{userNameError}</div>}
                 </label>
                 <label className="form-label">
                     Adresse mail *
@@ -189,6 +215,7 @@ function RegistrationPage() {
                         onBlur={handleBlur}
                         required
                     />
+                    {passwordError && <div>{passwordError}</div>}
                 </label>
                 <label className="form-label">
                     Entrez à nouveau <br />
@@ -202,6 +229,7 @@ function RegistrationPage() {
                         onBlur={handleBlur}
                         required
                     />
+                    {passwordConfirmError && <div>{passwordConfirmError}</div>}
                 </label>
                 {error && (
                     <div className="error-container">{error.message}</div>

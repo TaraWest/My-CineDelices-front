@@ -41,15 +41,11 @@ function RecipePage() {
                     <img
                         className="recipe-page-image image-dish"
                         src={`http://localhost:3000/recipes/${dataFetch.picture}`}
-                        // src="/recipes/ramen.png"
-
                         alt="Photo illustrant la recette"
                     />
                     <img
                         className="recipe-page-image image-film"
                         src={`http://localhost:3000/movies/${dataFetch.Movie.picture}`}
-                        // src="/movies/naruto.png"
-
                         alt="Photo illustrant le film"
                     />
                 </div>
@@ -73,10 +69,7 @@ function RecipePage() {
                     <p className="categories-item">
                         {dataFetch.Movie.Category.name}
                     </p>
-                    <p className="categories-item">
-                        {' '}
-                        {dataFetch.DishType.name}
-                    </p>
+                    <p className="categories-item">{dataFetch.DishType.name}</p>
                 </div>
             </header>
             <main className="recipe-page-main">
