@@ -3,6 +3,7 @@ import { Movies, Recipes } from '../models';
 import './index.scss';
 import { Link } from 'react-router-dom';
 import { NavBarCalogue } from '../components/navbarCalogue';
+import axios from 'axios';
 
 export const Catalog = () => {
     const [recipes, setRecipes] = useState<Recipes>([]);
@@ -46,7 +47,7 @@ export const Catalog = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Initial URL pour les recettes
+                // URL initiale pour les recettes
                 let recipesUrl = 'http://localhost:3000/recipes';
 
                 // Si un type de plat est sélectionné, on utilise la route spécifique du backend
@@ -60,33 +61,29 @@ export const Catalog = () => {
                     recipesUrl += `${separator}difficulty=${selectedDifficulty}`;
                 }
 
-                const recipesResponse = await fetch(recipesUrl);
-                if (!recipesResponse.ok) {
-                    throw new Error(
-                        'Erreur lors de la récupération des recettes',
-                    );
-                }
-                const recipesData = await recipesResponse.json();
-                setRecipes(recipesData);
+                // Récupération des recettes avec axios
+                const recipesResponse = await axios.get(recipesUrl);
+                setRecipes(recipesResponse.data);
 
-                const moviesResponse = await fetch(
+                // Récupération des films avec axios
+                const moviesResponse = await axios.get(
                     'http://localhost:3000/movies',
                 );
-                if (!moviesResponse.ok) {
-                    throw new Error('Erreur lors de la récupération des films');
-                }
-                const moviesData = await moviesResponse.json();
-                setMovies(moviesData);
+                setMovies(moviesResponse.data);
             } catch (error) {
                 console.error(
                     'Erreur lors de la récupération des données :',
                     error,
                 );
+                setError(
+                    'Une erreur est survenue lors de la récupération des données.',
+                );
             }
         };
 
         fetchData();
-    }, [selectedDifficulty, selectedDishType]); // Appel à fetchData chaque fois que l'un des filtres change
+    }, [selectedDifficulty, selectedDishType]);
+    // Appel à fetchData chaque fois que l'un des filtres change
 
     // Calcul des indices pour afficher les recettes paginées
     const indexOfLastRecipe = currentPage * recipesPerPage;
@@ -97,12 +94,15 @@ export const Catalog = () => {
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div
+            className="flex justify-center items-center min-h-screen"
+            style={{ backgroundColor: '#59041b' }}
+        >
             {/* <div className="w-full max-w-screen-lg"> */}
             <div className="w-full px-6">
                 <h1
                     onClick={resetFilters} // Réinitialise les filtres au clic sur "Catalogue"
-                    className="text-2xl font-bold mb-4 text-center cursor-pointer"
+                    className="text-5xl font-extrabold mb-8 text-center cursor-pointer text-[#0d0d0d] shadow-lg shadow-black border-2 border-[#0d0d0d] bg-[#d9c7b8] rounded-lg p-4"
                 >
                     Catalogue
                 </h1>
@@ -127,31 +127,36 @@ export const Catalog = () => {
                             return (
                                 <div
                                     key={recipe.id}
-                                    className="bg-white shadow rounded-lg overflow-hidden"
+                                    className="bg-[#59041b] shadow rounded-lg overflow-hidden h-full flex flex-col"
+                                    style={{
+                                        boxShadow: '0px 0px 15px #d9c7b8',
+                                    }}
                                 >
                                     <img
-                                        src={`/recipes/${recipe.picture}`}
+                                        src={`http://localhost:3000/recipes/${recipe.picture}`}
                                         alt={recipe.name}
-                                        className="h-32 w-full object-cover"
+                                        className="h-48 w-full object-cover object-center"
                                     />
                                     {movie && (
                                         <img
-                                            src={`/movies/${movie.picture}`}
+                                            src={`http://localhost:3000/movies/${movie.picture}`}
                                             alt={movie.name}
-                                            className="h-20 w-full object-cover mt-2"
+                                            className="h-32 w-full object-cover object-center mt-1"
                                         />
                                     )}
                                     <div className="p-4">
                                         {movie && (
-                                            <h3 className="text-md font-medium mb-2 text-gray-700 text-center">
+                                            <h3 className="text-md font-medium mb-2 text-[#d9c7b8] text-center">
                                                 {movie.name}
                                             </h3>
                                         )}
-                                        <Link to={`/recette/${recipe.id}`}>
-                                            <button className="text-sm font-medium text-blue-600 hover:underline">
-                                                {recipe.name}
-                                            </button>
-                                        </Link>
+                                        <div className="flex justify-center">
+                                            <Link to={`/recette/${recipe.id}`}>
+                                                <button className="text-sm font-medium text-blue-600 ">
+                                                    {recipe.name}
+                                                </button>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             );

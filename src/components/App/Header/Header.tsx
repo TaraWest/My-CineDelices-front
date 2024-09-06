@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUser,
+    faUtensils,
+    faSearch,
+} from '@fortawesome/free-solid-svg-icons';
 import './header.scss';
 
 function Header() {
@@ -19,57 +23,75 @@ function Header() {
 
     return (
         <div className="header flex justify-between items-center p-4 bg-dark-red text-white border-b-2 relative">
-            {/* logo */}
+            {/* Conteneur du logo */}
             <div className="logo-container">
+                {/* Lien vers la page d'accueil */}
                 <Link to="/" className="text-2xl font-bold ">
-                    Ciné Délices
+                    CinéDélices
                 </Link>
             </div>
-            <div className="link-container flex items-center space-x-4 relative">
-                {/* Icônes de raccourci */}
-                <div className="icon cursor-pointer">
-                    <FontAwesomeIcon icon={faUser} />
-                </div>
+
+            {/* Conteneur des icônes et des liens */}
+            <div className="link-container flex items-center space-x-4 relative  ">
+                {/* Icône utilisateur */}
+                <Link to="/connexion" className="block py-2">
+                    <div className="icon cursor-pointer ">
+                        <FontAwesomeIcon icon={faUser} />
+                    </div>
+                </Link>
+
+                {/* Icône pour ajouter une recette */}
                 <div className="icon flex items-center">
-                    {/* Afficher l'icône sur les petits écrans */}
+                    {/* Affichage de l'icône sur petits écrans */}
+
                     <FontAwesomeIcon
-                        icon={faPlus}
+                        icon={faUtensils}
                         className="block sm:hidden"
                     />
 
-                    {/* Afficher le texte sur les écrans de plus de 500px */}
-                    <span className="hidden sm:block cursor-pointer">
-                        Ajouter une recette
-                    </span>
+                    {/* Texte "Ajouter une recette" visible sur les écrans de plus de 500px */}
+                    <Link
+                        to="/catalogue"
+                        className="hidden sm:block cursor-pointer"
+                    >
+                        <button>Les Recettes</button>
+                    </Link>
                 </div>
-                {/* Icône de recherche avec gestionnaire de clic */}
-                <div className="icon cursor-pointer" onClick={toggleSearch}>
+                {/* Barre de recherche */}
+                <div
+                    className={`search-bar absolute top-16 right-0 bg-white text-black w-64 transition-transform duration-300 ${isSearchOpen ? 'block' : 'hidden'} md:block md:relative md:w-auto md:bg-transparent md:text-white`}
+                >
+                    <input
+                        type="text"
+                        placeholder="Ratatouille"
+                        className="w-full p-2"
+                    />
+                </div>
+                {/* Icône de recherche - cachée sur les grands écrans */}
+                <div
+                    className={`icon cursor-pointer md:hidden ${isSearchOpen ? 'hidden' : 'block'}`}
+                    onClick={toggleSearch}
+                >
                     <FontAwesomeIcon icon={faSearch} />
                 </div>
-                {/* Menu burger pour mobile */}
+
+                {/* Menu burger  */}
                 <div
                     className="burger-menu flex flex-col cursor-pointer"
                     onClick={toggleMenu}
                 >
+                    {/* Trois lignes du menu burger */}
                     <div className="line bg-skin"></div>
                     <div className="line bg-skin"></div>
                     <div className="line bg-skin"></div>
-                </div>
-                {/* Barre de recherche */}
-                <div
-                    className={`search-bar absolute top-16 right-0 bg-white text-black w-64 transition-transform duration-300 ${isSearchOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:relative md:w-auto md:bg-transparent md:text-white`}
-                >
-                    <input
-                        type="text"
-                        placeholder="Ramen"
-                        className="w-full p-2"
-                    />
                 </div>
             </div>
-            {/* Menu mobile qui s'affiche ou se cache selon l'état isMenuOpen */}
+
+            {/* Menu mobile - affiché/caché instantanément selon l'état */}
             <div
-                className={`mobile-menu absolute top-0 right-0 mt-16 bg-dark-red w-64 transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`mobile-menu absolute top-0 right-0 mt-16 bg-dark-red w-64 ${isMenuOpen ? 'block' : 'hidden'}`}
             >
+                {/* Liens du menu mobile */}
                 <div className="p-4">
                     <Link to="/" className="block py-2">
                         Accueil
