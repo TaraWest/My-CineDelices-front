@@ -102,7 +102,7 @@ export const Catalog = () => {
             <div className="w-full px-6">
                 <h1
                     onClick={resetFilters} // Réinitialise les filtres au clic sur "Catalogue"
-                    className="text-2xl font-bold mb-4 text-center cursor-pointer"
+                    className="text-5xl font-extrabold mb-8 text-center cursor-pointer text-[#0d0d0d] shadow-lg shadow-black border-2 border-[#0d0d0d] bg-[#d9c7b8] rounded-lg p-4"
                 >
                     Catalogue
                 </h1>
@@ -133,13 +133,13 @@ export const Catalog = () => {
                                     }}
                                 >
                                     <img
-                                        src={`http://localhost:3000/recipes/${recipe.picture}`} 
+                                        src={`http://localhost:3000/recipes/${recipe.picture}`}
                                         alt={recipe.name}
                                         className="h-48 w-full object-cover object-center"
                                     />
                                     {movie && (
                                         <img
-                                        src={`http://localhost:3000/movies/${movie.picture}`}
+                                            src={`http://localhost:3000/movies/${movie.picture}`}
                                             alt={movie.name}
                                             className="h-32 w-full object-cover object-center mt-1"
                                         />
