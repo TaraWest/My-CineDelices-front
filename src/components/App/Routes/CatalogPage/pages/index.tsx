@@ -3,6 +3,7 @@ import { Movies, Recipes } from '../models';
 import './index.scss';
 import { Link } from 'react-router-dom';
 import { NavBarCalogue } from '../components/navbarCalogue';
+import axios from 'axios';
 
 export const Catalog = () => {
     const [recipes, setRecipes] = useState<Recipes>([]);
@@ -46,7 +47,7 @@ export const Catalog = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Initial URL pour les recettes
+                // URL initiale pour les recettes
                 let recipesUrl = 'http://localhost:3000/recipes';
 
                 // Si un type de plat est sélectionné, on utilise la route spécifique du backend
@@ -60,33 +61,29 @@ export const Catalog = () => {
                     recipesUrl += `${separator}difficulty=${selectedDifficulty}`;
                 }
 
-                const recipesResponse = await fetch(recipesUrl);
-                if (!recipesResponse.ok) {
-                    throw new Error(
-                        'Erreur lors de la récupération des recettes',
-                    );
-                }
-                const recipesData = await recipesResponse.json();
-                setRecipes(recipesData);
+                // Récupération des recettes avec axios
+                const recipesResponse = await axios.get(recipesUrl);
+                setRecipes(recipesResponse.data);
 
-                const moviesResponse = await fetch(
+                // Récupération des films avec axios
+                const moviesResponse = await axios.get(
                     'http://localhost:3000/movies',
                 );
-                if (!moviesResponse.ok) {
-                    throw new Error('Erreur lors de la récupération des films');
-                }
-                const moviesData = await moviesResponse.json();
-                setMovies(moviesData);
+                setMovies(moviesResponse.data);
             } catch (error) {
                 console.error(
                     'Erreur lors de la récupération des données :',
                     error,
                 );
+                setError(
+                    'Une erreur est survenue lors de la récupération des données.',
+                );
             }
         };
 
         fetchData();
-    }, [selectedDifficulty, selectedDishType]); // Appel à fetchData chaque fois que l'un des filtres change
+    }, [selectedDifficulty, selectedDishType]);
+    // Appel à fetchData chaque fois que l'un des filtres change
 
     // Calcul des indices pour afficher les recettes paginées
     const indexOfLastRecipe = currentPage * recipesPerPage;
@@ -130,7 +127,7 @@ export const Catalog = () => {
                             return (
                                 <div
                                     key={recipe.id}
-                                    className="bg-white shadow rounded-lg overflow-hidden h-full flex flex-col"
+                                    className="bg-[#59041b] shadow rounded-lg overflow-hidden h-full flex flex-col"
                                     style={{
                                         boxShadow: '0px 0px 15px #d9c7b8',
                                     }}
@@ -149,13 +146,13 @@ export const Catalog = () => {
                                     )}
                                     <div className="p-4">
                                         {movie && (
-                                            <h3 className="text-md font-medium mb-2 text-gray-700 text-center">
+                                            <h3 className="text-md font-medium mb-2 text-[#d9c7b8] text-center">
                                                 {movie.name}
                                             </h3>
                                         )}
                                         <div className="flex justify-center">
                                             <Link to={`/recette/${recipe.id}`}>
-                                                <button className="text-sm font-medium text-blue-600 hover:underline">
+                                                <button className="text-sm font-medium text-blue-600 ">
                                                     {recipe.name}
                                                 </button>
                                             </Link>

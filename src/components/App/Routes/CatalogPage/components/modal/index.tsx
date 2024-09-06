@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 
 interface AddRecipeModalProps {
@@ -29,19 +30,17 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/recipes', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+            const response = await axios.post(
+                'http://localhost:3000/recipes',
+                formattedData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 },
-                body: JSON.stringify(formattedData),
-            });
+            );
 
-            if (!response.ok) {
-                throw new Error('Failed to save recipe');
-            }
-
-            const savedRecipe = await response.json();
+            const savedRecipe = response.data;
             onAddRecipe(savedRecipe);
             console.log(savedRecipe);
 
