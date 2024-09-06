@@ -24,7 +24,7 @@ function HomePage() {
     useEffect(() => {
         fetchOneRandom();
     }, []);
-
+    // créer une condition pour laquelle data n'existe pas avec un return ^
     return (
         <div className="homePage">
             <h1 className="homepage-title">
@@ -57,6 +57,7 @@ function HomePage() {
                             alt={`image illustrant la recette : ${data?.name}`}
                             className="random-img"
                         />
+
                         <p className="inspiration-subtitle">
                             Cuisine ce soir {data?.name}
                         </p>
