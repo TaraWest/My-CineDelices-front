@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import './RegistrationPage.scss';
-import { IDataForm, IError } from './models';
+import { IError } from './models';
+import { handleRegistration } from './services';
+import { useNavigate } from 'react-router-dom';
 function RegistrationPage() {
     const [error, setError] = useState<IError | null>(null);
+    const navigate = useNavigate();
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         //On enpêche le comportement par défaut du bouton type submit
         event.preventDefault();
@@ -59,33 +62,12 @@ function RegistrationPage() {
         const typedData = retypeFormData(data);
 
         //Envoie des données dans une fonction à part qui communique avec l'API.
-        await handleRegistration(typedData);
+        handleRegistration(typedData);
+
+        navigate('/');
 
         console.log(data);
         //Fin de la fonction handleSubmit
-    }
-
-    async function handleRegistration(data: IDataForm) {
-        const response = await fetch('http://localhost:3000/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.log(errorData);
-
-            setError({
-                message: 'Problème de serveur, veuillez réessayer plus tard',
-            });
-            throw new Error(
-                "Problème dans l'inscription du nouvel utilisateur",
-            );
-        }
-        const message = await response.json();
-        console.log(message);
     }
 
     return (

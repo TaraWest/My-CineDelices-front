@@ -29,4 +29,10 @@
     padding: 0.5em 1em;
     margin-top: 0.5em;
     align-self: center;
+    color: var.$color-dark;
+}
+
+.error-container {
+    width: 80%;
+    text-align: center;
 }
