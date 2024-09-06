@@ -56,15 +56,15 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
         <>
             <button
                 onClick={toggleModal}
-                className="text-sm font-medium text-white bg-blue-600 rounded-lg px-4 py-2 hover:bg-blue-700"
+                className="text-sm font-medium text-white bg-blue-600 rounded-lg w-full md:w-32 h-12 flex items-center justify-center hover:bg-blue-700"
             >
                 Ajouter une recette
             </button>
 
             {isOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-white rounded-lg w-full max-w-2xl p-6">
-                        <h2 className="text-2xl font-bold mb-4">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg w-full max-w-2xl p-6 max-h-screen overflow-y-auto">
+                        <h2 className="text-2xl font-bold mb-4 text-center">
                             Ajouter une recette
                         </h2>
 
@@ -185,7 +185,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                         name="total_duration"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         rows="2"
-                                        placeholder="Anecdote liée à la recette"
+                                        placeholder="En minutes"
                                     ></textarea>
                                 </div>
 

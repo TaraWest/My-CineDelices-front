@@ -97,7 +97,10 @@ export const Catalog = () => {
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div
+            className="flex justify-center items-center min-h-screen"
+            style={{ backgroundColor: '#59041b' }}
+        >
             {/* <div className="w-full max-w-screen-lg"> */}
             <div className="w-full px-6">
                 <h1
@@ -127,18 +130,21 @@ export const Catalog = () => {
                             return (
                                 <div
                                     key={recipe.id}
-                                    className="bg-white shadow rounded-lg overflow-hidden"
+                                    className="bg-white shadow rounded-lg overflow-hidden h-full flex flex-col"
+                                    style={{
+                                        boxShadow: '0px 0px 15px #d9c7b8',
+                                    }}
                                 >
                                     <img
                                         src={`/recipes/${recipe.picture}`}
                                         alt={recipe.name}
-                                        className="h-32 w-full object-cover"
+                                        className="h-48 w-full object-cover object-center"
                                     />
                                     {movie && (
                                         <img
                                             src={`/movies/${movie.picture}`}
                                             alt={movie.name}
-                                            className="h-20 w-full object-cover mt-2"
+                                            className="h-32 w-full object-cover object-center mt-2"
                                         />
                                     )}
                                     <div className="p-4">
@@ -147,11 +153,13 @@ export const Catalog = () => {
                                                 {movie.name}
                                             </h3>
                                         )}
-                                        <Link to={`/recette/${recipe.id}`}>
-                                            <button className="text-sm font-medium text-blue-600 hover:underline">
-                                                {recipe.name}
-                                            </button>
-                                        </Link>
+                                        <div className="flex justify-center">
+                                            <Link to={`/recette/${recipe.id}`}>
+                                                <button className="text-sm font-medium text-blue-600 hover:underline">
+                                                    {recipe.name}
+                                                </button>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             );
