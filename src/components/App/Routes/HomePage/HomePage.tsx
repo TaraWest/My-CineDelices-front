@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { IRecipe } from './models';
 import Slider from './components/slider/slider';
 import AddRecipeModal from './components/modal';

@@ -6,6 +6,7 @@ img {
     width: 90vw;
     // overflow: hidden;
     position: relative;
+    display: flex;
 }
 
 // .slider-container {
@@ -20,8 +21,8 @@ img {
 // }
 
 .icon-arrow {
-    background: black;
-    padding: 15px;
+    background: rgba(0, 0, 0, 0.605);
+    padding: 5px;
     border-radius: 100%;
     margin-bottom: -4px;
     position: absolute;
@@ -29,7 +30,7 @@ img {
 }
 
 .icon-arrow:hover {
-    background-color: grey;
+    background-color: rgba(128, 128, 128, 0.632);
     transition: 1s;
 }
 
@@ -52,4 +53,12 @@ img {
 .img-right {
     position: relative;
     transition: transform 0.5s ease-in-out;
+}
+
+.img-img-left {
+    border-top-left-radius: 15px;
+}
+
+.img-img-right {
+    border-top-right-radius: 15px;
 }

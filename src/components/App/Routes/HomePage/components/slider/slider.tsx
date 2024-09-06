@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { IRecipe } from '../../models';
-import { Link } from 'react-router-dom';
 import './slider.scss';
 
 function Slider() {
     const [tenrecipes, setTenrecipes] = useState<IRecipe[]>([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
 
     function nextSlide() {
         // % permet et de revenir à 0
@@ -36,17 +36,20 @@ function Slider() {
     useEffect(() => {
         fetchTenRecipes();
     }, []);
-
+    if (!tenrecipes || tenrecipes.length === 0) {
+        return <div>Un instant, ça charge...</div>;
+    }
     return (
         <div>
             <div className="main_slider">
                 <div className="img-left" onClick={previousSlide}>
                     <img
+                        className="img-img-left"
                         src={`/recipes/${tenrecipes[currentIndex].picture}`}
                         alt={`image illustrant la recette : "${tenrecipes[currentIndex].name}"`}
                     />
                     <p className="inspiration-subtitle">
-                        {`MANGE "${tenrecipes[currentIndex].Movie?.name}
+                        {`MANGE "${tenrecipes[currentIndex].name}
                         "`}
                     </p>
                     <FontAwesomeIcon
@@ -56,6 +59,7 @@ function Slider() {
                 </div>
                 <div className="img-right" onClick={nextSlide}>
                     <img
+                        className="img-img-right"
                         src={`/movies/${tenrecipes[currentIndex].Movie?.picture}`}
                         alt={`image illustrant le film : "${tenrecipes[currentIndex].Movie?.name}"`}
                     />
