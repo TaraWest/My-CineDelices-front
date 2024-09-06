@@ -39,12 +39,7 @@ const AddRecipeModal = () => {
     return (
         <>
             {/* Bouton pour ouvrir la modale, au clic la fonction toggleModal est appelée, c'est alors ici que le useState est inversé */}
-            <button
-                onClick={toggleModal}
-                className="text-sm font-medium text-white bg-blue-600 rounded-lg px-4 py-2 hover:bg-blue-700"
-            >
-                Ajouter une recette
-            </button>
+            <button onClick={toggleModal}>Ajouter une recette</button>
 
             {/* Si l'utilisateur clique sur le bouton, alors isOpen  est TRUE, donc on affiche la modale */}
             {/* Dans le cas où  isOpen est false, on ne montre pas la modale */}

@@ -83,7 +83,7 @@ function RecipePage() {
                 <div className="ingredients-container">
                     <h2>Ingrédients</h2>
                     <p className="number-of-persons">Pour 1 personne</p>
-                    <ul className="ingredient-list">
+                    <ul className="ingredients-list">
                         {/* map les ingredients */}
                         {dataFetch.Ingredient.map((ingredient) => (
                             <li
