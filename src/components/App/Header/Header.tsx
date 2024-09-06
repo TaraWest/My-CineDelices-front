@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUser,
+    faUtensils,
+    faSearch,
+} from '@fortawesome/free-solid-svg-icons';
 import './header.scss';
 
 function Header() {
@@ -28,31 +32,50 @@ function Header() {
             </div>
 
             {/* Conteneur des icônes et des liens */}
-            <div className="link-container flex items-center space-x-4 relative ">
+            <div className="link-container flex items-center space-x-4 relative  ">
                 {/* Icône utilisateur */}
-                <div className="icon cursor-pointer ">
-                    <FontAwesomeIcon icon={faUser} />
-                </div>
+                <Link to="/connexion" className="block py-2">
+                    <div className="icon cursor-pointer ">
+                        <FontAwesomeIcon icon={faUser} />
+                    </div>
+                </Link>
 
                 {/* Icône pour ajouter une recette */}
                 <div className="icon flex items-center">
                     {/* Affichage de l'icône sur petits écrans */}
+
                     <FontAwesomeIcon
-                        icon={faPlus}
+                        icon={faUtensils}
                         className="block sm:hidden"
                     />
-                    {/* Texte "Ajouter une recette" visible sur les écrans de plus de 500px */}
-                    <span className="hidden sm:block cursor-pointer">
-                        Ajouter une recette
-                    </span>
-                </div>
 
-                {/* Icône de recherche */}
-                <div className="icon cursor-pointer" onClick={toggleSearch}>
+                    {/* Texte "Ajouter une recette" visible sur les écrans de plus de 500px */}
+                    <Link
+                        to="/catalogue"
+                        className="hidden sm:block cursor-pointer"
+                    >
+                        <button>Les Recettes</button>
+                    </Link>
+                </div>
+                {/* Barre de recherche */}
+                <div
+                    className={`search-bar absolute top-16 right-0 bg-white text-black w-64 transition-transform duration-300 ${isSearchOpen ? 'block' : 'hidden'} md:block md:relative md:w-auto md:bg-transparent md:text-white`}
+                >
+                    <input
+                        type="text"
+                        placeholder="Ratatouille"
+                        className="w-full p-2"
+                    />
+                </div>
+                {/* Icône de recherche - cachée sur les grands écrans */}
+                <div
+                    className={`icon cursor-pointer md:hidden ${isSearchOpen ? 'hidden' : 'block'}`}
+                    onClick={toggleSearch}
+                >
                     <FontAwesomeIcon icon={faSearch} />
                 </div>
 
-                {/* Menu burger pour les petits écrans */}
+                {/* Menu burger  */}
                 <div
                     className="burger-menu flex flex-col cursor-pointer"
                     onClick={toggleMenu}
@@ -61,18 +84,6 @@ function Header() {
                     <div className="line bg-skin"></div>
                     <div className="line bg-skin"></div>
                     <div className="line bg-skin"></div>
-                </div>
-
-                {/* Barre de recherche - affichée/cachée instantanément selon l'état */}
-                <div
-                    className={`search-bar absolute top-16 right-0 bg-white text-black w-64 ${isSearchOpen ? 'block' : 'hidden'} md:block md:relative md:w-auto md:bg-transparent md:text-white`}
-                >
-                    {/* Champ de saisie pour la recherche */}
-                    <input
-                        type="text"
-                        placeholder="Ramen"
-                        className="w-full p-2"
-                    />
                 </div>
             </div>
 
