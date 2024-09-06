@@ -42,14 +42,14 @@ function RecipePage() {
                 <div className="images-container">
                     <img
                         className="recipe-page-image image-dish"
-                        // src={dataFetch.picture}
-                        src="/recipes/ramen.png"
+                        src={`/recipes/${dataFetch.picture}`}
+                        // src="/recipes/ramen.png"
                         alt="Photo illustrant la recette"
                     />
                     <img
                         className="recipe-page-image image-film"
-                        // src={dataFetch.Movie.picture}
-                        src="/movies/naruto.png"
+                        src={`/movies/${dataFetch.Movie.picture}`}
+                        // src="/movies/naruto.png"
                         alt="Photo illustrant le film"
                     />
                 </div>
@@ -83,7 +83,7 @@ function RecipePage() {
                 <div className="ingredients-container">
                     <h2>Ingrédients</h2>
                     <p className="number-of-persons">Pour 1 personne</p>
-                    <ul className="ingredient-list">
+                    <ul className="ingredients-list">
                         {/* map les ingredients */}
                         {dataFetch.Ingredient.map((ingredient) => (
                             <li

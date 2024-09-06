@@ -138,6 +138,23 @@ div header h1 {
     margin: 1em 0;
 }
 
+.ingredients-list {
+    display: flex;
+    align-items: flex-start;
+}
+
+.preparation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.preparation-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .preparation-list-step {
     margin-bottom: 0.4em;
     font-weight: 600;

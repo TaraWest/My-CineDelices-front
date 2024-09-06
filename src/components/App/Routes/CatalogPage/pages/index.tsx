@@ -130,13 +130,13 @@ export const Catalog = () => {
                                     className="bg-white shadow rounded-lg overflow-hidden"
                                 >
                                     <img
-                                        src={recipe.picture}
+                                        src={`/recipes/${recipe.picture}`}
                                         alt={recipe.name}
                                         className="h-32 w-full object-cover"
                                     />
                                     {movie && (
                                         <img
-                                            src={movie.picture}
+                                            src={`/movies/${movie.picture}`}
                                             alt={movie.name}
                                             className="h-20 w-full object-cover mt-2"
                                         />

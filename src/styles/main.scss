@@ -2,9 +2,9 @@
 @use './variables' as var;
 
 @import '../components/App/Routes/HomePage/homePage.scss';
-@import '../components/App/Routes/RecipePage/RecipePage.scss';
 @import '../components//App/Header/header.scss';
 @import '../components/App/Routes/RegistrationPage/RegistrationPage.scss';
+@import '../components/App/Routes/RecipePage/RecipePage.scss';
 
 :root {
     font-synthesis: none;
@@ -35,7 +35,8 @@ a,
     }
 }
 
-button {
+button,
+.button {
     font-family: 'Cinzel', serif;
     background-color: var.$color-skin;
     color: var.$color-dark;
@@ -47,7 +48,8 @@ button {
     font-size: 1.1rem;
 }
 
-button:hover {
+button:hover,
+.button:hover {
     background-color: var.$color-dark-red;
     color: var.$color-skin;
     transition-duration: 200ms;

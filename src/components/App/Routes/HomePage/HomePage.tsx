@@ -24,25 +24,22 @@ function HomePage() {
     useEffect(() => {
         fetchOneRandom();
     }, []);
-
+    // créer une condition pour laquelle data n'existe pas avec un return ^
     return (
         <div className="homePage">
-            <h1>
+            <h1 className="homepage-title">
                 Bienvenue dans Ciné Délices !
                 <br />
                 Plongez dans un univers où la cuisine rencontre le cinéma...
             </h1>
-            <h2>
+            <h2 className="homepage-subtitle">
                 Notre site vous propose des recettes de cuisine inspirées de
                 films, séries et animés.
             </h2>
             <ul>
                 <li>
-                    <Link
-                        to="/catalogue"
-                        className="text-sm font-medium text-white bg-blue-600 rounded-lg px-4 py-2 hover:bg-blue-700"
-                    >
-                        Catalogue de recettes
+                    <Link to="/catalogue" className="see-catalog-link link">
+                        Voir notre catalogue de recettes
                     </Link>
                 </li>
                 <li>
@@ -56,9 +53,11 @@ function HomePage() {
                 <div className="recipe-movie">
                     <div className="img-left">
                         <img
-                            src={`/movies/${data?.Movie?.picture}`}
+                            src={`/recipes/${data?.picture}`}
                             alt={`image illustrant la recette : ${data?.name}`}
+                            className="random-img"
                         />
+
                         <p className="inspiration-subtitle">
                             Cuisine ce soir {data?.name}
                         </p>
@@ -67,6 +66,7 @@ function HomePage() {
                         <img
                             src={`/movies/${data?.Movie?.picture}`}
                             alt={`image illustrant le film  : ${data?.Movie?.name}`}
+                            className="random-img"
                         />
                         <p className="inspiration-subtitle">
                             En regardant : {data?.Movie?.name}
@@ -75,8 +75,8 @@ function HomePage() {
                 </div>
                 <div className="right-div">
                     <h4>Tu cherches une inspiration pour ce soir ?</h4>
-                    <Link to={`/recette/${data?.id}`} className="link-button">
-                        voir notre proposition
+                    <Link to={`/recette/${data?.id}`} className="link">
+                        Voici notre proposition
                     </Link>
                 </div>
             </div>

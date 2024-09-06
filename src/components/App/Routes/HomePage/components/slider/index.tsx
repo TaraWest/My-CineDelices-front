@@ -38,7 +38,7 @@ function Slider() {
             <div className="main_slider">
                 <div className="img-left" onClick={previousSlide}>
                     <img
-                        src={tenrecipes[currentIndex]?.picture}
+                        src={`/recipes/${tenrecipes[currentIndex]?.picture}`}
                         alt={`image illustrant la recette : "${tenrecipes[currentIndex]?.name}"`}
                     />
                     <FontAwesomeIcon
@@ -48,7 +48,7 @@ function Slider() {
                 </div>
                 <div className="img-right" onClick={nextSlide}>
                     <img
-                        src={tenrecipes[currentIndex]?.Movie?.picture}
+                        src={`/movies/${tenrecipes[currentIndex]?.Movie?.picture}`}
                         alt={`image illustrant le film : "${tenrecipes[currentIndex]?.Movie?.name}"`}
                     />
                     <FontAwesomeIcon
