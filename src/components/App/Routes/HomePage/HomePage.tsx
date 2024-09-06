@@ -38,8 +38,11 @@ function HomePage() {
             </h2>
             <ul>
                 <li>
-                    <Link to="/catalogue" className="see-catalog-link link">
-                        Voir notre catalogue de recettes
+                    <Link
+                        to="/catalogue"
+                        className="see-catalog-link button-link"
+                    >
+                        Catalogue de recettes
                     </Link>
                 </li>
                 <li>

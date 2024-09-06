@@ -12,15 +12,13 @@ function RecipePage() {
 
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
-        const getRecipe = async () => {
-            try {
-                const data = await fetchRecipe(Number(id));
+        fetchRecipe(Number(id))
+            .then((data) => {
                 setDataFetch(data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        getRecipe();
+            })
+            .catch((error) => {
+                return error;
+            });
     }, [id]);
     console.log(dataFetch);
 
