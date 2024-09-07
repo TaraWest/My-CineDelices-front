@@ -9,6 +9,7 @@ import {
     isUsernameEmpty,
     validateEmailFormat,
 } from './services/fieldsValidation';
+import { Link } from 'react-router-dom';
 function RegistrationPage() {
     const [error, setError] = useState<IError | null>(null);
     const [message, setMessage] = useState<string | null>(null);
@@ -286,6 +287,12 @@ function RegistrationPage() {
                 )}
                 <button className="form-button">S'inscrire</button>
             </form>
+            <div className="flex flex-col items-center">
+                <p>Déjà inscrit?</p>
+                <Link to="/connexion" className="my-1em">
+                    connectez vous!
+                </Link>
+            </div>
         </div>
     );
 }
