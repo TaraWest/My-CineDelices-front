@@ -10,6 +10,7 @@ function RecipePage() {
     //State qui permet de stocker les data reçus de l'API pour les utiliser dans la page
     const [dataFetch, setDataFetch] = useState<IRecipe | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [count, setCount] = useState<number>(1);
 
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
@@ -30,53 +31,73 @@ function RecipePage() {
             });
     }, [id]);
     console.log(dataFetch);
+    useEffect(() => {
+        if (dataFetch && dataFetch.Ingredient) {
+            const { Ingredient } = dataFetch;
+            console.log(Ingredient);
+        }
+        Ingredient.map((item)=>(
+            
+        ))
+    }, [dataFetch]);
 
+    const incrementCounter = () => {
+        setCount(count + 1);
+    };
+    const decrementCounter = () => {
+        if (count > 1) {
+            setCount(count - 1);
+        }
+    };
+
+    //S'il y a une erreur, j'affiche un message dans le navigateur
+    if (errorMessage) return <div>{errorMessage}</div>;
+
+    //Si la connexion est lente et les données pas encore arrivées dans le client, j'affiche un petit message qui invite à partienter.
     if (!dataFetch)
         return <div>Le plat finit de mijoter, c'est bientôt prêt ^^</div>;
 
-    if (errorMessage) return <div>{errorMessage}</div>;
-
     return (
-        <div className="recipe-page-container">
-            <header className="recipe-page-header">
-                <h1 className="recipe-page-title">{dataFetch.name}</h1>
+        <div className="w-full text-base">
+            <header className="flex flex-col items-center mb-2em">
+                <h1 className="semibold py-1em text-5xl border-b-4 border-solid border-skin recipe-title ">
+                    {dataFetch.name}
+                </h1>
 
-                <span className="recipe-page-film">
+                <span className="recipe-page-film font-cinzel m-2em text-center">
                     Recette inspirée du film {dataFetch.Movie.name}
                 </span>
-                <span className="recipe-page-author">
+                <span className="recipe-page-author p-1em m-1em italic">
                     Recette proposée par {dataFetch.User.username}
                 </span>
 
-                <div className="images-container">
+                <div className="images-container mx-1.5em my-0.5em p-1.5em flex flex-col justify-center items-center max-w-90%">
                     <img
-                        className="recipe-page-image image-dish"
+                        className="recipe-page-image"
                         src={`http://localhost:3000/recipes/${dataFetch.picture}`}
                         alt="Photo illustrant la recette"
                     />
                     <img
-                        className="recipe-page-image image-film"
+                        className="recipe-page-image"
                         src={`http://localhost:3000/movies/${dataFetch.Movie.picture}`}
                         alt="Photo illustrant le film"
                     />
                 </div>
-                <table className="table-preparation">
-                    <thead className="table-preparation-head">
-                        <tr className="table-preparation-line">
-                            <th className="table-preparation-cell-line">
-                                Temps de préparation
-                            </th>
+                <table className="text-center">
+                    <thead>
+                        <tr>
+                            <th className="p-0.5em">Temps de préparation</th>
                         </tr>
                     </thead>
-                    <tbody className="table-preparation-body">
-                        <tr className="table-preparation-line">
-                            <td className="table-preparation-cell-line">
+                    <tbody>
+                        <tr>
+                            <td className="p-0.5em">
                                 {dataFetch.total_duration} min
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <div className="categories-container">
+                <div className="m-1em flex gap-1.2em">
                     <p className="categories-item">
                         {dataFetch.Movie.Category.name}
                     </p>
@@ -84,47 +105,56 @@ function RecipePage() {
                 </div>
             </header>
             <main className="recipe-page-main">
-                <div className="ingredients-container">
+                <div className="flex flex-col items-start">
                     <h2 className="recipe-part">Ingrédients</h2>
-                    <p className="number-of-persons">Pour 1 personne</p>
-                    <ul className="ingredients-list">
+                    <div className="flex items-center">
+                        <p className="italic m-1em ml-0">
+                            Recette pour {count}{' '}
+                            {count > 1 ? 'personnes' : 'personne'}
+                        </p>
+                        <div
+                            className="counter-button mx-2"
+                            onClick={decrementCounter}
+                        >
+                            -
+                        </div>
+                        <div
+                            className="counter-button"
+                            onClick={incrementCounter}
+                        >
+                            +
+                        </div>
+                    </div>
+                    <ul className="flex items-start">
                         {dataFetch.Ingredient.map((ingredient) => (
-                            <li
-                                key={ingredient.id}
-                                className="ingredient-list-item"
-                            >
+                            <li key={ingredient.id} className="p-0.5em">
                                 {ingredient.quantity} {ingredient.name}
                             </li>
                         ))}
                     </ul>
                 </div>
-                <div className="preparation-container">
+                <div className="flex flex-col items-start">
                     <h2 className="recipe-part">Préparation</h2>
-                    <ul className="preparation-list">
+                    <ul className="flex flex-col items-start">
                         {dataFetch.Preparations.map((step) => (
-                            <li key={step.id} className="preparation-list-item">
-                                <p className="preparation-list-step">
+                            <li key={step.id}>
+                                <p className="mb-0.5em font-semibold underline">
                                     Etape {step.step_position}:
                                 </p>
-                                <p className="preparation-list-paragraph">
-                                    {step.description}
-                                </p>
+                                <p className="m-0.5em">{step.description}</p>
                             </li>
                         ))}
                     </ul>
                 </div>
-                <div className="anecdote-container">
+                <div className="w-full text-center mt-3em mb-1.5em">
                     <h2 className="recipe-part anecdote">Anecdote</h2>
                     <p>{dataFetch.anecdote}</p>
                 </div>
             </main>
 
-            <footer className="recipe-page-footer">
+            <footer className="m-1.5em text-center italic flex flex-col">
                 <p>Une recette à proposer?</p>
-                <Link
-                    to="/connexion"
-                    className="link recipe-page-link-to-connection"
-                >
+                <Link to="/connexion" className="my-1em">
                     connectez vous!
                 </Link>
             </footer>

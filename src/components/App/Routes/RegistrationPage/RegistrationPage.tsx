@@ -198,12 +198,12 @@ function RegistrationPage() {
 
     return (
         <div className="register-page-container">
-            <h1 className="register-page-title">Inscription</h1>
-            <p className="register-page-indication">
+            <h1 className="my-2em pt-2em">Inscription</h1>
+            <p className="mt-2em mb-0.5em text-center">
                 * Indique un champs obligatoire
             </p>
             <form
-                className="register-form"
+                className="mb-2em flex flex-col items-center text-center gap-2em"
                 // action="POST"
                 onSubmit={handleSubmit}
             >
@@ -282,7 +282,7 @@ function RegistrationPage() {
                     )}
                 </label>
                 {error && (
-                    <div className="error-container">{error.message}</div>
+                    <div className="w-4/5 text-center">{error.message}</div>
                 )}
                 <button className="form-button">S'inscrire</button>
             </form>

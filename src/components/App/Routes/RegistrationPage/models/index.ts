@@ -6,11 +6,3 @@ export interface IValidation {
     isValid: boolean;
     message?: string;
 }
-
-export interface IDataForm {
-    email_address: string;
-    first_name: string | null;
-    last_name: string | null;
-    password: string;
-    username: string;
-}

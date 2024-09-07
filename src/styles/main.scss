@@ -61,8 +61,7 @@ a,
     }
 }
 
-button,
-.button {
+button {
     font-family: 'Cinzel', serif;
     background-color: var.$color-skin;
     color: var.$color-dark;
@@ -72,13 +71,12 @@ button,
     margin-top: 1rem;
     margin-bottom: 1rem;
     font-size: 1.1rem;
-}
-
-button:hover {
-    background-color: var.$color-dark-red;
-    color: var.$color-skin;
-    transition-duration: 200ms;
-    font-weight: 600;
+    &:hover {
+        background-color: var.$color-dark-red;
+        color: var.$color-skin;
+        transition-duration: 200ms;
+        font-weight: 600;
+    }
 }
 
 body {

@@ -1,42 +1,36 @@
 @use '../../../../styles/variables' as var;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.register-page-title {
-    margin: 2em 0;
-    padding-top: 2em;
-}
-.register-page-indication {
-    text-align: center;
-    margin: 1em 0 0.5em 0;
-}
-.register-form {
-    margin-bottom: 2em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2em;
-}
+// .register-page-title {
+//     margin: 2em 0;
+//     padding-top: 2em;
+// }
+// .register-page-indication {
+//     text-align: center;
+//     margin: 1em 0 0.5em 0;
+// }
+// .register-form {
+//     margin-bottom: 2em;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     gap: 2em;
+// }
 
 .form-label {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    @apply flex flex-col items-start;
+
     @media (min-width: var.$breakpoint-m) {
-        width: 0.5 * var.$breakpoint-m;
+        width: calc(0.5 * #{var.$breakpoint-m});
     }
 }
 
 .form-input {
-    background-color: var.$color-skin;
-    border: none;
-    border-radius: 15px;
     padding: 0.5em 1em;
-    margin-top: 0.5em;
-    align-self: center;
-    color: var.$color-dark;
-    width: 90%;
-}
-
-.error-container {
-    width: 80%;
-    text-align: center;
+    @apply bg-skin 
+    rounded-2xl 
+    text-dark
+    w-11/12;
 }
