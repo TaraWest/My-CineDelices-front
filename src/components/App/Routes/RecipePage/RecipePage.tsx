@@ -1,8 +1,9 @@
 import { Link, useParams } from 'react-router-dom';
 import './RecipePage.scss';
 import { useEffect, useState } from 'react';
-import { IRecipe } from './models';
+import { IIngredientsList, IRecipe, Iquantity } from './models';
 import { fetchRecipe } from './services';
+import { extractNumber } from './services/numberExtraction';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -11,6 +12,9 @@ function RecipePage() {
     const [dataFetch, setDataFetch] = useState<IRecipe | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [count, setCount] = useState<number>(1);
+    const [ingredientsList, setIngredientsList] = useState<
+        IIngredientsList[] | null
+    >(null);
 
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
@@ -35,10 +39,18 @@ function RecipePage() {
         if (dataFetch && dataFetch.Ingredient) {
             const { Ingredient } = dataFetch;
             console.log(Ingredient);
+            const result = Ingredient.map((item) => {
+                const quantityUnitSeparation = extractNumber(item.quantity);
+                return {
+                    ...item,
+                    quantity: quantityUnitSeparation,
+                };
+            });
+            if (result) {
+                setIngredientsList(result);
+            }
+            console.log(result);
         }
-        Ingredient.map((item)=>(
-            
-        ))
     }, [dataFetch]);
 
     const incrementCounter = () => {
@@ -126,11 +138,16 @@ function RecipePage() {
                         </div>
                     </div>
                     <ul className="flex items-start">
-                        {dataFetch.Ingredient.map((ingredient) => (
-                            <li key={ingredient.id} className="p-0.5em">
-                                {ingredient.quantity} {ingredient.name}
-                            </li>
-                        ))}
+                        {ingredientsList &&
+                            ingredientsList.map((ingredient) => (
+                                <li key={ingredient.id} className="p-0.5em">
+                                    {ingredient.quantity?.numberPart
+                                        ? ingredient.quantity.numberPart * count
+                                        : 'erreur dans la récupération des ingrédients'}{' '}
+                                    {ingredient.quantity?.textPart}{' '}
+                                    {ingredient.name}
+                                </li>
+                            ))}
                     </ul>
                 </div>
                 <div className="flex flex-col items-start">

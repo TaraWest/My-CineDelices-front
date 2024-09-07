@@ -5,11 +5,11 @@ export function extractNumber(text: string) {
         const textPart = match[2].trim();
 
         if (numberPart !== null && textPart) {
-            return { numberPart, textPart }; // Cas nombre + texte
+            return { numberPart, textPart };
         } else if (numberPart !== null) {
-            return numberPart; // Cas uniquement nombre
+            return { numberPart, textPart: null };
         } else {
-            return textPart; // Cas uniquement texte
+            return { numberPart: null, textPart };
         }
     }
 }
