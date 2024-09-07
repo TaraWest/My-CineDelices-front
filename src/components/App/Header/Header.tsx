@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faUser,
-    faUtensils,
-    faSearch,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './header.scss';
 
 function Header() {
@@ -45,7 +41,7 @@ function Header() {
                     {/* Affichage de l'icône sur petits écrans */}
 
                     <FontAwesomeIcon
-                        icon={faUtensils}
+                        icon={faPlus}
                         className="block sm:hidden"
                     />
 
@@ -54,12 +50,12 @@ function Header() {
                         to="/catalogue"
                         className="hidden sm:block cursor-pointer"
                     >
-                        <button>Les Recettes</button>
+                        <button>Recettes</button>
                     </Link>
                 </div>
                 {/* Barre de recherche */}
                 <div
-                    className={`search-bar absolute top-16 right-0 bg-white text-black w-64 transition-transform duration-300 ${isSearchOpen ? 'block' : 'hidden'} md:block md:relative md:w-auto md:bg-transparent md:text-white`}
+                    className={`search-bar absolute top-16 right-0 bg-skin text-black w-64 transition-transform duration-300 ${isSearchOpen ? 'block' : 'hidden'} md:block md:relative md:w-auto md:bg-transparent md:text-skin`}
                 >
                     <input
                         type="text"

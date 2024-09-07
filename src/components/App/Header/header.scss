@@ -33,11 +33,11 @@
         margin: 4px 0;
     }
     .search-bar {
-        @apply absolute top-9 right-28 bg-light-grey text-black w-64 transition-transform duration-300;
+        @apply absolute top-9 right-28 bg-skin text-black w-64 transition-transform duration-300;
         right: 7.5rem;
 
         @media (min-width: 500px) {
-            @apply md:relative md:w-auto md:bg-transparent md:text-white;
+            @apply md:relative md:w-auto md:bg-transparent md:text-skin;
             top: 0;
             right: 0;
         }
