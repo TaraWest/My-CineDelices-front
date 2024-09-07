@@ -65,7 +65,7 @@ function Header() {
                 </div>
                 {/* Icône de recherche - cachée sur les grands écrans */}
                 <div
-                    className={`icon cursor-pointer md:hidden ${isSearchOpen ? 'hidden' : 'block'}`}
+                    className={`icon cursor-pointer md:hidden`}
                     onClick={toggleSearch}
                 >
                     <FontAwesomeIcon icon={faSearch} />
