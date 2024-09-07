@@ -9,21 +9,32 @@ function RecipePage() {
     const { id } = useParams();
     //State qui permet de stocker les data reçus de l'API pour les utiliser dans la page
     const [dataFetch, setDataFetch] = useState<IRecipe | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
         fetchRecipe(Number(id))
             .then((data) => {
-                setDataFetch(data);
+                if ('error' in data) {
+                    setErrorMessage(data.error);
+                } else {
+                    setDataFetch(data);
+                }
             })
             .catch((error) => {
-                return error;
+                return {
+                    error:
+                        error.message ||
+                        'Une erreur est survenue lors du chargement de la recette',
+                };
             });
     }, [id]);
     console.log(dataFetch);
 
     if (!dataFetch)
         return <div>Le plat finit de mijoter, c'est bientôt prêt ^^</div>;
+
+    if (errorMessage) return <div>{errorMessage}</div>;
 
     return (
         <div className="recipe-page-container">
