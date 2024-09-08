@@ -3,26 +3,21 @@ import { useEffect, useState } from 'react';
 import { IRecipe } from './models';
 import Slider from './components/slider/slider';
 import AddRecipeModal from './components/modal';
+import { fetchOneRandom } from './services';
 import './components/slider/slider.scss';
 import './homePage.scss';
 
 function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);
-    async function fetchOneRandom() {
-        try {
-            const response = await fetch(
-                'http://localhost:3000/recipes/randomOne',
-            );
-            const data = await response.json();
-            console.log('then/success', data);
-            setData(data);
-        } catch (error) {
-            console.log('catch/error', error);
-        }
-    }
 
     useEffect(() => {
-        fetchOneRandom();
+        fetchOneRandom()
+            .then((data) => {
+                setData(data);
+            })
+            .catch((error) => {
+                return error;
+            });
     }, []);
 
     if (!data) {
