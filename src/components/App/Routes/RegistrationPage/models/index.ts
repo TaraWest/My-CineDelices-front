@@ -2,6 +2,11 @@ export interface IError {
     message: string;
 }
 
+export interface IValidation {
+    isValid: boolean;
+    message?: string;
+}
+
 export interface IDataForm {
     email_address: string;
     first_name: string | null;

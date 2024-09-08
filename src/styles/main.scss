@@ -29,9 +29,35 @@ a,
     }
     &:visited {
         color: var.$color-visited-link;
+        &:hover {
+            color: var.$color-gold;
+        }
     }
-    &:visited:hover {
-        color: var.$color-gold;
+}
+
+.button-link {
+    font-family: 'Cinzel', serif;
+    background-color: var.$color-skin;
+    color: var.$color-dark;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 10px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    text-decoration: none;
+
+    &:hover {
+        background-color: var.$color-dark-red;
+        color: var.$color-skin;
+        transition-duration: 200ms;
+        font-weight: 600;
+    }
+    &:visited {
+        color: var.$color-dark;
+        &:hover {
+            color: var.$color-skin;
+        }
     }
 }
 
@@ -48,8 +74,7 @@ button,
     font-size: 1.1rem;
 }
 
-button:hover,
-.button:hover {
+button:hover {
     background-color: var.$color-dark-red;
     color: var.$color-skin;
     transition-duration: 200ms;

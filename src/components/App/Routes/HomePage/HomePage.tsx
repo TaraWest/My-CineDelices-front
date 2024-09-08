@@ -44,6 +44,12 @@ function HomePage() {
                     <Link to="/catalogue" className="button-link">
                         Nos recettes
                     </Link>
+                    <Link
+                        to="/catalogue"
+                        className="see-catalog-link button-link"
+                    >
+                        Catalogue de recettes
+                    </Link>
                 </li>
                 <li>
                     <AddRecipeModal></AddRecipeModal>
