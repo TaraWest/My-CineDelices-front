@@ -28,3 +28,11 @@ export type TFormAction =
     | { type: 'SET_FIELD'; field: string; value: string }
     | { type: 'SET_ERROR'; field: string; error: string }
     | { type: 'RESET' };
+
+export interface IDataForm {
+    last_name: string | null;
+    first_name: string | null;
+    username: string;
+    email_address: string;
+    password: string;
+}

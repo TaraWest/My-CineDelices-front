@@ -77,7 +77,6 @@ export function formRealTimeValidation(
             error: '',
         });
     }
-    console.log(isValid);
 
     return isValid;
 }
@@ -147,7 +146,5 @@ export function formOnSubmitValidation(
             error: '',
         });
     }
-    console.log(isValid);
-
     return isValid;
 }

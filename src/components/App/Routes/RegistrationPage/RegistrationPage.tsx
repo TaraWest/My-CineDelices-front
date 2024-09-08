@@ -33,6 +33,10 @@ function RegistrationPage() {
         //On enpêche le comportement par défaut du bouton type submit
         event.preventDefault();
 
+        if (!formOnSubmitValidation(state, dispatch)) {
+            return;
+        }
+
         //Envoie des données dans une fonction à part qui communique avec l'API.
         const dataToSend = {
             first_name: state.first_name,
@@ -44,9 +48,9 @@ function RegistrationPage() {
 
         console.log(dataToSend);
 
-        if (formOnSubmitValidation(state, dispatch)) {
+        try {
             const response = await handleRegistration(dataToSend);
-            console.log(response);
+            console.log(response.status);
             if (response.status === 201) {
                 dispatch({
                     type: 'SET_FIELD',
@@ -54,11 +58,30 @@ function RegistrationPage() {
                     value: 'Inscription réussie, connectez vous!',
                 });
                 navigate('/');
-                // }
+            } else if (response.status === 400) {
+                dispatch({
+                    type: 'SET_ERROR',
+                    field: 'errorOnSubmit',
+                    error: "Problème lors de la soumission du formulaire, vérifiez que les données entrée respectent les conditions. L'adresse mail est peut être déjà utilisée",
+                });
+            } else if (response.status === 500) {
+                console.log('bien arrivé ici');
+
+                dispatch({
+                    type: 'SET_FIELD',
+                    field: 'errorOnSubmit',
+                    value: 'Problème dans le traitement du formulaire, rééssayez un peu plus tard.',
+                });
             }
+        } catch (error) {
+            console.log('Erreur lors de la soumission du formulaire', error);
+            dispatch({
+                type: 'SET_FIELD',
+                field: 'errorOnSubmit',
+                value: 'Problème lors de la soumission du formulaire, rééssayez un peu plus tard.',
+            });
         }
 
-        console.log(dataToSend);
         //Fin de la fonction handleSubmit
     }
 
@@ -79,9 +102,7 @@ function RegistrationPage() {
         state.password,
         state.passwordConfirm,
     ]);
-
-    console.log(state);
-    console.log(state.email_address.length > 0);
+    console.log(state.errorOnSubmit);
 
     return (
         <div className="register-page-container">

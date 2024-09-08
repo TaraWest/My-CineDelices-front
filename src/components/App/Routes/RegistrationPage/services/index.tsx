@@ -10,7 +10,7 @@ export function handleRegistration(data: IDataForm) {
             return response;
         })
         .catch((error) => {
-            console.error("erreur lors de l'enregistrement");
-            throw error;
+            console.error("erreur lors de l'enregistrement", error);
+            return error;
         });
 }
