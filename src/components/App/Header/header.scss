@@ -45,7 +45,7 @@
 
     // Styles pour le menu mobile
     .mobile-menu {
-        @apply absolute top-0 right-1 mt-16 bg-dark-red w-64 transition-transform duration-300;
+        @apply absolute right-0 top-20 bg-dark-red w-64 transition-transform duration-300;
 
         .block {
             // Styles pour les éléments du menu mobile : espacement et bordure
