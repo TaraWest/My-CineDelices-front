@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './ProfilPage.css';
 import { fetchUser, updateUser } from './services';
 import { IUser } from './models';
-import axios from 'axios';
+
 
 function ProfilePage() {
     // State de données de notre utilisateur
