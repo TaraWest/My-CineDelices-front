@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './header.scss';
@@ -17,6 +18,16 @@ function Header() {
     // Fonction pour basculer l'état de la barre de recherche
     const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
+    const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
+
+    useEffect(() => {
+        if (isDesktop) {
+            setIsSearchOpen(true);
+        } else {
+            setIsSearchOpen(false);
+        }
+    }, [isDesktop]);
+
     return (
         <div className="header flex justify-between items-center p-4 bg-dark-red text-white border-b-2 relative">
             {/* Conteneur du logo */}
@@ -28,7 +39,7 @@ function Header() {
             </div>
 
             {/* Conteneur des icônes et des liens */}
-            <div className="link-container flex items-center space-x-4 relative  ">
+            <div className="link-container flex items-center space-x-4 relative ml-2  ">
                 {/* Icône utilisateur */}
                 <Link to="/connexion" className="block py-2">
                     <div className="icon cursor-pointer ">
@@ -54,15 +65,17 @@ function Header() {
                     </Link>
                 </div>
                 {/* Barre de recherche */}
-                <div
-                    className={`search-bar absolute top-16 right-0 bg-skin text-black w-64 transition-transform duration-300 ${isSearchOpen ? 'block' : 'hidden'} md:block md:relative md:w-auto md:bg-transparent md:text-skin`}
-                >
-                    <input
-                        type="text"
-                        placeholder="Ratatouille"
-                        className="w-full p-2"
-                    />
-                </div>
+                {isSearchOpen && (
+                    <div
+                    // className={`search-bar top-16 right-0 bg-skin text-black w-64 transition-transform duration-300 md:block md:relative md:w-auto md:bg-transparent md:text-skin`}
+                    >
+                        <input
+                            type="text"
+                            placeholder="Ratatouille"
+                            className="w-full p-2 rounded-2xl bg-skin text-dark placeholder-grey-400 italic text-center"
+                        />
+                    </div>
+                )}
                 {/* Icône de recherche - cachée sur les grands écrans */}
                 <div
                     className={`icon cursor-pointer md:hidden`}
@@ -84,31 +97,31 @@ function Header() {
             </div>
 
             {/* Menu mobile - affiché/caché instantanément selon l'état */}
-            <div
-                className={`mobile-menu absolute top-0 right-0 mt-16 bg-dark-red w-64 ${isMenuOpen ? 'block' : 'hidden'}`}
-            >
-                {/* Liens du menu mobile */}
-                <div className="p-4">
-                    <Link to="/" className="block py-2">
-                        Accueil
-                    </Link>
-                    <Link to="/catalogue" className="block py-2">
-                        Catalogue
-                    </Link>
-                    <Link to="/connexion" className="block py-2">
-                        Connexion
-                    </Link>
-                    <Link to="/inscription" className="block py-2">
-                        Inscription
-                    </Link>
-                    <Link to="/addrecipe" className="block py-2">
-                        Proposer une recette
-                    </Link>
-                    <Link to="/recherche" className="block py-2">
-                        Recherche
-                    </Link>
+            {isMenuOpen && (
+                <div className={`mobile-menu bg-dark-red w-64 }`}>
+                    {/* Liens du menu mobile */}
+                    <div className="p-4">
+                        <Link to="/" className="block py-2">
+                            Accueil
+                        </Link>
+                        <Link to="/catalogue" className="block py-2">
+                            Catalogue
+                        </Link>
+                        <Link to="/connexion" className="block py-2">
+                            Connexion
+                        </Link>
+                        <Link to="/inscription" className="block py-2">
+                            Inscription
+                        </Link>
+                        <Link to="/addrecipe" className="block py-2">
+                            Proposer une recette
+                        </Link>
+                        <Link to="/recherche" className="block py-2">
+                            Recherche
+                        </Link>
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }

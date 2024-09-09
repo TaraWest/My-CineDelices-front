@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './LoginPage.scss';
 import { IError } from './models';
 import { ILogin } from './models';
+import { Link } from 'react-router-dom';
 function LoginPage() {
     const [error, setError] = useState<IError | null>(null);
 
@@ -92,6 +93,12 @@ function LoginPage() {
                 )}
                 <button className="form-button">Se connecter</button>
             </form>
+            <div className="flex flex-col items-center">
+                <p>Pas encore inscrit?</p>
+                <Link to="/inscription" className="my-1em">
+                    Inscrivez vous!
+                </Link>
+            </div>
         </div>
     );
 }
