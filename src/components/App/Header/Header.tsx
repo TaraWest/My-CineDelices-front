@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './header.scss';
@@ -16,6 +17,16 @@ function Header() {
 
     // Fonction pour basculer l'état de la barre de recherche
     const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
+
+    const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
+
+    useEffect(() => {
+        if (isDesktop) {
+            setIsSearchOpen(true);
+        } else {
+            setIsSearchOpen(false);
+        }
+    }, [isDesktop]);
 
     return (
         <div className="header flex justify-between items-center p-4 bg-dark-red text-white border-b-2 relative">
