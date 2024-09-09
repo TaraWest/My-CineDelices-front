@@ -14,20 +14,28 @@ export interface IForm {
     email_address: string;
     password: string;
     passwordConfirm: string;
-    last_nameError: string;
-    first_nameError: string;
-    usernameError: string;
-    email_addressError: string;
-    passwordError: string;
-    passwordConfirmError: string;
     errorOnSubmit: string;
     message: string;
 }
 
+export interface IInputsForm {
+    label: string;
+    name: string;
+    type: string;
+    value: string;
+    required: boolean;
+}
+
+export interface IInputsFormProps {
+    input: IInputsForm;
+    handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    password: string;
+    passwordConfirm: string;
+}
+
 export type TFormAction =
     | { type: 'SET_FIELD'; field: string; value: string }
-    | { type: 'SET_ERROR'; field: string; error: string }
-    | { type: 'RESET' };
+    | { type: 'SET_ERROR'; field: string; error: string };
 
 export interface IDataForm {
     last_name: string | null;
