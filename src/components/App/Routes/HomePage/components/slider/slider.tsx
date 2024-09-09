@@ -40,7 +40,11 @@ function Slider() {
         return <div>Un instant, ça charge...</div>;
     }
     return (
+<<<<<<< HEAD:src/components/App/Routes/HomePage/components/slider/index.tsx
+        <div className="img-slider-container">
+=======
         <div className="slider">
+>>>>>>> dev:src/components/App/Routes/HomePage/components/slider/slider.tsx
             <div className="main_slider">
                 <div className="img-left" onClick={previousSlide}>
                     <img
@@ -56,6 +60,9 @@ function Slider() {
                         icon={faArrowLeft}
                         className="icon-arrow left"
                     />
+                    <p className="inspiration-subtitle">
+                        En regardant : {tenrecipes[currentIndex]?.name}
+                    </p>
                 </div>
                 <div className="img-right" onClick={nextSlide}>
                     <img
@@ -71,6 +78,9 @@ function Slider() {
                         icon={faArrowRight}
                         className="icon-arrow right"
                     />
+                    <p className="inspiration-subtitle">
+                        En regardant : {tenrecipes[currentIndex]?.Movie?.name}
+                    </p>
                 </div>
             </div>
             <Link

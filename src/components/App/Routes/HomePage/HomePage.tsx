@@ -52,7 +52,13 @@ function HomePage() {
             </ul>
             <h3>Bon appétit et bon visionnage !</h3>
 
-            <div className="img_presentation"></div>
+            <div className="img_presentation">
+                <img
+                    className="homepage-image"
+                    src="http://localhost:3000/movies/Jack-small.webp"
+                    alt=""
+                />
+            </div>
             <div className="inspiration">
                 <h3>Envie d'un dîner original ?</h3>
                 <div className="img-container">
@@ -64,7 +70,11 @@ function HomePage() {
                         />
 
                         <p className="inspiration-subtitle">
+<<<<<<< HEAD
+                            Cuisiner ce soir: {data?.name}
+=======
                             Ce soir c'est "{data.name}"
+>>>>>>> dev
                         </p>
                     </div>
                     <div className="img-right">

@@ -30,16 +30,29 @@ li {
 // }
 
 .img_presentation {
+<<<<<<< HEAD
+    // background-position: center;
+    // background-image: url('http://localhost:3000/movies/Jack-small.webp');
+    width: 50%;
+    // background-size: contain;
+    // background-repeat: no-repeat;
+    // height: 400px;
+    // @media (min-width: var.$breakpoint-m) {
+    //     height: 800px;
+    // }
+=======
     background-position: center;
     background-image: url('/Jack-small.webp');
     width: 100vw;
     min-height: 400px;
     background-size: contain;
     background-repeat: no-repeat;
+>>>>>>> dev
 }
 
 .recipe-movie {
     display: flex;
+    width: 90%;
 }
 
 .recipe-movie img {
@@ -86,11 +99,15 @@ li {
     background-color: rgba(0, 0, 0, 0.386);
     color: white;
     position: absolute;
+<<<<<<< HEAD
+    bottom: 0;
+=======
     bottom: 0%;
     text-align: center;
     width: 100%;
     padding: 3px;
     font-size: 1.2rem;
+>>>>>>> dev
 }
 
 h2,
