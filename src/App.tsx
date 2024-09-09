@@ -7,7 +7,7 @@ import Header from './components/App/Header/Header';
 import Footer from './components/App/Footer/Footer';
 import RegistrationPage from './components/App/Routes/RegistrationPage/RegistrationPage';
 import LoginPage from './components/App/Routes/LoginPage/LoginPage';
-import ProfilePage from './components/App/Routes/ProfilePage/ProfilePage';
+// import ProfilePage from './components/App/Routes/ProfilePage/ProfilePage';
 import { CatalogPage } from './components/App/Routes/CatalogPage/CatalogPage';
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
                 <Route path="/recette/:id" element={<RecipePage />} />
                 <Route path="/inscription" element={<RegistrationPage />} />
                 <Route path="/connexion" element={<LoginPage />} />
-                <Route path="/profil/:id" element={<ProfilePage />} />
+                {/* <Route path="/profil/:id" element={<ProfilePage />} /> */}
             </Routes>
 
             <Footer />

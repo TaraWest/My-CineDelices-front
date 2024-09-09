@@ -1,30 +1,28 @@
-import { useEffect, useState } from 'react';
-import './homePage.scss';
-import './components/slider/index.scss';
-import { IRecipe } from './models';
-import Slider from './components/slider';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { IRecipe } from './models';
+import Slider from './components/slider/slider';
 import AddRecipeModal from './components/modal';
+import { fetchOneRandom } from './services';
+import './components/slider/slider.scss';
+import './homePage.scss';
 
 function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);
-    async function fetchOneRandom() {
-        try {
-            const response = await fetch(
-                'http://localhost:3000/recipes/randomOne',
-            );
-            const data = await response.json();
-            console.log('then/success', data);
-            setData(data);
-        } catch (error) {
-            console.log('catch/error', error);
-        }
-    }
 
     useEffect(() => {
-        fetchOneRandom();
+        fetchOneRandom()
+            .then((data) => {
+                setData(data);
+            })
+            .catch((error) => {
+                return error;
+            });
     }, []);
-    // créer une condition pour laquelle data n'existe pas avec un return ^
+
+    if (!data) {
+        return <div>Oups, petit problème !? Merci de revenir plus tard...</div>;
+    }
     return (
         <div className="homePage">
             <h1 className="homepage-title">
@@ -33,11 +31,14 @@ function HomePage() {
                 Plongez dans un univers où la cuisine rencontre le cinéma...
             </h1>
             <h2 className="homepage-subtitle">
-                Notre site vous propose des recettes de cuisine inspirées de
-                films, séries et animés.
+                Pas d'idée pour ce soir ? Trouve l'inspiration avec des recettes
+                tirées de tes films et séries préférés !
             </h2>
             <ul>
                 <li>
+                    <Link to="/catalogue" className="button-link">
+                        Nos recettes
+                    </Link>
                     <Link
                         to="/catalogue"
                         className="see-catalog-link button-link"
@@ -53,16 +54,17 @@ function HomePage() {
 
             <div className="img_presentation"></div>
             <div className="inspiration">
-                <div className="recipe-movie">
+                <h3>Envie d'un dîner original ?</h3>
+                <div className="img-container">
                     <div className="img-left">
                         <img
-                            src={`http://localhost:3000/recipes/${data?.picture}`} 
+                            src={`http://localhost:3000/recipes/${data?.picture}`}
                             alt={`image illustrant la recette : ${data?.name}`}
                             className="random-img"
                         />
 
                         <p className="inspiration-subtitle">
-                            Cuisine ce soir {data?.name}
+                            Ce soir c'est "{data.name}"
                         </p>
                     </div>
                     <div className="img-right">
@@ -72,16 +74,13 @@ function HomePage() {
                             className="random-img"
                         />
                         <p className="inspiration-subtitle">
-                            En regardant : {data?.Movie?.name}
+                            En regardant : {data.Movie?.name}
                         </p>
                     </div>
                 </div>
-                <div className="right-div">
-                    <h4>Tu cherches une inspiration pour ce soir ?</h4>
-                    <Link to={`/recette/${data?.id}`} className="link">
-                        Voici notre proposition
-                    </Link>
-                </div>
+                <Link to={`/recette/${data.id}`} className="button-link">
+                    Découvre la recette
+                </Link>
             </div>
             <h4>
                 Met ton plus beau tablier et prépare ta soirée avec notre
