@@ -7,12 +7,7 @@ export const initialState: IForm = {
     email_address: '',
     password: '',
     passwordConfirm: '',
-    last_nameError: '',
-    first_nameError: '',
-    usernameError: '',
-    email_addressError: '',
-    passwordError: '',
-    passwordConfirmError: '',
+
     errorOnSubmit: '',
     message: '',
 };
@@ -29,8 +24,6 @@ export const formReducer = (state: IForm, action: TFormAction) => {
                 ...state,
                 [`${action.field}Error`]: action.error,
             };
-        case 'RESET':
-            return initialState;
         default:
             return state;
     }
