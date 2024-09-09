@@ -3,7 +3,6 @@
 .homePage {
     display: flex;
     flex-direction: column;
-    // justify-content: center;
     align-items: center;
 }
 
@@ -31,6 +30,7 @@ li {
 // }
 
 .img_presentation {
+<<<<<<< HEAD
     // background-position: center;
     // background-image: url('http://localhost:3000/movies/Jack-small.webp');
     width: 50%;
@@ -40,6 +40,14 @@ li {
     // @media (min-width: var.$breakpoint-m) {
     //     height: 800px;
     // }
+=======
+    background-position: center;
+    background-image: url('/Jack-small.webp');
+    width: 100vw;
+    min-height: 400px;
+    background-size: contain;
+    background-repeat: no-repeat;
+>>>>>>> dev
 }
 
 .recipe-movie {
@@ -57,16 +65,28 @@ li {
     position: relative;
 }
 
+.img-left {
+    border-top-left-radius: 20px;
+}
+.img-right {
+    border-top-right-radius: 20px;
+}
+
 .random-img {
     width: 100%;
 }
 
 .inspiration {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-top: 1.2rem;
-    margin-bottom: 1.2rem;
+    margin: 10%;
+}
+
+.img-container {
+    display: flex;
+    margin: 1.5rem;
 }
 
 .right-div {
@@ -79,7 +99,15 @@ li {
     background-color: rgba(0, 0, 0, 0.386);
     color: white;
     position: absolute;
+<<<<<<< HEAD
     bottom: 0;
+=======
+    bottom: 0%;
+    text-align: center;
+    width: 100%;
+    padding: 3px;
+    font-size: 1.2rem;
+>>>>>>> dev
 }
 
 h2,
@@ -101,12 +129,12 @@ ul {
 
 @media (max-width: 600px) {
     .img_presentation {
-        background-image: url('/movies/Jack-medium.webp');
+        background-image: url('/Jack-medium.webp');
     }
 }
 
 @media (max-width: 900px) {
     .img_presentation {
-        background-image: url('/movies/Jack-normal.webp');
+        background-image: url('/Jack-normal.webp');
     }
 }

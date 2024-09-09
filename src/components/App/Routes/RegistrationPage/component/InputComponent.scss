@@ -1,0 +1,35 @@
+@use '../../../../../styles/variables' as var;
+
+.form-label {
+    @apply flex flex-col items-start w-80;
+
+    @media (min-width: var.$breakpoint-m) {
+        width: calc(0.55 * #{var.$breakpoint-m});
+    }
+}
+
+.form-input {
+    padding: 0.5em 1em;
+    @apply bg-skin 
+    rounded-2xl 
+    text-dark
+    w-72
+    self-center
+    mb-8;
+    @media (min-width: var.$breakpoint-m) {
+        width: calc(0.5 * #{var.$breakpoint-m});
+    }
+}
+.form-input-error {
+    padding: 0.5em 1em;
+    @apply bg-skin 
+    rounded-2xl 
+    text-dark
+    w-72
+    mt-2
+    self-center;
+    outline: 3px solid gold;
+    @media (min-width: var.$breakpoint-m) {
+        width: calc(0.5 * #{var.$breakpoint-m});
+    }
+}
