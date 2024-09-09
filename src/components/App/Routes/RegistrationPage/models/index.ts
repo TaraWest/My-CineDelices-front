@@ -36,3 +36,10 @@ export interface IDataForm {
     email_address: string;
     password: string;
 }
+
+export interface IInputRefs {
+    usernameRef: React.MutableRefObject<HTMLInputElement | null>;
+    emailRef: React.MutableRefObject<HTMLInputElement | null>;
+    passwordRef: React.MutableRefObject<HTMLInputElement | null>;
+    passwordConfirmRef: React.MutableRefObject<HTMLInputElement | null>;
+}

@@ -29,11 +29,18 @@ function RegistrationPage() {
     const passwordRef = useRef<HTMLInputElement | null>(null);
     const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
 
+    const inputRefs = {
+        usernameRef,
+        emailRef,
+        passwordRef,
+        passwordConfirmRef,
+    };
+
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         //On enpêche le comportement par défaut du bouton type submit
         event.preventDefault();
 
-        if (!formOnSubmitValidation(state, dispatch)) {
+        if (!formOnSubmitValidation(state, dispatch, inputRefs)) {
             return;
         }
 

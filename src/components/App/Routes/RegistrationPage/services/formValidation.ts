@@ -1,4 +1,4 @@
-import { IForm, TFormAction } from '../models';
+import { IForm, IInputRefs, TFormAction } from '../models';
 
 export function formRealTimeValidation(
     state: IForm,
@@ -84,6 +84,7 @@ export function formRealTimeValidation(
 export function formOnSubmitValidation(
     state: IForm,
     dispatch: React.Dispatch<TFormAction>,
+    refs: IInputRefs,
 ): boolean {
     let isValid = true;
 
