@@ -46,3 +46,14 @@ export interface IRecipe {
     Ingredient: IIngredients[];
     User: IUser;
 }
+
+export interface Iquantity {
+    numberPart: number | null;
+    textPart: string | null;
+}
+
+export interface IIngredientsList {
+    id: number;
+    name: string;
+    quantity: Iquantity | undefined;
+}

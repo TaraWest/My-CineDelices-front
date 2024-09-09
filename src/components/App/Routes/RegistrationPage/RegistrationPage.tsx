@@ -1,33 +1,26 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './RegistrationPage.scss';
-import { IError } from './models';
 import { handleRegistration } from './services';
+
+import { Link } from 'react-router-dom';
 import {
-    passwordValidation,
-    isEmailEmpty,
-    isUsernameEmpty,
-    validateEmailFormat,
-} from './services/fieldsValidation';
+    formRealTimeValidation,
+    formOnSubmitValidation,
+} from './services/formValidation';
+import { formReducer, initialState } from './services/FormReducer';
 function RegistrationPage() {
-    const [error, setError] = useState<IError | null>(null);
-    const [message, setMessage] = useState<string | null>(null);
-    const [lastName, setLastName] = useState<string>('');
+    //Mise en place d'un reducer pour gérer l'ensemble des états liés au formulaire
 
-    const [firstName, setFirstName] = useState<string>('');
+    const [state, dispatch] = useReducer(formReducer, initialState);
 
-    const [userName, setUserName] = useState<string>('');
-    const [userNameError, setUserNameError] = useState<string>('');
-
-    const [email, setEmail] = useState<string>('');
-    const [emailError, setEmailError] = useState<string>('');
-
-    const [password, setPassword] = useState<string>('');
-    const [passwordError, setPasswordError] = useState<string>('');
-
-    const [passwordConfirm, setPasswordConfirm] = useState<string>('');
-    const [passwordConfirmError, setPasswordConfirmError] =
-        useState<string>('');
+    function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>) {
+        dispatch({
+            type: 'SET_FIELD',
+            field: event.target.name,
+            value: event.target.value,
+        });
+    }
 
     const navigate = useNavigate();
     const inputFocusRef = useRef<HTMLInputElement | null>(null);
@@ -36,158 +29,68 @@ function RegistrationPage() {
     const passwordRef = useRef<HTMLInputElement | null>(null);
     const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
 
+    const inputRefs = {
+        usernameRef,
+        emailRef,
+        passwordRef,
+        passwordConfirmRef,
+    };
+
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         //On enpêche le comportement par défaut du bouton type submit
         event.preventDefault();
 
-        //Vérification de la conformité entre le mot de passe et sa vérification, et affichage de l'erreur correspondante
-
-        const validationResult = passwordValidation(
-            password,
-            passwordConfirm,
-            passwordRef,
-            passwordConfirmRef,
-        );
-        if (!validationResult.isValid && validationResult.message) {
-            setError({ message: validationResult.message });
+        if (!formOnSubmitValidation(state, dispatch, inputRefs)) {
             return;
-        } else {
-            if (error) {
-                setError(null);
-            }
-        }
-
-        //Vérification des champs obligatoires à remplir, qui complète le 'required' des input concernés
-        const usernameFieldValidationResult = isUsernameEmpty(
-            userName,
-            usernameRef,
-        );
-        if (
-            !usernameFieldValidationResult.isValid &&
-            usernameFieldValidationResult.message
-        ) {
-            setError({ message: usernameFieldValidationResult.message });
-            return;
-        } else {
-            if (error) {
-                setError(null);
-            }
-        }
-
-        const emailFieldValidationResult = isEmailEmpty(email, emailRef);
-        if (
-            !emailFieldValidationResult.isValid &&
-            emailFieldValidationResult.message
-        ) {
-            setError({ message: emailFieldValidationResult.message });
-            return;
-        } else {
-            if (error) {
-                setError(null);
-            }
         }
 
         //Envoie des données dans une fonction à part qui communique avec l'API.
         const dataToSend = {
-            first_name: firstName,
-            last_name: lastName,
-            username: userName,
-            email_address: email,
-            password,
+            first_name: state.first_name,
+            last_name: state.last_name,
+            username: state.username,
+            email_address: state.email_address,
+            password: state.password,
         };
 
         console.log(dataToSend);
 
-        const response = await handleRegistration(dataToSend);
-        if (response.status === 201) {
-            setMessage(response.data.message);
-            console.log(message);
+        try {
+            const response = await handleRegistration(dataToSend);
+            console.log(response.status);
+            if (response.status === 201) {
+                dispatch({
+                    type: 'SET_FIELD',
+                    field: 'message',
+                    value: 'Inscription réussie, connectez vous!',
+                });
+                navigate('/');
+            } else if (response.status === 400) {
+                dispatch({
+                    type: 'SET_ERROR',
+                    field: 'errorOnSubmit',
+                    error: "Problème lors de la soumission du formulaire, vérifiez que les données entrée respectent les conditions. L'adresse mail est peut être déjà utilisée",
+                });
+            } else if (response.status === 500) {
+                console.log('bien arrivé ici');
 
-            navigate('/');
-        }
-        {
-            setError({
-                message:
-                    "Problème lors de l'inscription, vérifiez le remplissage des données",
+                dispatch({
+                    type: 'SET_FIELD',
+                    field: 'errorOnSubmit',
+                    value: 'Problème dans le traitement du formulaire, rééssayez un peu plus tard.',
+                });
+            }
+        } catch (error) {
+            console.log('Erreur lors de la soumission du formulaire', error);
+            dispatch({
+                type: 'SET_FIELD',
+                field: 'errorOnSubmit',
+                value: 'Problème lors de la soumission du formulaire, rééssayez un peu plus tard.',
             });
         }
 
-        console.log(dataToSend);
         //Fin de la fonction handleSubmit
     }
-
-    // Gestion des champs controlés
-    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        switch (e.target.name) {
-            case 'last_name':
-                setLastName(e.target.value);
-
-                break;
-            case 'first_name':
-                setFirstName(e.target.value);
-
-                break;
-            case 'username':
-                setUserName(e.target.value);
-
-                break;
-            case 'email_address':
-                setEmail(e.target.value);
-                break;
-            case 'password':
-                setPassword(e.target.value);
-
-                break;
-            case 'passwordConfirm':
-                setPasswordConfirm(e.target.value);
-
-                break;
-        }
-    };
-
-    useEffect(() => {
-        //Confirmation en temps réel des conditions du remplissage de l'input Nom d'utilisateur
-
-        if (userName && userName.length === 1) {
-            setUserNameError(
-                "Le nom d'utilisateur doit comporter au moins 2 caractères",
-            );
-        } else {
-            setUserNameError('');
-        }
-
-        //Confirmation en temps réel des conditions du remplissage de l'input email
-
-        if (email && !validateEmailFormat(email)) {
-            setEmailError("L'adresse mail doit avoir un format valide ");
-        } else {
-            setEmailError('');
-        }
-
-        //Confirmation en temps réel des conditions du remplissage de l'input password
-
-        if (password && password.length > 0 && password.length < 6) {
-            setPasswordError(
-                'Le mot de passe doit comporter au moins 6 caractères',
-            );
-        } else {
-            setPasswordError('');
-        }
-
-        //Confirmation en temps réel des conditions du remplissage de l'input de passwordConfirm
-
-        if (
-            passwordConfirm &&
-            passwordConfirm.length > 0 &&
-            password !== passwordConfirm
-        ) {
-            setPasswordConfirmError(
-                'Les mots de passe doivent être identiques',
-            );
-        } else {
-            setPasswordConfirmError('');
-        }
-    }, [password, passwordConfirm, userName, email]);
 
     //Focus sur l'input name au chargement de la page
     useEffect(() => {
@@ -196,14 +99,26 @@ function RegistrationPage() {
         }
     }, []);
 
+    //Vérification des entrées de chaque input en temps réel, et affichage des conditions de remplissage en temps réel jusqu'à ce que les conditions soient remplies et uniquement si un caractère a été entré
+    //J'ignore l'avertissement de ESLint qui me fait tomber dans une boucle infinie même avec un useCallBack. Mes variables ne changeront pas.
+    useEffect(() => {
+        formRealTimeValidation(state, dispatch);
+    }, [
+        state.email_address,
+        state.username,
+        state.password,
+        state.passwordConfirm,
+    ]);
+    console.log(state.errorOnSubmit);
+
     return (
         <div className="register-page-container">
-            <h1 className="register-page-title">Inscription</h1>
-            <p className="register-page-indication">
+            <h1 className="my-2em pt-2em">Inscription</h1>
+            <p className="mt-2em mb-0.5em text-center">
                 * Indique un champs obligatoire
             </p>
             <form
-                className="register-form"
+                className="mb-2em flex flex-col items-center text-center gap-2em"
                 // action="POST"
                 onSubmit={handleSubmit}
             >
@@ -215,6 +130,7 @@ function RegistrationPage() {
                         type="text"
                         name="last_name"
                         onChange={handleChangeInput}
+                        value={state.last_name}
                     />
                 </label>
                 <label className="form-label">
@@ -224,6 +140,7 @@ function RegistrationPage() {
                         type="text"
                         name="first_name"
                         onChange={handleChangeInput}
+                        value={state.first_name}
                     />
                 </label>
                 <label className="form-label">
@@ -234,11 +151,12 @@ function RegistrationPage() {
                         type="text"
                         name="username"
                         onChange={handleChangeInput}
+                        value={state.username}
                         // onBlur={handleBlur}
                         required
                     />
-                    {userNameError !== '' && <div>{userNameError}</div>}
                 </label>
+                {state.usernameError !== '' && <div>{state.usernameError}</div>}
                 <label className="form-label">
                     Adresse mail *
                     <input
@@ -247,11 +165,14 @@ function RegistrationPage() {
                         type="email"
                         name="email_address"
                         onChange={handleChangeInput}
+                        value={state.email_address}
                         // onBlur={handleBlur}
                         required
                     />
-                    {emailError !== '' && <div>{emailError}</div>}
                 </label>
+                {state.email_addressError !== '' && (
+                    <div>{state.email_addressError}</div>
+                )}
                 <label className="form-label">
                     Mot de passe *
                     <input
@@ -260,11 +181,12 @@ function RegistrationPage() {
                         type="password"
                         name="password"
                         onChange={handleChangeInput}
+                        value={state.password}
                         // onBlur={handleBlur}
                         required
                     />
-                    {passwordError !== '' && <div>{passwordError}</div>}
                 </label>
+                {state.passwordError !== '' && <div>{state.passwordError}</div>}
                 <label className="form-label">
                     Entrez à nouveau <br />
                     le mot de passe *
@@ -274,18 +196,27 @@ function RegistrationPage() {
                         type="password"
                         name="passwordConfirm"
                         onChange={handleChangeInput}
+                        value={state.passwordConfirm}
                         // onBlur={handleBlur}
                         required
                     />
-                    {passwordConfirmError !== '' && (
-                        <div>{passwordConfirmError}</div>
-                    )}
                 </label>
-                {error && (
-                    <div className="error-container">{error.message}</div>
+                {state.passwordConfirmError !== '' && (
+                    <div>{state.passwordConfirmError}</div>
+                )}
+                {state.errorOnSubmit && (
+                    <div className="w-4/5 text-center">
+                        {state.errorOnSubmit}
+                    </div>
                 )}
                 <button className="form-button">S'inscrire</button>
             </form>
+            <div className="flex flex-col items-center">
+                <p>Déjà inscrit?</p>
+                <Link to="/connexion" className="my-1em">
+                    connectez vous!
+                </Link>
+            </div>
         </div>
     );
 }
