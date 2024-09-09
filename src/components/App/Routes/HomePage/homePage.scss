@@ -30,24 +30,10 @@ li {
 // }
 
 .img_presentation {
-<<<<<<< HEAD
-    // background-position: center;
-    // background-image: url('http://localhost:3000/movies/Jack-small.webp');
-    width: 50%;
-    // background-size: contain;
-    // background-repeat: no-repeat;
-    // height: 400px;
-    // @media (min-width: var.$breakpoint-m) {
-    //     height: 800px;
-    // }
-=======
-    background-position: center;
-    background-image: url('/Jack-small.webp');
-    width: 100vw;
-    min-height: 400px;
-    background-size: contain;
-    background-repeat: no-repeat;
->>>>>>> dev
+    width: 80%;
+    @media (min-width: var.$breakpoint-m) {
+        max-width: 700px;
+    }
 }
 
 .recipe-movie {
@@ -81,12 +67,13 @@ li {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 10%;
+    margin: 3em 0 1em;
 }
 
 .img-container {
     display: flex;
-    margin: 1.5rem;
+    width: 90%;
+    margin-bottom: 1em;
 }
 
 .right-div {
@@ -99,15 +86,12 @@ li {
     background-color: rgba(0, 0, 0, 0.386);
     color: white;
     position: absolute;
-<<<<<<< HEAD
-    bottom: 0;
-=======
+
     bottom: 0%;
     text-align: center;
     width: 100%;
     padding: 3px;
     font-size: 1.2rem;
->>>>>>> dev
 }
 
 h2,
@@ -120,11 +104,22 @@ h4 {
     font-size: 0.9rem;
 }
 
-ul {
+.presentation-list {
     justify-content: center;
     align-items: center;
     display: flex;
     flex-direction: column;
+    margin: 1.4em 0;
+}
+
+.presentation-list-item {
+    margin: 0.5em;
+    & button,
+    a {
+        margin: 0.5em;
+        padding: 10px 15px;
+        font-weight: 500;
+    }
 }
 
 @media (max-width: 600px) {

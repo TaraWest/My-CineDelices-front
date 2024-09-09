@@ -34,23 +34,17 @@ function HomePage() {
                 Pas d'idée pour ce soir ? Trouve l'inspiration avec des recettes
                 tirées de tes films et séries préférés !
             </h2>
-            <ul>
-                <li>
+            <ul className="presentation-list">
+                <li className="presentation-list-item">
                     <Link to="/catalogue" className="button-link">
                         Nos recettes
                     </Link>
-                    <Link
-                        to="/catalogue"
-                        className="see-catalog-link button-link"
-                    >
-                        Catalogue de recettes
-                    </Link>
                 </li>
-                <li>
+                <li className="presentation-list-item">
                     <AddRecipeModal></AddRecipeModal>
                 </li>
             </ul>
-            <h3>Bon appétit et bon visionnage !</h3>
+            <p>Bon appétit et bon visionnage !</p>
 
             <div className="img_presentation">
                 <img
@@ -70,11 +64,7 @@ function HomePage() {
                         />
 
                         <p className="inspiration-subtitle">
-<<<<<<< HEAD
-                            Cuisiner ce soir: {data?.name}
-=======
                             Ce soir c'est "{data.name}"
->>>>>>> dev
                         </p>
                     </div>
                     <div className="img-right">
@@ -88,7 +78,10 @@ function HomePage() {
                         </p>
                     </div>
                 </div>
-                <Link to={`/recette/${data.id}`} className="button-link">
+                <Link
+                    to={`/recette/${data.id}`}
+                    className="button-link discover-recipe-button"
+                >
                     Découvre la recette
                 </Link>
             </div>
