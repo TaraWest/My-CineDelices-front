@@ -22,18 +22,19 @@
 
     .icon {
         // Styles pour les icônes : taille du texte
-        @apply text-xl;
+        @apply text-xl cursor-pointer;
     }
 
     .burger-menu .line {
         // Styles pour les lignes du menu burger : dimensions et couleur
         width: 25px;
         height: 3px;
-        background-color: bg-skin;
+        background-color: var(#d9c7b8);
         margin: 4px 0;
     }
+    // barre de recherche
     .search-bar {
-        @apply absolute top-9 right-28 bg-skin text-black w-64 transition-transform duration-300;
+        @apply absolute top-9 right-28 bg-skin text-black w-64 transition-transform duration-300 ease-in-out;
         right: 7.5rem;
 
         @media (min-width: 500px) {
@@ -45,7 +46,7 @@
 
     // Styles pour le menu mobile
     .mobile-menu {
-        @apply absolute right-0 top-20 bg-dark-red w-64 transition-transform duration-300;
+        @apply absolute right-0 top-20 bg-dark-red w-64 transition-transform duration-300 ease-in-out;
 
         .block {
             // Styles pour les éléments du menu mobile : espacement et bordure
@@ -62,18 +63,20 @@
 // Styles pour les icônes en fonction de la largeur de l'écran
 @media (min-width: 500px) {
     .icon .faPlus {
-        display: none; // Masquer l'icône faPlus sur les grands écrans
+        @apply hidden; // Masquer l'icône faPlus sur les grands écrans
     }
+
     .icon span {
-        display: inline-block; // Afficher le texte sur les grands écrans
+        @apply inline-block; // Afficher le texte sur les grands écrans
     }
 }
 
 @media (max-width: 500px) {
     .icon .faPlus {
-        display: inline-block; // Afficher l'icône faPlus sur les petits écrans
+        @apply inline-block; // Afficher l'icône faPlus sur les petits écrans
     }
+
     .icon span {
-        display: none; // Masquer le texte sur les petits écrans
+        @apply hidden; // Masquer le texte sur les petits écrans
     }
 }
