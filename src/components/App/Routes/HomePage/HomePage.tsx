@@ -51,18 +51,24 @@ function HomePage() {
             </ul>
             <h3>Bon appétit et bon visionnage !</h3>
 
-            <div className="img_presentation"></div>
+            <div className="img_presentation">
+                <img
+                    className="homepage-image"
+                    src="http://localhost:3000/movies/Jack-small.webp"
+                    alt=""
+                />
+            </div>
             <div className="inspiration">
                 <div className="recipe-movie">
                     <div className="img-left">
                         <img
-                            src={`http://localhost:3000/recipes/${data?.picture}`} 
+                            src={`http://localhost:3000/recipes/${data?.picture}`}
                             alt={`image illustrant la recette : ${data?.name}`}
                             className="random-img"
                         />
 
                         <p className="inspiration-subtitle">
-                            Cuisine ce soir {data?.name}
+                            Cuisiner ce soir: {data?.name}
                         </p>
                     </div>
                     <div className="img-right">
