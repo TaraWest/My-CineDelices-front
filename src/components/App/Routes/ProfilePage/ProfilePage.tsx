@@ -8,6 +8,11 @@ function ProfilePage() {
     // State de données de notre utilisateur
     const [userData, setUserData] = useState<IUser | null>(null);
 
+    //State for the tab
+    // false : "mes recettes"
+    // true : "informations personnelles"
+    const [switchTab, setSwitchTab] = useState(true);
+
     // State pour le formulaire qui sera par défault pas éditable
     const [editForm, setEditForm] = useState(false);
 
@@ -108,17 +113,37 @@ function ProfilePage() {
     //     setUserData({ ...userData, [name]: value });
     // };
 
+    console.log(userData);
+
     return (
-        <div className="main-profil-container">
-            <div className="left-menu">
-                <Link to="/">Mes Recettes</Link>
-                <Link to="/">Mes Informations personnelles</Link>
+        <div className="flex m-2 flex-row">
+            <div className="flex m-4 flex-col">
+                <button
+                    onClick={() => setSwitchTab(!switchTab)}
+                    className={`px-4 py-2 rounded ${
+                        switchTab
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-200 text-black'
+                    }`}
+                >
+                    Mes Recettes
+                </button>
+                <button
+                    onClick={() => setSwitchTab(!switchTab)}
+                    className={`px-4 py-2 rounded ${
+                        switchTab
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-200 text-black'
+                    }`}
+                >
+                    Mes Informations personnelles
+                </button>
             </div>
-            <div className="perso-info">
-                {/* fonction a créer dans services ou pas ?: fetch put ou post a voir */}
-                <form onSubmit={handleSubmit}>
+            <div className="flex m-4 flex-col sm:flex-row">
+                <form className="flex m-4 flex-col" onSubmit={handleSubmit}>
                     <label htmlFor="prenom">Prénom</label>
                     <input
+                        className="m-4 text-center bg-transparent"
                         type="text"
                         id="prenom"
                         name="first_name"
@@ -128,6 +153,7 @@ function ProfilePage() {
                     />
                     <label htmlFor="nom">Nom</label>
                     <input
+                        className="m-4 text-center bg-transparent"
                         type="text"
                         id="nom"
                         name="last_name"
@@ -137,6 +163,7 @@ function ProfilePage() {
                     />
                     <label htmlFor="pseudo">Pseudo</label>
                     <input
+                        className="m-4 text-center bg-transparent"
                         type="text"
                         id="pseudo"
                         name="username"
@@ -146,6 +173,7 @@ function ProfilePage() {
                     />
                     <label htmlFor="email">Email</label>
                     <input
+                        className="m-4 text-center bg-transparent"
                         type="email"
                         id="email"
                         name="email_adress"
@@ -153,7 +181,12 @@ function ProfilePage() {
                         onChange={handleInputChange}
                         disabled={!editForm}
                     />
-                    <button></button>
+
+                    <button type="submit" onClick={handleSubmit}>
+                        {editForm
+                            ? 'Enregistrer les modifications'
+                            : 'Modifier'}
+                    </button>
                 </form>
             </div>
             <div className="my-recepies"></div>

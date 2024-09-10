@@ -3,7 +3,7 @@ import './App.scss';
 import HomePage from './components/App/Routes/HomePage/HomePage';
 
 import RecipePage from './components/App/Routes/RecipePage/RecipePage';
-// import Header from './components/App/Header/Header';
+import Header from './components/App/Header/Header';
 import Footer from './components/App/Footer/Footer';
 import RegistrationPage from './components/App/Routes/RegistrationPage/RegistrationPage';
 import LoginPage from './components/App/Routes/LoginPage/LoginPage';
@@ -14,7 +14,7 @@ function App() {
     //si besoin d'écrire ici, communiquer avant pour évitr des doublons dans les noms des variables, toujours mettre un commentaire pour expliquer ce qu'on fait
     return (
         <div className="app">
-            {/* {<Header />} */}
+            {<Header />}
 
             <Routes>
                 <Route path="/" element={<HomePage />} />

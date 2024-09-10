@@ -2,18 +2,18 @@ import axios from 'axios';
 import { IUser } from '../models';
 
 export async function fetchUser() {
-    await axios
-        .get('http://localhost:3000/me', {
+    try {
+        const response = await axios.get('http://localhost:3000/me', {
             // On inclut les cookies dans la requête
             withCredentials: true,
-        })
-        .then((response) => response.data)
-        .catch((error) => {
-            console.error(
-                'Erreur lors de la récupération des données utilisateur',
-                error,
-            );
         });
+        return response.data;
+    } catch (error) {
+        console.error(
+            'Erreur lors de la récupération des données utilisateur',
+            error,
+        );
+    }
 }
 
 export async function updateUser(userUpdateData: IUser) {

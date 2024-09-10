@@ -48,8 +48,8 @@ function LoginPage() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                credentials: 'include',
             },
+            credentials: 'include',
             body: JSON.stringify(data),
         });
 
