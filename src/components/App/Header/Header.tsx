@@ -100,7 +100,7 @@ function Header() {
 
             {/* Menu mobile - affiché/caché instantanément selon l'état */}
             {isMenuOpen && (
-                <div className={`mobile-menu bg-dark-red w-64 }`}>
+                <div className="mobile-menu bg-dark-red w-full absolute">
                     {/* Liens du menu mobile */}
                     <div className="p-4">
                         <Link to="/" className="block py-2" onClick={closeMenu}>
@@ -133,13 +133,6 @@ function Header() {
                             onClick={closeMenu}
                         >
                             Proposer une recette
-                        </Link>
-                        <Link
-                            to="/recherche"
-                            className="block py-2"
-                            onClick={closeMenu}
-                        >
-                            Recherche
                         </Link>
                     </div>
                 </div>
