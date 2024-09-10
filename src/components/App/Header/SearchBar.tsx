@@ -1,60 +1,85 @@
-/*import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './header.scss';
+import Autosuggest from 'react-autosuggest';
+import { Recipe } from '../Routes/CatalogPage/models';
+import { useNavigate } from 'react-router-dom';
 
-interface Recipes {
-    value: string;
-    label: string;
-}
+const fetchRecipes = async () => {
+    try {
+        const response = await fetch('http://localhost:3000/recipes');
+        const data = await response.json();
+        return data.map((item: { id: string; name: string }) => ({
+            id: item.id,
+            name: item.name,
+        }));
+    } catch (error) {
+        console.error('Error fetching recipes:', error);
+        return [];
+    }
+};
 
-// Composant SearchBar
-/* variable d'état options qui est un tableau d'objets, chacun ayant les propriétés value et label de type chaîne de caractères. setOptions est la fonction qui permet de modifier ce tableau d'options.
+/* Composant SearchBar
+/* variable d'état options qui est un tableau d'objets, chacun ayant les propriétés value et label de type chaîne de caractères. setOptions est la fonction qui permet de modifier ce tableau d'options.*/
 const SearchBar: React.FC = () => {
-    const [options, setOptions] = useState<{ value: string; label: string }[]>(
-        [],
-    );
-    // l'option selectionné par l'utilisateur
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [value, setValue] = useState('');
+    const [suggestions, setSuggestions] = useState<Recipe[]>([]);
+    const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
+    const navigate = useNavigate();
 
-    // Fonction pour chercher les options depuis l'API
-    const fetchOptions = async (inputValue: string) => {
-        if (!inputValue) return [];
-        try {
-            const response = await fetch(
-                `http://localhost:3000/recipes=${inputValue}`,
+    useEffect(() => {
+        const fetchAndSetRecipes = async () => {
+            const recipes = await fetchRecipes();
+            setAllRecipes(recipes);
+        };
+
+        fetchAndSetRecipes();
+    }, []);
+
+    const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
+        const filteredSuggestions = allRecipes.filter((recipe) =>
+            recipe.name.toLowerCase().includes(value.toLowerCase()),
+        );
+        setSuggestions(filteredSuggestions);
+    };
+
+    const onSuggestionSelected = (
+        event: React.SyntheticEvent,
+        { suggestion }: { suggestion: Recipe },
+    ) => {
+        setValue(suggestion.name);
+        navigate(`/recette/${suggestion.id}`);
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            const selectedRecipe = allRecipes.find(
+                (recipe) => recipe.name.toLowerCase() === value.toLowerCase(),
             );
-            const data = await response.json();
-            // Transformer les résultats en format compatible avec react-select
-            return data.map((item: { name: string }) => ({
-                value: item.name,
-                label: item.name,
-            }));
-        } catch (error) {
-            console.error('Erreur lors de la recherche:', error);
-            return [];
+            if (selectedRecipe) {
+                navigate(`/recipes/${selectedRecipe.id}`); // Redirection lorsque "Enter" est pressé
+            }
         }
     };
 
-    // Fonction qui est déclenchée lorsqu'on tape dans la barre de recherche
-    const handleInputChange = async (inputValue: string) => {
-        const newOptions = await fetchOptions(inputValue);
-        setOptions(newOptions);
-    };
-
-    const handleChange = (selectedOption: Recipes | null) => {
-        setSelectedOption(selectedOption);
+    const inputProps = {
+        placeholder: 'Ratatouille',
+        value,
+        onChange: (
+            event: React.ChangeEvent<HTMLInputElement>,
+            { newValue }: { newValue: string },
+        ) => setValue(newValue),
+        onKeyDown: handleKeyDown, // Gérer l'appui sur "Enter"
     };
 
     return (
-        <Select
-            value={selectedOption}
-            onChange={handleChange}
-            onInputChange={handleInputChange}
-            options={options}
-            placeholder="Search for a recipe..."
-            isClearable
-            isSearchable
+        <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+            onSuggestionSelected={onSuggestionSelected}
+            getSuggestionValue={(suggestion) => suggestion.name}
+            renderSuggestion={(suggestion) => <div>{suggestion.name}</div>}
+            inputProps={inputProps}
         />
     );
 };
-
-export default SearchBar;*/
+export default SearchBar;
