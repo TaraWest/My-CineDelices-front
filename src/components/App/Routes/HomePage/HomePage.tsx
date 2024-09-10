@@ -60,7 +60,7 @@ function HomePage() {
                         <img
                             src={`http://localhost:3000/recipes/${data?.picture}`}
                             alt={`image illustrant la recette : ${data?.name}`}
-                            className="random-img"
+                            className="random-img random-img-left"
                         />
 
                         <p className="inspiration-subtitle">
@@ -71,7 +71,7 @@ function HomePage() {
                         <img
                             src={`http://localhost:3000/movies/${data?.Movie?.picture}`}
                             alt={`image illustrant le film  : ${data?.Movie?.name}`}
-                            className="random-img"
+                            className="random-img random-img-right"
                         />
                         <p className="inspiration-subtitle">
                             En regardant : {data.Movie?.name}
