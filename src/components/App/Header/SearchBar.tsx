@@ -1,4 +1,4 @@
-import { useState } from 'react';
+/*import { useState } from 'react';
 import './header.scss';
 
 interface Recipes {
@@ -7,7 +7,7 @@ interface Recipes {
 }
 
 // Composant SearchBar
-/* variable d'état options qui est un tableau d'objets, chacun ayant les propriétés value et label de type chaîne de caractères. setOptions est la fonction qui permet de modifier ce tableau d'options.*/
+/* variable d'état options qui est un tableau d'objets, chacun ayant les propriétés value et label de type chaîne de caractères. setOptions est la fonction qui permet de modifier ce tableau d'options.
 const SearchBar: React.FC = () => {
     const [options, setOptions] = useState<{ value: string; label: string }[]>(
         [],
@@ -57,4 +57,4 @@ const SearchBar: React.FC = () => {
     );
 };
 
-export default SearchBar;
+export default SearchBar;*/
