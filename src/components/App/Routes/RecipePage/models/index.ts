@@ -1,4 +1,4 @@
-interface IIngredients {
+export interface IIngredients {
     id: number;
     name: string;
     quantity: string;

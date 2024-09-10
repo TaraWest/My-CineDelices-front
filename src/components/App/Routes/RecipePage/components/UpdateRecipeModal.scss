@@ -1,0 +1,11 @@
+.modal-button {
+    @apply font-bold border border-black border-solid;
+}
+
+.modal-label {
+    @apply text-black flex flex-col items-center;
+}
+
+.update-anecdote {
+    width: 80%;
+}
