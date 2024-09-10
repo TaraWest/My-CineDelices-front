@@ -10,16 +10,36 @@ function ProfilePage() {
     // State pour le formulaire qui sera par défault pas éditable
     const [editForm, setEditForm] = useState(false);
 
-    // On met à jour les champs du formulaire
-    handleInputChange(e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value }
-        setUserData({ ...userData, [name]: value });
+    function ChangeUserData (){
+        const [firstName, setFirstName] = useState<string>("");
+        const [lastName, setLastName] = useState<string>("");
+        const [userName, setUserName] = useState<string>("");
+        const [email, setEmail] = useState<string>("");
+        
     };
 
-    handleSubmit(event) {
+
+
+
+
+    // // State de mise à jour de donnée utilisateur
+    // const [formData, setFormData] = useState({
+    //     first_name: '',
+    //     last_name:'',
+    //     username:'',
+    //     email_adress:'',
+    // })
+
+    // // On met à jour les champs du formulaire
+    // function handleInputChange(e: React.ChangeEvent<HTMLInputElement>){
+    //     const { name, value }=e.target.value;
+    //     setUserData({ ...userData, [name]: value });
+    // };
+
+    function handleSubmit(event) {
     if (editForm = false) {
-        setEditForm=true
     // 
+        setEditForm=true
     }
     // On mettra la bdd a jour
     event.preventDefault()
