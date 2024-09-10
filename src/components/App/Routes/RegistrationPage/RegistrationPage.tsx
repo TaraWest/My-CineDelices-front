@@ -96,7 +96,7 @@ function RegistrationPage() {
                 * Indique un champs obligatoire
             </p>
             <form
-                className=" flex flex-col items-center text-center"
+                className=" flex flex-col items-center text-center mb-2em"
                 onSubmit={handleSubmit}
             >
                 {inputsForm.map((input: IInputsForm) => {

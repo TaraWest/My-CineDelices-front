@@ -34,10 +34,11 @@ function Header() {
     return (
         <div className="header flex justify-between items-center p-4 bg-dark-red text-white border-b-2 relative">
             {/* Conteneur du logo */}
-            <div className="logo-container">
+            <div className="logo-container text-skin">
                 {/* Lien vers la page d'accueil */}
-                <Link to="/" className="text-2xl font-bold ">
-                    CinéDélices
+                <Link to="/" className="logo-link">
+                    <span className="highlight">C</span>iné
+                    <span className="highlight">D</span>élices
                 </Link>
             </div>
 
