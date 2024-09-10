@@ -18,7 +18,6 @@ const fetchRecipes = async () => {
     }
 };
 
-/* Composant SearchBar
 /* variable d'état options qui est un tableau d'objets, chacun ayant les propriétés value et label de type chaîne de caractères. setOptions est la fonction qui permet de modifier ce tableau d'options.*/
 const SearchBar: React.FC = () => {
     const [value, setValue] = useState('');
@@ -56,7 +55,7 @@ const SearchBar: React.FC = () => {
                 (recipe) => recipe.name.toLowerCase() === value.toLowerCase(),
             );
             if (selectedRecipe) {
-                navigate(`/recipes/${selectedRecipe.id}`); // Redirection lorsque "Enter" est pressé
+                navigate(`/recipes/${selectedRecipe.id}`);
             }
         }
     };
@@ -68,7 +67,7 @@ const SearchBar: React.FC = () => {
             event: React.ChangeEvent<HTMLInputElement>,
             { newValue }: { newValue: string },
         ) => setValue(newValue),
-        onKeyDown: handleKeyDown, // Gérer l'appui sur "Enter"
+        onKeyDown: handleKeyDown,
     };
 
     return (

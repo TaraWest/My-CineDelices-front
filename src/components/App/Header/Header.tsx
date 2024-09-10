@@ -134,13 +134,6 @@ function Header() {
                         >
                             Proposer une recette
                         </Link>
-                        <Link
-                            to="/recherche"
-                            className="block py-2"
-                            onClick={closeMenu}
-                        >
-                            Recherche
-                        </Link>
                     </div>
                 </div>
             )}
