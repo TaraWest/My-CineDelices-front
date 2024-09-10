@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
+import SearchBar from './SearchBar';
 import './header.scss';
 
 function Header() {
@@ -74,13 +75,10 @@ function Header() {
                 {/* Barre de recherche */}
                 {isSearchOpen && (
                     <div
-                    // className={`search-bar top-16 right-0 bg-skin text-black w-64 transition-transform duration-300 md:block md:relative md:w-auto md:bg-transparent md:text-skin`}
+                        className={`search-bar top-16 right-0 bg-skin text-black w-64 transition-transform duration-300 md:block md:relative md:w-auto md:bg-transparent md:text-skin`}
                     >
-                        <input
-                            type="text"
-                            placeholder="Ratatouille"
-                            className="w-full p-2 rounded-2xl bg-skin text-dark placeholder-grey-400 italic text-center"
-                        />
+                        {/*composant de la barre de recherche*/}
+                        <SearchBar />
                     </div>
                 )}
                 {/* Icône de recherche - cachée sur les grands écrans */}
@@ -105,7 +103,7 @@ function Header() {
 
             {/* Menu mobile - affiché/caché instantanément selon l'état */}
             {isMenuOpen && (
-                <div className={`mobile-menu bg-dark-red w-64 }`}>
+                <div className="mobile-menu bg-dark-red w-full absolute">
                     {/* Liens du menu mobile */}
                     <div className="p-4">
                         <Link to="/" className="block py-2" onClick={closeMenu}>
@@ -138,13 +136,6 @@ function Header() {
                             onClick={closeMenu}
                         >
                             Proposer une recette
-                        </Link>
-                        <Link
-                            to="/recherche"
-                            className="block py-2"
-                            onClick={closeMenu}
-                        >
-                            Recherche
                         </Link>
                     </div>
                 </div>

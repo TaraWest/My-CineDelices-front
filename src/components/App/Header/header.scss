@@ -16,7 +16,7 @@
     }
 
     .logo-link {
-        @apply no-underline font-semibold text-skin text-4xl;
+        @apply no-underline text-3xl font-semibold text-skin;
         font-family: 'Cinzel', serif;
         // font-size: 1em;
         @media (min-width: var.$breakpoint-s) {
@@ -34,7 +34,7 @@
 
     .link-container {
         // Styles pour le conteneur des liens : alignement et espacement
-        @apply flex items-center space-x-4 relative;
+        @apply flex items-center space-x-2 relative;
     }
 
     .icon {
@@ -63,7 +63,7 @@
 
     // Styles pour le menu mobile
     .mobile-menu {
-        @apply absolute right-0 top-20 bg-dark-red w-64 transition-transform duration-300 ease-in-out;
+        @apply absolute right-0 top-20 bg-dark-red w-full h-screen transition-transform duration-300 ease-in-out;
 
         .block {
             // Styles pour les éléments du menu mobile : espacement et bordure
