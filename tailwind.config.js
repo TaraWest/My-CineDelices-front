@@ -27,6 +27,7 @@ export default {
                 '1.2em': '1.2em',
                 '1.5em': '1.5em',
                 '2em': '2em',
+                '2.5em': '2.5em',
                 '3em': '3em',
                 '4em': '4em',
                 '5em': '5em',

@@ -30,16 +30,15 @@ li {
 // }
 
 .img_presentation {
-    background-position: center;
-    background-image: url('/Jack-small.webp');
-    width: 100vw;
-    min-height: 400px;
-    background-size: contain;
-    background-repeat: no-repeat;
+    width: 80%;
+    @media (min-width: var.$breakpoint-m) {
+        max-width: 700px;
+    }
 }
 
 .recipe-movie {
     display: flex;
+    width: 90%;
 }
 
 .recipe-movie img {
@@ -52,15 +51,16 @@ li {
     position: relative;
 }
 
-.img-left {
-    border-top-left-radius: 20px;
-}
-.img-right {
-    border-top-right-radius: 20px;
-}
-
 .random-img {
     width: 100%;
+}
+
+.random-img-left {
+    border-top-left-radius: 20px;
+}
+
+.random-img-right {
+    border-top-right-radius: 20px;
 }
 
 .inspiration {
@@ -68,12 +68,13 @@ li {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 10%;
+    margin: 3em 0 1em;
 }
 
 .img-container {
     display: flex;
-    margin: 1.5rem;
+    width: 90%;
+    margin-bottom: 1em;
 }
 
 .right-div {
@@ -86,6 +87,7 @@ li {
     background-color: rgba(0, 0, 0, 0.386);
     color: white;
     position: absolute;
+
     bottom: 0%;
     text-align: center;
     width: 100%;
@@ -103,11 +105,22 @@ h4 {
     font-size: 0.9rem;
 }
 
-ul {
+.presentation-list {
     justify-content: center;
     align-items: center;
     display: flex;
     flex-direction: column;
+    margin: 1.4em 0;
+}
+
+.presentation-list-item {
+    margin: 0.5em;
+    & button,
+    a {
+        margin: 0.5em;
+        padding: 10px 15px;
+        font-weight: 500;
+    }
 }
 
 @media (max-width: 600px) {
