@@ -16,8 +16,12 @@
     }
 
     .logo-link {
-        @apply no-underline text-5xl font-semibold text-skin;
+        @apply no-underline font-semibold text-skin text-4xl;
         font-family: 'Cinzel', serif;
+        // font-size: 1em;
+        @media (min-width: var.$breakpoint-s) {
+            // font-size: 2em;
+        }
 
         &:visited {
             color: var.$color-skin;
@@ -25,7 +29,7 @@
     }
 
     .highlight {
-        @apply text-6xl;
+        @apply text-5xl;
     }
 
     .link-container {
