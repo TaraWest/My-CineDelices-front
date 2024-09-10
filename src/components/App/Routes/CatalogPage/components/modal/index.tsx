@@ -160,9 +160,9 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     </label>
                                     <input
                                         name="picture"
-                                        type="text"
+                                        type="file"
+                                        accept="image/*"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                                        placeholder="URL de l'image"
                                     />
                                 </div>
 
@@ -186,10 +186,10 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                         Image du film associé
                                     </label>
                                     <input
-                                        name="movie_picture"
-                                        type="text"
+                                        name="picture"
+                                        type="file"
+                                        accept="image/*"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                                        placeholder="URL de l'image du film"
                                     />
                                 </div>
 
