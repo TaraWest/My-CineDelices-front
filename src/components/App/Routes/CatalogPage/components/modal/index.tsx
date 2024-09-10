@@ -2,12 +2,18 @@ import axios from 'axios';
 import { useState } from 'react';
 
 interface AddRecipeModalProps {
-    onAddRecipe: (newRecipe: undefined) => void;
+    onAddRecipe: (newRecipe: any) => void;
 }
 
 const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [selectedMovieImage, setSelectedMovieImage] = useState<File | null>(
+        null,
+    );
+    const [recipeImageUrl, setRecipeImageUrl] = useState<string | null>(null);
+    const [movieImageUrl, setMovieImageUrl] = useState<string | null>(null);
 
     // Gestion des ingrédients avec quantité
     const [ingredients, setIngredients] = useState([
@@ -67,43 +73,96 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
         setPreparationSteps(updatedSteps);
     };
 
+    // Gestion de l'image de la recette
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setSelectedImage(file);
+    };
+
+    // Gestion de l'image du film
+    const handleMovieFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setSelectedMovieImage(file);
+    };
+
+    // Fonction d'upload pour l'image de la recette
+    const uploadRecipeImage = async () => {
+        if (!selectedImage) return;
+
+        const formData = new FormData();
+        formData.append('file', selectedImage);
+
+        try {
+            const response = await axios.post(
+                'http://localhost:3000/api/upload-recipe-image',
+                formData,
+            );
+            setRecipeImageUrl(response.data.imageUrl);
+        } catch (error) {
+            console.error(
+                "Erreur lors de l'upload de l'image de la recette :",
+                error,
+            );
+            setError("Erreur lors de l'upload de l'image de la recette.");
+        }
+    };
+
+    // Fonction d'upload pour l'image du film
+    const uploadMovieImage = async () => {
+        if (!selectedMovieImage) return;
+
+        const formData = new FormData();
+        formData.append('file', selectedMovieImage);
+
+        try {
+            const response = await axios.post(
+                'http://localhost:3000/api/upload-movie-image',
+                formData,
+            );
+            setMovieImageUrl(response.data.imageUrl);
+        } catch (error) {
+            console.error(
+                "Erreur lors de l'upload de l'image du film :",
+                error,
+            );
+            setError("Erreur lors de l'upload de l'image du film.");
+        }
+    };
+
     const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
+        const formData = new FormData();
 
-        const data = Object.fromEntries(formData);
+        // Ajoutez les champs du formulaire
+        const formElements = e.currentTarget.elements as any;
+        formData.append('name', formElements.name.value);
+        formData.append('movie_name', formElements.movie_name.value);
+        formData.append('dish_types_id', formElements.dish_types_id.value);
+        formData.append('difficulty', formElements.difficulty.value);
+        formData.append('total_duration', formElements.total_duration.value);
+        formData.append('anecdote', formElements.anecdote.value);
 
-        // Conversion des ingrédients en chaîne de caractères (séparés par des sauts de ligne)
+        // Ajoutez les URL des images uploadées
+        if (recipeImageUrl) formData.append('picture', recipeImageUrl);
+        if (movieImageUrl) formData.append('movie_picture', movieImageUrl);
+
+        // Ajoutez les ingrédients et étapes de préparation sous forme de texte
         const ingredientsString = ingredients
             .map((ingredient) => `${ingredient.name} (${ingredient.quantity})`)
             .join('\n');
-
-        // Conversion des étapes de préparation en chaîne de caractères
         const preparationString = preparationSteps
             .map((step) => step.step)
             .join('\n');
 
-        // Recréer l'objet imbriqué pour les films
-        const formattedData = {
-            ...data,
-            ingredients: ingredientsString, // Envoie comme chaîne de caractères
-            preparation: preparationString, // Envoie comme chaîne de caractères
-            movies: {
-                name: data.movie_name,
-                picture: data.movie_picture,
-            }, // Envoie le nom du film directement
-        };
-
-        console.log('Données envoyées:', formattedData);
+        formData.append('ingredients', ingredientsString);
+        formData.append('preparation', preparationString);
 
         try {
             const response = await axios.post(
                 'http://localhost:3000/recipes',
-                formattedData,
+                formData,
                 {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'multipart/form-data' },
                 },
             );
 
@@ -112,7 +171,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
             toggleModal();
         } catch (error) {
-            console.error("Erreur lors de l'ajout de la recette:", error);
+            console.error("Erreur lors de l'ajout de la recette :", error);
             setError("Une erreur est survenue lors de l'ajout de la recette.");
         }
     };
@@ -160,15 +219,18 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     </label>
                                     <input
                                         name="picture"
-                                        type="text"
+                                        type="file"
+                                        accept="image/*"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                                        placeholder="URL de l'image"
-
-                                        // name="picture"
-                                        // type="file"
-                                        // accept="image/*"
-                                        // className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        onChange={handleFileChange}
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={uploadRecipeImage}
+                                        className="bg-blue-600 text-white rounded px-4 py-2 mt-2"
+                                    >
+                                        Upload Image de la recette
+                                    </button>
                                 </div>
 
                                 {/* Film associé */}
@@ -192,15 +254,18 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     </label>
                                     <input
                                         name="movie_picture"
-                                        type="text"
+                                        type="file"
+                                        accept="image/*"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                                        placeholder="URL de l'image du film"
-
-                                        // name="picture"
-                                        // type="file"
-                                        // accept="image/*"
-                                        // className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        onChange={handleMovieFileChange}
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={uploadMovieImage}
+                                        className="bg-blue-600 text-white rounded px-4 py-2 mt-2"
+                                    >
+                                        Upload Image du film
+                                    </button>
                                 </div>
 
                                 {/* Type de recette */}
