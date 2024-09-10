@@ -1,4 +1,5 @@
 @use '../../../../styles/variables' as var;
+@import './component/InputComponent.scss';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,18 +20,32 @@
 //     gap: 2em;
 // }
 
-.form-label {
-    @apply flex flex-col items-start;
+// .form-label {
+//     @apply flex flex-col items-start w-11/12;
 
-    @media (min-width: var.$breakpoint-m) {
-        width: calc(0.5 * #{var.$breakpoint-m});
-    }
-}
+//     @media (min-width: var.$breakpoint-m) {
+//         width: calc(0.5 * #{var.$breakpoint-m});
+//     }
+// }
 
-.form-input {
-    padding: 0.5em 1em;
-    @apply bg-skin 
-    rounded-2xl 
-    text-dark
-    w-11/12;
-}
+// .form-input {
+//     padding: 0.5em 1em;
+//     @apply bg-skin
+//     rounded-2xl
+//     text-dark
+//     w-full;
+//     @media (min-width: var.$breakpoint-m) {
+//         width: calc(0.5 * #{var.$breakpoint-m});
+//     }
+// }
+// .form-input-error {
+//     padding: 0.5em 1em;
+//     @apply bg-skin
+//     rounded-2xl
+//     text-dark
+//     w-full;
+//     outline: 3px solid gold;
+//     @media (min-width: var.$breakpoint-m) {
+//         width: calc(0.5 * #{var.$breakpoint-m});
+//     }
+// }

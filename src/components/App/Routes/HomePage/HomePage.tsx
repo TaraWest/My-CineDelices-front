@@ -34,25 +34,25 @@ function HomePage() {
                 Pas d'idée pour ce soir ? Trouve l'inspiration avec des recettes
                 tirées de tes films et séries préférés !
             </h2>
-            <ul>
-                <li>
+            <ul className="presentation-list">
+                <li className="presentation-list-item">
                     <Link to="/catalogue" className="button-link">
                         Nos recettes
                     </Link>
-                    <Link
-                        to="/catalogue"
-                        className="see-catalog-link button-link"
-                    >
-                        Catalogue de recettes
-                    </Link>
                 </li>
-                <li>
+                <li className="presentation-list-item">
                     <AddRecipeModal></AddRecipeModal>
                 </li>
             </ul>
-            <h3>Bon appétit et bon visionnage !</h3>
+            <p>Bon appétit et bon visionnage !</p>
 
-            <div className="img_presentation"></div>
+            <div className="img_presentation">
+                <img
+                    className="homepage-image"
+                    src="http://localhost:3000/movies/Jack-small.webp"
+                    alt=""
+                />
+            </div>
             <div className="inspiration">
                 <h3>Envie d'un dîner original ?</h3>
                 <div className="img-container">
@@ -60,7 +60,7 @@ function HomePage() {
                         <img
                             src={`http://localhost:3000/recipes/${data?.picture}`}
                             alt={`image illustrant la recette : ${data?.name}`}
-                            className="random-img"
+                            className="random-img random-img-left"
                         />
 
                         <p className="inspiration-subtitle">
@@ -71,14 +71,17 @@ function HomePage() {
                         <img
                             src={`http://localhost:3000/movies/${data?.Movie?.picture}`}
                             alt={`image illustrant le film  : ${data?.Movie?.name}`}
-                            className="random-img"
+                            className="random-img random-img-right"
                         />
                         <p className="inspiration-subtitle">
                             En regardant : {data.Movie?.name}
                         </p>
                     </div>
                 </div>
-                <Link to={`/recette/${data.id}`} className="button-link">
+                <Link
+                    to={`/recette/${data.id}`}
+                    className="button-link discover-recipe-button"
+                >
                     Découvre la recette
                 </Link>
             </div>

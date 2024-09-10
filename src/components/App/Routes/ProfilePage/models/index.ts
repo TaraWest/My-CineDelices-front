@@ -4,6 +4,6 @@ export interface IUser {
     last_name: string;
     username: string;
     email_address: string;
-    password: string;
-    role_id: number;
+    // password: string;
+    // role_id: number;
 }

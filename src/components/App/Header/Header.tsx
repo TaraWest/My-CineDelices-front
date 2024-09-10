@@ -15,6 +15,9 @@ function Header() {
     // Fonction pour basculer l'état du menu burger
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+    // Fonction pour fermer le menu
+    const closeMenu = () => setIsMenuOpen(false);
+
     // Fonction pour basculer l'état de la barre de recherche
     const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
@@ -31,15 +34,16 @@ function Header() {
     return (
         <div className="header flex justify-between items-center p-4 bg-dark-red text-white border-b-2 relative">
             {/* Conteneur du logo */}
-            <div className="logo-container">
+            <div className="logo-container text-skin">
                 {/* Lien vers la page d'accueil */}
-                <Link to="/" className="text-2xl font-bold ">
-                    CinéDélices
+                <Link to="/" className="logo-link">
+                    <span className="highlight">C</span>iné
+                    <span className="highlight">D</span>élices
                 </Link>
             </div>
 
             {/* Conteneur des icônes et des liens */}
-            <div className="link-container flex items-center space-x-4 relative ml-2  ">
+            <div className="link-container flex items-center space-x-4 relative ml-2 text-skin  ">
                 {/* Icône utilisateur */}
                 <Link to="/connexion" className="block py-2">
                     <div className="icon cursor-pointer ">
@@ -101,22 +105,42 @@ function Header() {
                 <div className={`mobile-menu bg-dark-red w-64 }`}>
                     {/* Liens du menu mobile */}
                     <div className="p-4">
-                        <Link to="/" className="block py-2">
+                        <Link to="/" className="block py-2" onClick={closeMenu}>
                             Accueil
                         </Link>
-                        <Link to="/catalogue" className="block py-2">
+                        <Link
+                            to="/catalogue"
+                            className="block py-2"
+                            onClick={closeMenu}
+                        >
                             Catalogue
                         </Link>
-                        <Link to="/connexion" className="block py-2">
+                        <Link
+                            to="/connexion"
+                            className="block py-2"
+                            onClick={closeMenu}
+                        >
                             Connexion
                         </Link>
-                        <Link to="/inscription" className="block py-2">
+                        <Link
+                            to="/inscription"
+                            className="block py-2"
+                            onClick={closeMenu}
+                        >
                             Inscription
                         </Link>
-                        <Link to="/addrecipe" className="block py-2">
+                        <Link
+                            to="/addrecipe"
+                            className="block py-2"
+                            onClick={closeMenu}
+                        >
                             Proposer une recette
                         </Link>
-                        <Link to="/recherche" className="block py-2">
+                        <Link
+                            to="/recherche"
+                            className="block py-2"
+                            onClick={closeMenu}
+                        >
                             Recherche
                         </Link>
                     </div>
