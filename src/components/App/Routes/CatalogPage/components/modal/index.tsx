@@ -8,32 +8,57 @@ interface AddRecipeModalProps {
 const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [selectedImage, setSelectedImage] = useState<File | null>(null);
-    const [selectedMovieImage, setSelectedMovieImage] = useState<File | null>(
-        null,
-    );
-    const [recipeImageUrl, setRecipeImageUrl] = useState<string | null>(null);
-    const [movieImageUrl, setMovieImageUrl] = useState<string | null>(null);
 
-    // Gestion des ingrédients avec quantité
+    // Stockage des images encodées en base64
+    const [selectedImageBase64, setSelectedImageBase64] = useState<
+        string | null
+    >(null);
+    const [selectedMovieImageBase64, setSelectedMovieImageBase64] = useState<
+        string | null
+    >(null);
+
+    // Gestion des ingrédients
     const [ingredients, setIngredients] = useState([
         { name: '', quantity: '' },
     ]);
-    // Gestion des étapes de préparation avec position
+    // Gestion des étapes de préparation
     const [preparationSteps, setPreparationSteps] = useState([
         { step: '', step_position: 1 },
     ]);
 
-    const toggleModal = () => {
-        setIsOpen(!isOpen);
+    const toggleModal = () => setIsOpen(!isOpen);
+
+    // Fonction pour convertir une image en base64
+    const convertToBase64 = (
+        file: File,
+        callback: (result: string | null) => void,
+    ) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            callback(reader.result as string);
+        };
+        reader.onerror = (error) => {
+            console.error('Erreur lors de la conversion en base64:', error);
+            callback(null);
+        };
     };
 
-    // Ajout d'un nouvel ingrédient
-    const addIngredient = () => {
+    // Gestion de l'image de la recette
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) convertToBase64(file, setSelectedImageBase64);
+    };
+
+    // Gestion de l'image du film
+    const handleMovieFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) convertToBase64(file, setSelectedMovieImageBase64);
+    };
+
+    const addIngredient = () =>
         setIngredients([...ingredients, { name: '', quantity: '' }]);
-    };
 
-    // Mise à jour des ingrédients
     const updateIngredient = (index: number, field: string, value: string) => {
         const updatedIngredients = ingredients.map((ingredient, i) =>
             i === index ? { ...ingredient, [field]: value } : ingredient,
@@ -41,13 +66,11 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
         setIngredients(updatedIngredients);
     };
 
-    // Suppression d'un ingrédient
     const removeIngredient = (index: number) => {
         const updatedIngredients = ingredients.filter((_, i) => i !== index);
         setIngredients(updatedIngredients);
     };
 
-    // Ajout d'une étape de préparation
     const addPreparationStep = () => {
         setPreparationSteps([
             ...preparationSteps,
@@ -55,7 +78,6 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
         ]);
     };
 
-    // Mise à jour des étapes de préparation
     const updatePreparationStep = (
         index: number,
         field: string,
@@ -67,108 +89,41 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
         setPreparationSteps(updatedSteps);
     };
 
-    // Suppression d'une étape
     const removePreparationStep = (index: number) => {
         const updatedSteps = preparationSteps.filter((_, i) => i !== index);
         setPreparationSteps(updatedSteps);
     };
 
-    // Gestion de l'image de la recette
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null;
-        setSelectedImage(file);
-    };
-
-    // Gestion de l'image du film
-    const handleMovieFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null;
-        setSelectedMovieImage(file);
-    };
-
-    // Fonction d'upload pour l'image de la recette
-    const uploadRecipeImage = async () => {
-        if (!selectedImage) return;
-
-        const formData = new FormData();
-        formData.append('file', selectedImage);
-
-        try {
-            const response = await axios.post(
-                'http://localhost:3000/api/upload-recipe-image',
-                formData,
-            );
-            setRecipeImageUrl(response.data.imageUrl);
-        } catch (error) {
-            console.error(
-                "Erreur lors de l'upload de l'image de la recette :",
-                error,
-            );
-            setError("Erreur lors de l'upload de l'image de la recette.");
-        }
-    };
-
-    // Fonction d'upload pour l'image du film
-    const uploadMovieImage = async () => {
-        if (!selectedMovieImage) return;
-
-        const formData = new FormData();
-        formData.append('file', selectedMovieImage);
-
-        try {
-            const response = await axios.post(
-                'http://localhost:3000/api/upload-movie-image',
-                formData,
-            );
-            setMovieImageUrl(response.data.imageUrl);
-        } catch (error) {
-            console.error(
-                "Erreur lors de l'upload de l'image du film :",
-                error,
-            );
-            setError("Erreur lors de l'upload de l'image du film.");
-        }
-    };
-
     const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData();
 
-        // Ajoutez les champs du formulaire
         const formElements = e.currentTarget.elements as any;
-        formData.append('name', formElements.name.value);
-        formData.append('movie_name', formElements.movie_name.value);
-        formData.append('dish_types_id', formElements.dish_types_id.value);
-        formData.append('difficulty', formElements.difficulty.value);
-        formData.append('total_duration', formElements.total_duration.value);
-        formData.append('anecdote', formElements.anecdote.value);
 
-        // Ajoutez les URL des images uploadées
-        if (recipeImageUrl) formData.append('picture', recipeImageUrl);
-        if (movieImageUrl) formData.append('movie_picture', movieImageUrl);
-
-        // Ajoutez les ingrédients et étapes de préparation sous forme de texte
-        const ingredientsString = ingredients
-            .map((ingredient) => `${ingredient.name} (${ingredient.quantity})`)
-            .join('\n');
-        const preparationString = preparationSteps
-            .map((step) => step.step)
-            .join('\n');
-
-        formData.append('ingredients', ingredientsString);
-        formData.append('preparation', preparationString);
+        // Création de l'objet avec les images encodées en base64 et autres champs
+        const formData = {
+            name: formElements.name.value,
+            movie_name: formElements.movie_name.value,
+            dish_types_id: formElements.dish_types_id.value,
+            difficulty: formElements.difficulty.value,
+            total_duration: formElements.total_duration.value,
+            anecdote: formElements.anecdote.value,
+            picture: selectedImageBase64, // Image de la recette encodée en base64
+            movie_picture: selectedMovieImageBase64, // Image du film encodée en base64
+            ingredients: ingredients
+                .map(
+                    (ingredient) =>
+                        `${ingredient.name} (${ingredient.quantity})`,
+                )
+                .join('\n'),
+            preparation: preparationSteps.map((step) => step.step).join('\n'),
+        };
 
         try {
             const response = await axios.post(
                 'http://localhost:3000/recipes',
                 formData,
-                {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                },
             );
-
-            const savedRecipe = response.data;
-            onAddRecipe(savedRecipe);
-
+            onAddRecipe(response.data);
             toggleModal();
         } catch (error) {
             console.error("Erreur lors de l'ajout de la recette :", error);
@@ -196,7 +151,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                             <div className="text-red-500 mb-4">{error}</div>
                         )}
 
-                        <form method="POST" onSubmit={submitForm}>
+                        <form onSubmit={submitForm}>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {/* Nom de la recette */}
                                 <div>
@@ -207,7 +162,6 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                         name="name"
                                         type="text"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                                        placeholder="Nom de la recette"
                                         required
                                     />
                                 </div>
@@ -218,22 +172,14 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                         Image de la recette
                                     </label>
                                     <input
-                                        name="picture"
                                         type="file"
                                         accept="image/*"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         onChange={handleFileChange}
                                     />
-                                    <button
-                                        type="button"
-                                        onClick={uploadRecipeImage}
-                                        className="bg-blue-600 text-white rounded px-4 py-2 mt-2"
-                                    >
-                                        Upload Image de la recette
-                                    </button>
                                 </div>
 
-                                {/* Film associé */}
+                                {/* Nom du film associé */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Nom du film associé
@@ -242,7 +188,6 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                         name="movie_name"
                                         type="text"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                                        placeholder="Nom du film"
                                         required
                                     />
                                 </div>
@@ -253,19 +198,11 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                         Image du film associé
                                     </label>
                                     <input
-                                        name="movie_picture"
                                         type="file"
                                         accept="image/*"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         onChange={handleMovieFileChange}
                                     />
-                                    <button
-                                        type="button"
-                                        onClick={uploadMovieImage}
-                                        className="bg-blue-600 text-white rounded px-4 py-2 mt-2"
-                                    >
-                                        Upload Image du film
-                                    </button>
                                 </div>
 
                                 {/* Type de recette */}
@@ -279,16 +216,15 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                         required
                                     >
                                         <option value="1">Boisson</option>
-                                        <option value="4">Entrée</option>
                                         <option value="2">Plat</option>
                                         <option value="3">Dessert</option>
                                     </select>
                                 </div>
 
-                                {/* Difficulté de la recette */}
+                                {/* Difficulté */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Difficulté de la recette
+                                        Difficulté
                                     </label>
                                     <select
                                         name="difficulty"
@@ -321,8 +257,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     <textarea
                                         name="anecdote"
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                                        rows="2"
-                                        placeholder="Anecdote liée à la recette"
+                                        rows={2}
                                     ></textarea>
                                 </div>
 
@@ -420,7 +355,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                                 }
                                                 className="block w-full p-2 border border-gray-300 rounded"
                                                 placeholder="Position"
-                                                min="1"
+                                                min={1}
                                                 required
                                             />
                                             <button
