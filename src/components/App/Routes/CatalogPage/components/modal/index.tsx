@@ -125,6 +125,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
             );
             onAddRecipe(response.data);
             toggleModal();
+            console.log(response);
         } catch (error) {
             console.error("Erreur lors de l'ajout de la recette :", error);
             setError("Une erreur est survenue lors de l'ajout de la recette.");
