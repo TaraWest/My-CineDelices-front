@@ -57,3 +57,17 @@ export interface IIngredientsList {
     name: string;
     quantity: Iquantity | undefined;
 }
+
+export interface IInputsModal {
+    tag: string;
+    label: string;
+    name: string;
+    type?: string;
+    value?: string | number | null;
+    option?: IOption[];
+}
+
+export interface IOption {
+    id?: string;
+    name: string;
+}

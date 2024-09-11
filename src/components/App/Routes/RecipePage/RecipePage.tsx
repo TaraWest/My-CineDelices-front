@@ -16,7 +16,6 @@ function RecipePage() {
     const [ingredientsList, setIngredientsList] = useState<
         IIngredientsList[] | null
     >(null);
-
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
         fetchRecipe(Number(id))
@@ -174,7 +173,7 @@ function RecipePage() {
                 <UpdateRecipeModal recipeData={dataFetch}></UpdateRecipeModal>
                 <p>Une recette à proposer?</p>
                 <Link to="/connexion" className="my-1em">
-                    connectez vous!
+                    Connectez vous!
                 </Link>
             </footer>
         </div>

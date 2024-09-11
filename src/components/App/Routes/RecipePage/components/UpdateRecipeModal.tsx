@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import './UpdateRecipeModal.scss';
-import { IIngredients, IRecipe } from '../models';
-import { Update } from 'vite/types/hmrPayload.js';
+import { IInputsModal, IRecipe } from '../models';
+import { getInputsRecipeForm } from '../services/modalUpdateRecipeFormFieldsConfig';
+import ModalComponent from './ModalComponent';
 
 interface UpdateRecipeModalProps {
     recipeData: IRecipe;
@@ -12,6 +13,7 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
     const [isRecipeOwner, setIsRecipeOwner] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     const [recipeOrFilm, setRecipeOrFilm] = useState('recipe');
+    const InputsModal = getInputsRecipeForm(recipeData);
 
     function toggleModal() {
         setIsOpen(!isOpen);
@@ -58,6 +60,10 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
         }
     }
 
+    // function handleChangeInput() {
+    //     console.log('input change !');
+    // }
+
     console.log(recipePartData);
 
     if (!recipeData) return <div>Chargement en cours ^^</div>;
@@ -91,7 +97,18 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                 Partie Film
                             </button>
                         </div>
-                        {recipeOrFilm === 'recipe' && (
+                        <div>
+                            {InputsModal.map((item: IInputsModal) => {
+                                return (
+                                    <ModalComponent
+                                        key={item.name}
+                                        item={item}
+                                    />
+                                );
+                            })}
+                        </div>
+
+                        {/* {recipeOrFilm === 'recipe' && (
                             <div>
                                 {recipePartData &&
                                     recipePartData.map(
@@ -172,7 +189,7 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                     </div>
                                 </div>
                             </div>
-                        )}
+                        )} */}
 
                         <button>Soumettre</button>
                         <button onClick={toggleModal}>Annuler</button>
