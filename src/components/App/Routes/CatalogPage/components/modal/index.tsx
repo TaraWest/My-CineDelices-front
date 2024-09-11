@@ -122,6 +122,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
             const response = await axios.post(
                 'http://localhost:3000/recipes',
                 formData,
+                { withCredentials: true },
             );
             onAddRecipe(response.data);
             toggleModal();
@@ -204,6 +205,22 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                                         onChange={handleMovieFileChange}
                                     />
+                                </div>
+
+                                {/* Type de catégorie*/}
+                                <div className="sm:col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Catégorie
+                                    </label>
+                                    <select
+                                        name="category_id"
+                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        required
+                                    >
+                                        <option value="1">Film</option>
+                                        <option value="2">Série</option>
+                                        <option value="3">Animé</option>
+                                    </select>
                                 </div>
 
                                 {/* Type de recette */}
