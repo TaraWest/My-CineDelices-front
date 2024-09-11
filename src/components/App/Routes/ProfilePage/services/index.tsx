@@ -40,3 +40,17 @@ export async function updateUser(userUpdateData: IUser) {
         );
     }
 }
+
+export async function getUserRecipes() {
+    try {
+        const response = await axios.get('http://localhost:3000/user/recipes', {
+            withCredentials: true,
+        });
+        return response;
+    } catch (error) {
+        console.error(
+            'Erreur lors de la récupération des données utilisateur',
+            error,
+        );
+    }
+}

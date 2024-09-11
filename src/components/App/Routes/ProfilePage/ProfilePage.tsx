@@ -4,6 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import { fetchUser, updateUser } from './services';
 import { IUser } from './models';
 import './ProfilPage.css';
+import RecepiesTab from './RecepiesTab';
 
 function ProfilePage() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
@@ -213,7 +214,9 @@ function ProfilePage() {
             {/* here the tab "mes recettes" */}
             <div
                 className={`${switchTab ? 'flex m-4 flex-col sm:flex-row' : 'hidden'}`}
-            ></div>
+            >
+                <RecepiesTab></RecepiesTab>
+            </div>
         </div>
     );
 }

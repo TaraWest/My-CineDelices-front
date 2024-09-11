@@ -7,11 +7,11 @@
 @tailwind utilities;
 
 .header {
-    // Style de base pour l'en-tête : flexbox, espacement, couleur de fond, etc.
+    // Base style for the header
     @apply flex justify-between items-center p-4 bg-dark-red text-skin border-b-2 relative;
 
     .logo-container {
-        // Styles pour le conteneur du logo : taille du texte et gras
+        // text size and font weight
         @apply text-2xl font-bold;
     }
 
@@ -33,23 +33,23 @@
     }
 
     .link-container {
-        // Styles pour le conteneur des liens : alignement et espacement
+        // alignment and spacing
         @apply flex items-center space-x-2 relative;
     }
 
     .icon {
-        // Styles pour les icônes : taille du texte
+        // text size
         @apply text-xl cursor-pointer;
     }
 
     .burger-menu .line {
-        // Styles pour les lignes du menu burger : dimensions et couleur
+        // dimensions and color
         width: 25px;
         height: 3px;
         background-color: var(#d9c7b8);
         margin: 4px 0;
     }
-    // barre de recherche
+    // Search bar styles
     .search-bar {
         @apply absolute top-9 right-28 bg-skin text-black w-64 transition-transform duration-300 ease-in-out;
         right: 7.5rem;
@@ -60,40 +60,40 @@
             right: 0;
         }
     }
-
-    // Styles pour le menu mobile
     .mobile-menu {
         @apply absolute right-0 top-20 bg-dark-red w-full h-screen transition-transform duration-300 ease-in-out;
 
+        @media (min-width: 768px) {
+            @apply w-1/2; // Apply w-1/2 only on desktop
+        }
+
         .block {
-            // Styles pour les éléments du menu mobile : espacement et bordure
             @apply py-2 border-b bg-dark-red;
 
-            // Supprimer la bordure du dernier élément
             &:last-child {
                 @apply border-b-0;
             }
         }
     }
-}
 
-// Styles pour les icônes en fonction de la largeur de l'écran
-@media (min-width: 500px) {
-    .icon .faPlus {
-        @apply hidden; // Masquer l'icône faPlus sur les grands écrans
+    // Icon styles based on screen width
+    @media (min-width: 500px) {
+        .icon .faPlus {
+            @apply hidden;
+        }
+
+        .icon span {
+            @apply inline-block; //  Show text on larger screens
+        }
     }
 
-    .icon span {
-        @apply inline-block; // Afficher le texte sur les grands écrans
-    }
-}
+    @media (max-width: 500px) {
+        .icon .faPlus {
+            @apply inline-block; // Afficher l'icône faPlus sur les petits écrans
+        }
 
-@media (max-width: 500px) {
-    .icon .faPlus {
-        @apply inline-block; // Afficher l'icône faPlus sur les petits écrans
-    }
-
-    .icon span {
-        @apply hidden; // Masquer le texte sur les petits écrans
+        .icon span {
+            @apply hidden;
+        }
     }
 }
