@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './ProfilPage.css';
 import { fetchUser, updateUser } from './services';
 import { IUser } from './models';
+import { useMediaQuery } from 'react-responsive';
 
 function ProfilePage() {
+    const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
+    const navigate = useNavigate();
     // State de données de notre utilisateur
     const [userData, setUserData] = useState<IUser | null>(null);
 
@@ -21,6 +24,10 @@ function ProfilePage() {
     const [lastName, setLastName] = useState<string>('');
     const [userName, setUserName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
+
+    function handleNavigate() {
+        navigate('/connexion');
+    }
 
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         switch (e.target.name) {
@@ -75,48 +82,20 @@ function ProfilePage() {
     }, []);
     // On gère le cas où il n'y a pas d'utilisateur trouvé
     if (!userData)
-        return <div>Le navire coule et tu es seul dans la mer...</div>;
-    /*
-    - useEffect avec tableau de dépendance vide => charge les données de l'utilisateur et ça les met dans le state userData via setUserData.
-    - au clic sur un bouton setEditForm => true, ce qui rend les inputs modifiables
-    - dans l'input, handleInputChange sur l'attribut OnChange permet de mettre à jour les states pour chaque input
-    - utiliser switch case break comme dans l'exemple d'Alexis
-    - Au submit, mettre en place un objet const dataToSend = {
-        first_name:firstName
-        last
-        user
-        email
-        password
-    }
-    await fonctionpour mettre à jour la bdd
-                ----------------------------------------------------------------------------------
-                 - useEffect avec tableau de dépendance vide => charge les données de l'utilisateur et ça les met dans le state userData via setUserData.
-    - au clic sur un bouton setEditForm => true, ce qui rend les inputs modifiables
-    - dans l'input, handleInputChange sur l'attribut OnChange permet de mettre à jour le userData 
- 
-    - Au submit 
-    await fonctionpour mettre à jour la bdd
-
-*/
-
-    // // State de mise à jour de donnée utilisateur
-    // const [formData, setFormData] = useState({
-    //     first_name: '',
-    //     last_name:'',
-    //     username:'',
-    //     email_adress:'',
-    // })
-
-    // // On met à jour les champs du formulaire
-    // function handleInputChange(e: React.ChangeEvent<HTMLInputElement>){
-    //     const { name, value }=e.target.value;
-    //     setUserData({ ...userData, [name]: value });
-    // };
+        return (
+            <div className="flex flex-col">
+                <p>Merci de vous connecter pour accéder à cette page</p>
+                <button onClick={handleNavigate} className="my-1em">
+                    Connectez vous!
+                </button>
+            </div>
+        );
 
     console.log(userData);
+    console.log(firstName);
 
     return (
-        <div className="flex m-2 flex-row">
+        <div className={`flex m-2 ${isDesktop ? 'flex-row' : 'flex-col'}`}>
             <div className="flex m-4 flex-col">
                 <button
                     onClick={() => setSwitchTab(!switchTab)}
@@ -147,7 +126,11 @@ function ProfilePage() {
                         type="text"
                         id="prenom"
                         name="first_name"
-                        value={userData.first_name}
+                        value={
+                            firstName === userData.first_name
+                                ? userData.first_name
+                                : firstName
+                        }
                         onChange={handleInputChange}
                         disabled={!editForm}
                     />
@@ -157,7 +140,11 @@ function ProfilePage() {
                         type="text"
                         id="nom"
                         name="last_name"
-                        value={userData.last_name}
+                        value={
+                            firstName === userData.last_name
+                                ? userData.last_name
+                                : lastName
+                        }
                         onChange={handleInputChange}
                         disabled={!editForm}
                     />
@@ -167,7 +154,11 @@ function ProfilePage() {
                         type="text"
                         id="pseudo"
                         name="username"
-                        value={userData.username}
+                        value={
+                            firstName === userData.username
+                                ? userData.username
+                                : userName
+                        }
                         onChange={handleInputChange}
                         disabled={!editForm}
                     />
@@ -177,7 +168,11 @@ function ProfilePage() {
                         type="email"
                         id="email"
                         name="email_adress"
-                        value={userData.email_address}
+                        value={
+                            firstName === userData.email_address
+                                ? userData.email_address
+                                : email
+                        }
                         onChange={handleInputChange}
                         disabled={!editForm}
                     />
