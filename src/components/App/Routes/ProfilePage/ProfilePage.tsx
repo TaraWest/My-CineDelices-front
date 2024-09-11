@@ -108,8 +108,8 @@ function ProfilePage() {
                     onClick={() => setSwitchTab(!switchTab)}
                     className={`px-4 py-2 rounded ${
                         switchTab
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-gray-200 text-black'
+                            ? 'bg-transparent text-white'
+                            : 'bg-dark-red text-skin'
                     }`}
                 >
                     Mes Recettes
@@ -118,18 +118,25 @@ function ProfilePage() {
                     onClick={() => setSwitchTab(!switchTab)}
                     className={`px-4 py-2 rounded ${
                         switchTab
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-gray-200 text-black'
+                            ? 'bg-dark-red text-skin'
+                            : 'bg-transparent text-white'
                     }`}
                 >
                     Mes Informations personnelles
                 </button>
             </div>
-            <div className="flex m-4 flex-col sm:flex-row">
+            {/* here the tab "Mes Informations personnelles" */}
+            <div
+                className={`${switchTab ? 'hidden' : 'flex m-4 flex-col sm:flex-row'}`}
+            >
                 <form className="flex m-4 flex-col" onSubmit={handleSubmit}>
                     <label htmlFor="prenom">Prénom</label>
                     <input
-                        className="m-4 text-center bg-transparent"
+                        className={
+                            editForm
+                                ? 'form-input m-4 text-center'
+                                : 'm-4 text-center bg-transparent'
+                        }
                         type="text"
                         id="prenom"
                         name="first_name"
@@ -143,7 +150,11 @@ function ProfilePage() {
                     />
                     <label htmlFor="nom">Nom</label>
                     <input
-                        className="m-4 text-center bg-transparent"
+                        className={
+                            editForm
+                                ? 'form-input m-4 text-center'
+                                : 'm-4 text-center bg-transparent'
+                        }
                         type="text"
                         id="nom"
                         name="last_name"
@@ -157,7 +168,11 @@ function ProfilePage() {
                     />
                     <label htmlFor="pseudo">Pseudo</label>
                     <input
-                        className="m-4 text-center bg-transparent"
+                        className={
+                            editForm
+                                ? 'form-input m-4 text-center'
+                                : 'm-4 text-center bg-transparent'
+                        }
                         type="text"
                         id="pseudo"
                         name="username"
@@ -171,7 +186,11 @@ function ProfilePage() {
                     />
                     <label htmlFor="email">Email</label>
                     <input
-                        className="m-4 text-center bg-transparent"
+                        className={
+                            editForm
+                                ? 'form-input m-4 text-center'
+                                : 'm-4 text-center bg-transparent'
+                        }
                         type="email"
                         id="email"
                         name="email_adress"
@@ -191,7 +210,10 @@ function ProfilePage() {
                     </button>
                 </form>
             </div>
-            <div className="my-recepies"></div>
+            {/* here the tab "mes recettes" */}
+            <div
+                className={`${switchTab ? 'flex m-4 flex-col sm:flex-row' : 'hidden'}`}
+            ></div>
         </div>
     );
 }
