@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './UpdateRecipeModal.scss';
-import { IInputsModal, IRecipe } from '../models';
+import { IInputsModal, IMovie, IRecipe } from '../models';
 import { getInputsRecipeForm } from '../services/modalUpdateRecipeFormFieldsConfig';
 import ModalComponent from './ModalComponent';
 
@@ -14,6 +14,8 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [recipeOrFilm, setRecipeOrFilm] = useState('recipe');
     const InputsModal = getInputsRecipeForm(recipeData);
+    const { Ingredient, Preparations, Movie } = recipeData;
+    console.log(Ingredient);
 
     function toggleModal() {
         setIsOpen(!isOpen);
@@ -33,19 +35,6 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
     
 */
     console.log(recipeData);
-    const { name, anecdote, difficulty, picture, total_duration, Ingredient } =
-        recipeData;
-
-    const recipePartData: IRecipePartData[] = [
-        { label: 'Nom de la Recette', value: name },
-        { label: 'Durée de préparation', value: total_duration },
-        { label: 'Anecdote', value: anecdote },
-        { label: 'Image associée à la recette', value: picture },
-    ];
-    interface IRecipePartData {
-        label: string;
-        value: string | number | null | undefined;
-    }
 
     function toggleRecipeOrFilmPart(
         event: React.MouseEvent<HTMLButtonElement>,
@@ -63,8 +52,6 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
     // function handleChangeInput() {
     //     console.log('input change !');
     // }
-
-    console.log(recipePartData);
 
     if (!recipeData) return <div>Chargement en cours ^^</div>;
 
@@ -97,16 +84,113 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                 Partie Film
                             </button>
                         </div>
-                        <div>
-                            {InputsModal.map((item: IInputsModal) => {
-                                return (
-                                    <ModalComponent
-                                        key={item.name}
-                                        item={item}
-                                    />
-                                );
-                            })}
-                        </div>
+                        {recipeOrFilm === 'recipe' && (
+                            <div>
+                                <div>
+                                    {InputsModal.map((item: IInputsModal) => {
+                                        return (
+                                            <ModalComponent
+                                                key={item.name}
+                                                item={item}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                                <div>
+                                    {Ingredient &&
+                                        Ingredient.map((item, index) => {
+                                            return (
+                                                <div className="text-black">
+                                                    <label>
+                                                        {' '}
+                                                        Ingrédient {index + 1}
+                                                        <input
+                                                            type="text"
+                                                            value={item.name}
+                                                        />
+                                                    </label>
+                                                    <label>
+                                                        {' '}
+                                                        Quantité {index + 1}
+                                                        <input
+                                                            type="text"
+                                                            value={
+                                                                item.quantity
+                                                            }
+                                                        />
+                                                    </label>
+                                                </div>
+                                            );
+                                        })}
+                                </div>
+                                <div>
+                                    {Preparations &&
+                                        Preparations.map((step) => {
+                                            return (
+                                                <div className="text-black">
+                                                    <label>
+                                                        Etape:
+                                                        <input
+                                                            type="text"
+                                                            value={
+                                                                step.step_position
+                                                            }
+                                                        />
+                                                    </label>
+                                                    <label>
+                                                        Description:
+                                                        <input
+                                                            type="text"
+                                                            value={
+                                                                step.description
+                                                            }
+                                                        />
+                                                    </label>
+                                                </div>
+                                            );
+                                        })}
+                                </div>
+                            </div>
+                        )}
+                        {recipeOrFilm === 'film' && (
+                            <div className="text-black ">
+                                <div className="flex flex-col">
+                                    <label>
+                                        Titre
+                                        <input
+                                            name="name"
+                                            type="text"
+                                            value={Movie.name}
+                                        />
+                                    </label>
+                                    <label>
+                                        Catégorie
+                                        <select
+                                            name="Category"
+                                            defaultValue={Movie.Category.name}
+                                        >
+                                            <option value="Film" id="1">
+                                                Film
+                                            </option>
+                                            <option value="Série" id="2">
+                                                Série
+                                            </option>
+                                            <option value="Anime" id="3">
+                                                Anime
+                                            </option>
+                                        </select>
+                                    </label>
+                                    <label>
+                                        Image associée
+                                        <input
+                                            name="picture"
+                                            type="file"
+                                            value=""
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+                        )}
 
                         {/* {recipeOrFilm === 'recipe' && (
                             <div>

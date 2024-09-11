@@ -15,7 +15,7 @@ interface IDishType {
     name: string;
 }
 
-interface IMovie {
+export interface IMovie {
     id: number;
     name: string;
     picture: string;
