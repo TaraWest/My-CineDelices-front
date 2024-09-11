@@ -36,7 +36,7 @@ const SearchBar: React.FC = () => {
     // Gestion de la récupération des suggestions basées sur la valeur entrée
     const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
         const filteredSuggestions = allRecipes.filter((recipe) =>
-            recipe.name.toLowerCase().includes(value.toLowerCase()),
+            recipe.name.toLowerCase().startsWith(value.toLowerCase()),
         );
         setSuggestions(filteredSuggestions);
     };
