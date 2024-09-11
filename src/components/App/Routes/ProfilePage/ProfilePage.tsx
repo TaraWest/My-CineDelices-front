@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './ProfilPage.css';
+import { useMediaQuery } from 'react-responsive';
 import { fetchUser, updateUser } from './services';
 import { IUser } from './models';
-import { useMediaQuery } from 'react-responsive';
+import './ProfilPage.css';
 
 function ProfilePage() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
@@ -16,10 +16,10 @@ function ProfilePage() {
     // true : "informations personnelles"
     const [switchTab, setSwitchTab] = useState(true);
 
-    // State pour le formulaire qui sera par défault pas éditable
+    // The form is not editable by default
     const [editForm, setEditForm] = useState(false);
 
-    // States de mise à jour des valeurs des inputs
+    // update user's data
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [userName, setUserName] = useState<string>('');
@@ -56,7 +56,6 @@ function ProfilePage() {
         } else {
             // au submitForm si editForm=true
             const dataToSend: IUser = {
-                id: userData?.id,
                 first_name: firstName,
                 last_name: lastName,
                 username: userName,
@@ -74,20 +73,28 @@ function ProfilePage() {
         fetchUser()
             .then((data) => {
                 setUserData(data);
+                setFirstName(data.first_name);
+                setLastName(data.last_name);
+                setUserName(data.username);
+                setEmail(data.email_address);
                 return;
             })
+
             .catch((error) => {
                 return error;
             });
     }, []);
+
     // On gère le cas où il n'y a pas d'utilisateur trouvé
     if (!userData)
         return (
-            <div className="flex flex-col">
-                <p>Merci de vous connecter pour accéder à cette page</p>
-                <button onClick={handleNavigate} className="my-1em">
-                    Connectez vous!
-                </button>
+            <div className="justify-center flex h-160">
+                <div className="flex flex-col max-w-xs m-6 items-center ">
+                    <p>Merci de vous connecter pour accéder à cette page</p>
+                    <button onClick={handleNavigate} className="mt-30">
+                        Connectez vous!
+                    </button>
+                </div>
             </div>
         );
 

@@ -18,16 +18,20 @@ export async function fetchUser() {
 
 export async function updateUser(userUpdateData: IUser) {
     try {
-        const response = await axios.post('http://localhost:3000/users', {
-            // On inclut les cookies dans la requête
-            withCredentials: true,
-            data: {
+        const response = await axios.put(
+            'http://localhost:3000/me',
+            {
+                // User data to update
                 last_name: userUpdateData.last_name,
                 first_name: userUpdateData.first_name,
                 username: userUpdateData.username,
                 email_address: userUpdateData.email_address,
             },
-        });
+            {
+                // include cookies
+                withCredentials: true,
+            },
+        );
         return response.data;
     } catch (error) {
         console.error(
