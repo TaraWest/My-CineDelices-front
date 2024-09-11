@@ -60,39 +60,40 @@
             right: 0;
         }
     }
-
     .mobile-menu {
         @apply absolute right-0 top-20 bg-dark-red w-full h-screen transition-transform duration-300 ease-in-out;
 
+        @media (min-width: 768px) {
+            @apply w-1/2; // Apply w-1/2 only on desktop
+        }
+
         .block {
-            // mobile menu items: spacing and border
             @apply py-2 border-b bg-dark-red;
 
-            // Remove border from the last item
             &:last-child {
                 @apply border-b-0;
             }
         }
     }
-}
 
-// Icon styles based on screen width
-@media (min-width: 500px) {
-    .icon .faPlus {
-        @apply hidden;
+    // Icon styles based on screen width
+    @media (min-width: 500px) {
+        .icon .faPlus {
+            @apply hidden;
+        }
+
+        .icon span {
+            @apply inline-block; //  Show text on larger screens
+        }
     }
 
-    .icon span {
-        @apply inline-block; //  Show text on larger screens
-    }
-}
+    @media (max-width: 500px) {
+        .icon .faPlus {
+            @apply inline-block; // Afficher l'icône faPlus sur les petits écrans
+        }
 
-@media (max-width: 500px) {
-    .icon .faPlus {
-        @apply inline-block;
-    }
-
-    .icon span {
-        @apply hidden;
+        .icon span {
+            @apply hidden;
+        }
     }
 }

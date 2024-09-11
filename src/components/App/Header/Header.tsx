@@ -48,7 +48,7 @@ function Header() {
             </div>
 
             {/* Icons and links container */}
-            <div className="link-container flex items-center space-x-4 relative ml-2 text-skin  ">
+            <div className="link-container flex items-center space-x-4 relative ml-2 text-skin ">
                 {/* User Icon*/}
                 {(!isSearchOpen || isDesktop) && (
                     <Link to="/connexion" className="block py-2">
@@ -106,7 +106,7 @@ function Header() {
 
             {/* Mobile menu - shown/hidden based on isMenuOpen state */}
             {isMenuOpen && (
-                <div className="mobile-menu bg-dark-red w-full absolute">
+                <div className="mobile-menu bg-dark-red  ${isDesktop ? 'w-1/2' : 'w-full'} absolute">
                     {/* burger menu links */}
                     <div className="p-4">
                         <Link to="/" className="block py-2" onClick={closeMenu}>
@@ -134,7 +134,7 @@ function Header() {
                             Inscription
                         </Link>
                         <Link
-                            to="/addrecipe"
+                            to="/inscription"
                             className="block py-2"
                             onClick={closeMenu}
                         >
