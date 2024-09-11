@@ -46,29 +46,32 @@ function Header() {
             {/* Conteneur des icônes et des liens */}
             <div className="link-container flex items-center space-x-4 relative ml-2 text-skin  ">
                 {/* Icône utilisateur */}
-                <Link to="/connexion" className="block py-2">
-                    <div className="icon cursor-pointer ">
-                        <FontAwesomeIcon icon={faUser} />
-                    </div>
-                </Link>
-
-                {/* Icône pour ajouter une recette */}
-                <div className="icon flex items-center">
-                    {/* Affichage de l'icône sur petits écrans */}
-
-                    <FontAwesomeIcon
-                        icon={faPlus}
-                        className="block sm:hidden"
-                    />
-
-                    {/* Texte "Ajouter une recette" visible sur les écrans de plus de 500px */}
-                    <Link
-                        to="/catalogue"
-                        className="hidden sm:block cursor-pointer"
-                    >
-                        <button>Recettes</button>
+                {(!isSearchOpen || isDesktop) && (
+                    <Link to="/connexion" className="block py-2">
+                        <div className="icon cursor-pointer ">
+                            <FontAwesomeIcon icon={faUser} />
+                        </div>
                     </Link>
-                </div>
+                )}
+                {/* Icône pour ajouter une recette */}
+                {(!isSearchOpen || isDesktop) && (
+                    <div className="icon flex items-center">
+                        {/* Affichage de l'icône sur petits écrans */}
+
+                        <FontAwesomeIcon
+                            icon={faPlus}
+                            className="block sm:hidden"
+                        />
+
+                        {/* Texte "Ajouter une recette" visible sur les écrans de plus de 500px */}
+                        <Link
+                            to="/catalogue"
+                            className="hidden sm:block cursor-pointer"
+                        >
+                            <button>Recettes</button>
+                        </Link>
+                    </div>
+                )}
                 {/* Barre de recherche */}
                 {isSearchOpen && (
                     <div

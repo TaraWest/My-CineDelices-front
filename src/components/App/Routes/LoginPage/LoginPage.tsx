@@ -49,9 +49,7 @@ function LoginPage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-
             credentials: 'include', // Doit être ici, en dehors des headers
-
             body: JSON.stringify(data),
         });
 
