@@ -8,12 +8,6 @@ export const getInputsRecipeForm = (state) => [
         value: state,
     },
     {
-        label: 'Image associée à la recette',
-        name: 'picture',
-        type: 'file',
-        value: state,
-    },
-    {
         label: 'Temps de préparation',
         name: 'total_duration',
         type: 'number',
@@ -21,11 +15,29 @@ export const getInputsRecipeForm = (state) => [
         value: state,
     },
     {
-        label: 'type de plat ',
-        name: 'email_address',
-        type: 'email',
-        value: state.email_address,
+        label: 'Image associée à la recette',
+        name: 'picture',
+        type: 'file',
+        value: state,
     },
+    // {
+    //     label: 'Type de plat ',
+    //     name: 'DishType',
+    //     type: 'radio',
+    //     value: state,
+    // },
+    // {
+    //     label: 'Type de plat ',
+    //     name: 'DishType',
+    //     type: 'radio',
+    //     value: state,
+    // },
+    // {
+    //     label: 'Type de plat ',
+    //     name: 'DishType',
+    //     type: 'radio',
+    //     value: state,
+    // },
     {
         label: 'Mot de Passe',
         name: 'password',
