@@ -1,25 +1,31 @@
 import { IInputsModal, IOption } from '../models';
+import './UpdateRecipeModal.scss';
 
 interface ModalComponentProps {
     item: IInputsModal;
-    // handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleChange: (
+        e: React.ChangeEvent<
+            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+        >,
+    ) => void;
 }
 
-function ModalComponent({ item }: ModalComponentProps) {
+function ModalComponent({ item, handleChange }: ModalComponentProps) {
     // const errorMessage = validateForm(input, password, passwordConfirm);
     if (item.tag === 'input') {
         return (
             <div className="flex flex-col items-center gap-2 w-full">
-                <label className="form-label text-black">
+                <label className="modal-label ">
                     {item.label}
 
                     <input
                         // className={errorMessage ? 'form-input-error' : 'form-input'}
-                        className="form-input"
+                        className="modal-input"
                         type={item.type}
                         name={item.name}
-                        // onChange={handleChangeInput}
-                        value={item.value ?? ''}
+                        accept={item.accept ? item.accept : ''}
+                        onChange={handleChange}
+                        value={item.value ? item.value : undefined}
                         required
                     />
                 </label>
@@ -31,22 +37,19 @@ function ModalComponent({ item }: ModalComponentProps) {
     } else if (item.tag === 'select') {
         return (
             <div className="flex flex-col items-center gap-2 w-full">
-                <label className="form-label text-black">
+                <label className="modal-label">
                     {item.label}
 
                     <select
                         // className={errorMessage ? 'form-input-error' : 'form-input'}
-                        className="form-input"
+                        className="modal-input"
                         name={item.name}
-                        // onChange={handleChangeInput}
+                        onChange={handleChange}
                         value={item.value ?? ''}
-                        required
                     >
                         {item.option?.map((option: IOption) => {
                             return (
-                                <option
-                                    id={option.id ? option.id : option.name}
-                                >
+                                <option key={option.name} value={option.name}>
                                     {option.name}
                                 </option>
                             );
@@ -61,10 +64,15 @@ function ModalComponent({ item }: ModalComponentProps) {
     } else if (item.tag === 'textarea') {
         return (
             <div className="flex flex-col items-center gap-2 w-full">
-                <label className="form-label text-black">
+                <label className="modal-label">
                     {item.label}
 
-                    <textarea name="" id="" value={item.value ?? ''}></textarea>
+                    <textarea
+                        name="anecdote"
+                        value={item.value ?? ''}
+                        onChange={handleChange}
+                        className="modal-textarea"
+                    ></textarea>
                 </label>
                 {/* {errorMessage && (
             <div className="w-full italic text-gold">{errorMessage}</div>

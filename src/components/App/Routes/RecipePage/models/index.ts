@@ -65,6 +65,7 @@ export interface IInputsModal {
     type?: string;
     value?: string | number | null;
     option?: IOption[];
+    accept?: string;
 }
 
 export interface IOption {

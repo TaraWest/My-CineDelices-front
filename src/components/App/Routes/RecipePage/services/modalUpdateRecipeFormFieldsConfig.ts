@@ -10,7 +10,7 @@ export const getInputsRecipeForm = (data: IRecipe) => [
     },
     {
         tag: 'input',
-        label: 'Temps de préparation',
+        label: 'Temps de préparation (en minutes)',
         name: 'total_duration',
         type: 'number',
         // placeholder: 'En minutes',
@@ -21,8 +21,8 @@ export const getInputsRecipeForm = (data: IRecipe) => [
         label: 'Image associée à la recette',
         name: 'picture',
         type: 'file',
+        accept: 'images/*',
         // placeholder: '50MB max!',
-        value: '',
     },
     {
         tag: 'select',
@@ -36,7 +36,7 @@ export const getInputsRecipeForm = (data: IRecipe) => [
         label: 'Type de plat',
         name: 'DishType',
         option: [
-            { id: '1', name: 'Facile' },
+            { id: '1', name: 'Boisson' },
             { id: '2', name: 'Plat' },
             { id: '3', name: 'Dessert' },
             { id: '4', name: 'Entrée' },

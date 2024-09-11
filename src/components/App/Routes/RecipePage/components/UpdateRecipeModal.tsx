@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import './UpdateRecipeModal.scss';
-import { IInputsModal, IMovie, IRecipe } from '../models';
+import { IInputsModal, IRecipe } from '../models';
 import { getInputsRecipeForm } from '../services/modalUpdateRecipeFormFieldsConfig';
 import ModalComponent from './ModalComponent';
+import { recipeReducer } from '../services/RecipeReducer';
 
 interface UpdateRecipeModalProps {
     recipeData: IRecipe;
@@ -13,34 +14,20 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
     const [isRecipeOwner, setIsRecipeOwner] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     const [recipeOrFilm, setRecipeOrFilm] = useState('recipe');
-    const InputsModal = getInputsRecipeForm(recipeData);
     const { Ingredient, Preparations, Movie } = recipeData;
-    console.log(Ingredient);
+
+    const [state, dispatch] = useReducer(recipeReducer, recipeData);
+    const InputsModal = getInputsRecipeForm(state);
 
     function toggleModal() {
         setIsOpen(!isOpen);
     }
-    //recevoir les données de la part de la recette en cours
-    /*Les disposer dans la modale:
-    - nom de recette
-    - image cuisine
-    - temps préparation
-    - type plat (select)
-    - liste ingrédient: liste avec quantité et description
-    - liste préparation: numéro étape et description
-    - anecdote
-    - nom du film
-    - image film
-    - type film (select)
-    
-*/
+
     console.log(recipeData);
 
     function toggleRecipeOrFilmPart(
         event: React.MouseEvent<HTMLButtonElement>,
     ) {
-        console.log(event.currentTarget.id);
-
         if (event.currentTarget.id === 'recipe') {
             setRecipeOrFilm('recipe');
         }
@@ -49,9 +36,44 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
         }
     }
 
-    // function handleChangeInput() {
-    //     console.log('input change !');
-    // }
+    function handleChange(
+        event: React.ChangeEvent<
+            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+        >,
+    ) {
+        const { name, value } = event.target;
+        if (name.includes('step_position') || name.includes('description')) {
+            const index = Number(name.split(' ')[1]);
+            const field = name.split(' ')[0];
+            console.log(index);
+            console.log(field);
+
+            dispatch({
+                type: 'UPDATE_PREPARATION',
+                field,
+                index,
+                value: value,
+            });
+        } else if (name.includes('name') || name.includes('quantity')) {
+            const index = Number(name.split('_')[1]);
+            const field = name.split('_')[0];
+
+            dispatch({
+                type: 'UPDATE_INGREDIENT',
+                field,
+                index,
+                value: value,
+            });
+        } else {
+            dispatch({
+                type: 'SET_FIELD',
+                field: name,
+                value: value,
+            });
+        }
+    }
+
+    console.log(state);
 
     if (!recipeData) return <div>Chargement en cours ^^</div>;
 
@@ -84,6 +106,7 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                 Partie Film
                             </button>
                         </div>
+                        {/* Update Recipe Modal Part */}
                         {recipeOrFilm === 'recipe' && (
                             <div>
                                 <div>
@@ -92,30 +115,50 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                             <ModalComponent
                                                 key={item.name}
                                                 item={item}
+                                                handleChange={handleChange}
                                             />
                                         );
                                     })}
                                 </div>
+                                {/* Ingredients part */}
                                 <div>
                                     {Ingredient &&
                                         Ingredient.map((item, index) => {
                                             return (
-                                                <div className="text-black">
+                                                <div
+                                                    key={item.id}
+                                                    className="text-black"
+                                                >
                                                     <label>
-                                                        {' '}
                                                         Ingrédient {index + 1}
                                                         <input
+                                                            name={`name_${index}`}
                                                             type="text"
-                                                            value={item.name}
+                                                            onChange={
+                                                                handleChange
+                                                            }
+                                                            value={
+                                                                state
+                                                                    .Ingredient[
+                                                                    index
+                                                                ].name
+                                                            }
                                                         />
                                                     </label>
                                                     <label>
                                                         {' '}
                                                         Quantité {index + 1}
                                                         <input
+                                                            name={`quantity_${index}`}
                                                             type="text"
+                                                            onChange={
+                                                                handleChange
+                                                            }
                                                             value={
-                                                                item.quantity
+                                                                state
+                                                                    .Ingredient[
+                                                                    index
+                                                                ].quantity
                                                             }
                                                         />
                                                     </label>
@@ -125,24 +168,41 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                 </div>
                                 <div>
                                     {Preparations &&
-                                        Preparations.map((step) => {
+                                        Preparations.map((step, index) => {
                                             return (
-                                                <div className="text-black">
+                                                <div
+                                                    key={step.id}
+                                                    className="text-black"
+                                                >
                                                     <label>
                                                         Etape:
                                                         <input
-                                                            type="text"
+                                                            name={`step_position ${index}`}
+                                                            onChange={
+                                                                handleChange
+                                                            }
+                                                            type="number"
                                                             value={
-                                                                step.step_position
+                                                                state
+                                                                    .Preparations[
+                                                                    index
+                                                                ].step_position
                                                             }
                                                         />
                                                     </label>
                                                     <label>
                                                         Description:
                                                         <input
+                                                            name={`description ${index}`}
                                                             type="text"
+                                                            onChange={
+                                                                handleChange
+                                                            }
                                                             value={
-                                                                step.description
+                                                                state
+                                                                    .Preparations[
+                                                                    index
+                                                                ].description
                                                             }
                                                         />
                                                     </label>
@@ -160,7 +220,7 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                         <input
                                             name="name"
                                             type="text"
-                                            value={Movie.name}
+                                            defaultValue={Movie.name}
                                         />
                                     </label>
                                     <label>
@@ -191,89 +251,6 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                 </div>
                             </div>
                         )}
-
-                        {/* {recipeOrFilm === 'recipe' && (
-                            <div>
-                                {recipePartData &&
-                                    recipePartData.map(
-                                        (data: IRecipePartData) => {
-                                            return (
-                                                <label className="modal-label">
-                                                    {data.label}:
-                                                    <input
-                                                        className="text-black text-center "
-                                                        type={
-                                                            data.label ===
-                                                            'Image associée à la recette'
-                                                                ? 'file'
-                                                                : 'text'
-                                                        }
-                                                        value={
-                                                            data.label ===
-                                                            'Image associée à la recette'
-                                                                ? ''
-                                                                : data.value
-                                                        }
-                                                        required
-                                                        // disabled
-                                                    />
-                                                </label>
-                                            );
-                                        },
-                                    )}
-                                <div className="flex flex-col items-center">
-                                    <label className="update-anecdote text-black flex flex-col p-2 ">
-                                        Anecdote
-                                        <textarea name="" id="" className="p-7">
-                                            {recipeData.anecdote}
-                                        </textarea>
-                                    </label>
-                                </div>
-                                <div className="recipeIngredientModal ">
-                                    <h3 className="text-black">Ingrédients</h3>
-                                    <div className="flex justify-center">
-                                        <div>
-                                            {Ingredient &&
-                                                Ingredient.map((item) => {
-                                                    return (
-                                                        <label className="text-black flex flex-col items-center">
-                                                            Ingrédient:
-                                                            <input
-                                                                className="text-black text-center "
-                                                                type="text"
-                                                                value={
-                                                                    item.name
-                                                                }
-                                                                required
-                                                                // disabled
-                                                            />
-                                                        </label>
-                                                    );
-                                                })}
-                                        </div>
-                                        <div>
-                                            {Ingredient &&
-                                                Ingredient.map((item) => {
-                                                    return (
-                                                        <label className="text-black flex flex-col items-center">
-                                                            Quantité
-                                                            <input
-                                                                className="text-black text-center "
-                                                                type="text"
-                                                                value={
-                                                                    item.quantity
-                                                                }
-                                                                required
-                                                                // disabled
-                                                            />
-                                                        </label>
-                                                    );
-                                                })}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )} */}
 
                         <button>Soumettre</button>
                         <button onClick={toggleModal}>Annuler</button>
