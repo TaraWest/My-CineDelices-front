@@ -2,9 +2,10 @@ import { useState } from 'react';
 import './LoginPage.scss';
 import { IError } from './models';
 import { ILogin } from './models';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 function LoginPage() {
     const [error, setError] = useState<IError | null>(null);
+    const navigate = useNavigate();
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -49,7 +50,7 @@ function LoginPage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            credentials: 'include',
+            credentials: 'include', // Doit être ici, en dehors des headers
             body: JSON.stringify(data),
         });
 
@@ -65,6 +66,7 @@ function LoginPage() {
 
         const message = await response.json();
         console.log(message);
+        navigate('/catalogue');
     }
 
     return (
