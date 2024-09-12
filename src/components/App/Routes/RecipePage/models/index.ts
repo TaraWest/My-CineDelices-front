@@ -1,4 +1,4 @@
-interface IIngredients {
+export interface IIngredients {
     id: number;
     name: string;
     quantity: string;
@@ -15,7 +15,7 @@ interface IDishType {
     name: string;
 }
 
-interface IMovie {
+export interface IMovie {
     id: number;
     name: string;
     picture: string;
@@ -56,4 +56,19 @@ export interface IIngredientsList {
     id: number;
     name: string;
     quantity: Iquantity | undefined;
+}
+
+export interface IInputsModal {
+    tag: string;
+    label: string;
+    name: string;
+    type?: string;
+    value?: string | number | null;
+    option?: IOption[];
+    accept?: string;
+}
+
+export interface IOption {
+    id?: string;
+    name: string;
 }

@@ -1,9 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
 import './RecipePage.scss';
 import { useEffect, useState } from 'react';
-import { IIngredientsList, IRecipe, Iquantity } from './models';
+import { IIngredientsList, IRecipe } from './models';
 import { fetchRecipe } from './services';
 import { extractNumber } from './services/numberExtraction';
+import UpdateRecipeModal from './components/UpdateRecipeModal';
+import { useAuthContext } from '../../Context/useAuthContext';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -15,9 +17,12 @@ function RecipePage() {
     const [ingredientsList, setIngredientsList] = useState<
         IIngredientsList[] | null
     >(null);
+    const { isAuth, userAuth } = useAuthContext();
 
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
+        // Vérification du contexte authentification
+
         fetchRecipe(Number(id))
             .then((data) => {
                 if ('error' in data) {
@@ -38,7 +43,6 @@ function RecipePage() {
     useEffect(() => {
         if (dataFetch && dataFetch.Ingredient) {
             const { Ingredient } = dataFetch;
-            console.log(Ingredient);
             const result = Ingredient.map((item) => {
                 const quantityUnitSeparation = extractNumber(item.quantity);
                 return {
@@ -49,7 +53,6 @@ function RecipePage() {
             if (result) {
                 setIngredientsList(result);
             }
-            console.log(result);
         }
     }, [dataFetch]);
 
@@ -137,7 +140,7 @@ function RecipePage() {
                             +
                         </div>
                     </div>
-                    <ul className="flex items-start">
+                    <ul className="flex flex-col items-start">
                         {ingredientsList &&
                             ingredientsList.map((ingredient) => (
                                 <li key={ingredient.id} className="p-0.5em">
@@ -170,9 +173,10 @@ function RecipePage() {
             </main>
 
             <footer className="m-1.5em text-center italic flex flex-col">
+                {/* <UpdateRecipeModal recipeData={dataFetch}></UpdateRecipeModal> */}
                 <p>Une recette à proposer?</p>
                 <Link to="/connexion" className="my-1em">
-                    connectez vous!
+                    Connectez vous!
                 </Link>
             </footer>
         </div>
