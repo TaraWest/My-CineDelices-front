@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import './LoginPage.scss';
 import { IError } from './models';
-import { ILogin } from './models';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../../Context/Authentification';
+import { Link } from 'react-router-dom';
+import { useAuthContext } from '../../Context/useAuthContext';
 function LoginPage() {
     const [error, setError] = useState<IError | null>(null);
-    const navigate = useNavigate();
     const { handleLogin } = useAuthContext();
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -45,31 +43,6 @@ function LoginPage() {
         // Envoie des données dans une fonction à part qui communique avec l'API.
         await handleLogin(typedData);
     }
-
-    // async function handleLogin(data: ILogin) {
-    //     const response = await fetch('http://localhost:3000/login', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         credentials: 'include', // Doit être ici, en dehors des headers
-    //         body: JSON.stringify(data),
-    //     });
-
-    //     if (!response.ok) {
-    //         const errorData = await response.json();
-    //         console.log(errorData);
-
-    //         setError({
-    //             message: 'Problème de serveur, veuillez réessayer plus tard',
-    //         });
-    //         throw new Error("Problème dans la connexion de l'utilisateur");
-    //     }
-
-    //     const message = await response.json();
-    //     console.log(message);
-    //     navigate('/catalogue');
-    // }
 
     return (
         <div className="login-page-container">

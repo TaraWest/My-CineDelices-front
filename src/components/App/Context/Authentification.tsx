@@ -29,8 +29,6 @@ const defaultContext: IAuthenticateContext = {
 export const AuthenticateContext =
     createContext<IAuthenticateContext>(defaultContext);
 
-export const useAuthContext = () => useContext(AuthenticateContext);
-
 // state
 export const AuthProvider = ({
     children,
@@ -63,7 +61,7 @@ export const AuthProvider = ({
         getUserData();
     }, []);
 
-    // Activation the user after user has logged in, and put the informations in the userContext for them to be reachable from anywhere
+    // set the isAuth state true
 
     async function handleLogin(data: ILogin) {
         return axios
@@ -79,10 +77,6 @@ export const AuthProvider = ({
                     return response.data;
                 }
                 setIsAuth(true);
-                //   setError({
-                //   message: 'Problème de serveur, veuillez réessayer plus tard',
-                //   });
-                //   throw new Error("Problème dans la connexion de l'utilisateur");
             })
             .catch((error) => {
                 console.log(error);
@@ -90,9 +84,6 @@ export const AuthProvider = ({
             .finally(() => {
                 navigate('/catalogue');
             });
-        //   const message = await response.json();
-        //   console.log(message);
-        //   navigate('/catalogue');
 
         //End of handeLogin
     }

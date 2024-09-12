@@ -5,7 +5,7 @@ import { IIngredientsList, IRecipe } from './models';
 import { fetchRecipe } from './services';
 import { extractNumber } from './services/numberExtraction';
 import UpdateRecipeModal from './components/UpdateRecipeModal';
-import { useAuthContext } from '../../Context/Authentification';
+import { useAuthContext } from '../../Context/useAuthContext';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -22,8 +22,7 @@ function RecipePage() {
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
         // Vérification du contexte authentification
-        console.log(isAuth);
-        console.log(userAuth);
+
         fetchRecipe(Number(id))
             .then((data) => {
                 if ('error' in data) {
@@ -44,7 +43,6 @@ function RecipePage() {
     useEffect(() => {
         if (dataFetch && dataFetch.Ingredient) {
             const { Ingredient } = dataFetch;
-            console.log(Ingredient);
             const result = Ingredient.map((item) => {
                 const quantityUnitSeparation = extractNumber(item.quantity);
                 return {
@@ -55,7 +53,6 @@ function RecipePage() {
             if (result) {
                 setIngredientsList(result);
             }
-            console.log(result);
         }
     }, [dataFetch]);
 
