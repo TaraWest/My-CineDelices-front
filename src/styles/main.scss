@@ -86,7 +86,7 @@ body {
     text-align: left;
 
     @media (min-width: var.$breakpoint-desktop-s) {
-        padding: 2em;
+        padding: 2em 0;
         margin: 0 5em;
     }
 }
