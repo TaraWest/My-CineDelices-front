@@ -50,7 +50,7 @@ function LoginPage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            credentials: 'include',
+            credentials: 'include', // Doit être ici, en dehors des headers
             body: JSON.stringify(data),
         });
 
@@ -66,7 +66,7 @@ function LoginPage() {
 
         const message = await response.json();
         console.log(message);
-        navigate('/');
+        navigate('/catalogue');
     }
 
     return (

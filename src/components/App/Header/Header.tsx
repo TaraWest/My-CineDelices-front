@@ -2,24 +2,28 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUser,
+    faSearch,
+    faUtensils,
+} from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import './header.scss';
 
 function Header() {
-    // État pour savoir si le menu burger est ouvert ou fermé
+    // If the burger menu is open or closed
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // État pour savoir si la barre de recherche est ouverte ou fermée
+    // If the search bar is open or closed
     const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-    // Fonction pour basculer l'état du menu burger
+    // Function to toggle the burger menu state
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-    // Fonction pour fermer le menu
+    // menu closed
     const closeMenu = () => setIsMenuOpen(false);
 
-    // Fonction pour basculer l'état de la barre de recherche
+    // Function to toggle the search bar state
     const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
@@ -33,55 +37,58 @@ function Header() {
     }, [isDesktop]);
 
     return (
-        <div className="header flex justify-between items-center p-4 bg-dark-red text-white border-b-2 relative">
-            {/* Conteneur du logo */}
+        <div className="header flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
+            {/* logo Container */}
             <div className="logo-container text-skin">
-                {/* Lien vers la page d'accueil */}
+                {/* Link to home page */}
                 <Link to="/" className="logo-link">
                     <span className="highlight">C</span>iné
                     <span className="highlight">D</span>élices
                 </Link>
             </div>
 
-            {/* Conteneur des icônes et des liens */}
-            <div className="link-container flex items-center space-x-4 relative ml-2 text-skin  ">
-                {/* Icône utilisateur */}
+            {/* Icons and links container */}
+            <div className="link-container flex items-center space-x-4 relative ml-2 text-skin ">
+                {/* User Icon*/}
                 {(!isSearchOpen || isDesktop) && (
-                    <Link to="/connexion" className="block py-2">
+                    <Link to="/connexion" className="user-icon block py-2">
                         <div className="icon cursor-pointer ">
                             <FontAwesomeIcon icon={faUser} />
                         </div>
                     </Link>
                 )}
-                {/* Icône pour ajouter une recette */}
+                {/* recipes icon */}
                 {(!isSearchOpen || isDesktop) && (
-                    <div className="icon flex items-center">
-                        {/* Affichage de l'icône sur petits écrans */}
+                    <Link
+                        to="/catalogue"
+                        className=" user-icon flex items-center"
+                    >
+                        {/* Display icon on small screens */}
 
                         <FontAwesomeIcon
-                            icon={faPlus}
+                            icon={faUtensils}
                             className="block sm:hidden"
                         />
 
-                        {/* Texte "Ajouter une recette" visible sur les écrans de plus de 500px */}
+                        {/* text visible on screens larger than 500px */}
                         <Link
                             to="/catalogue"
                             className="hidden sm:block cursor-pointer"
                         >
                             <button>Recettes</button>
                         </Link>
-                    </div>
+                    </Link>
                 )}
-                {/* Barre de recherche */}
+                {/* Search Bar */}
                 {isSearchOpen && (
                     <div
                         className={`search-bar top-16 right-0 bg-skin text-black w-64 transition-transform duration-300 md:block md:relative md:w-auto md:bg-transparent md:text-skin`}
                     >
-                        {/*composant de la barre de recherche*/}
+                        {/*Search Bar component*/}
                         <SearchBar />
                     </div>
                 )}
-                {/* Icône de recherche - cachée sur les grands écrans */}
+                {/* Search icon - hidden on larger screens */}
                 <div
                     className={`icon cursor-pointer md:hidden`}
                     onClick={toggleSearch}
@@ -89,22 +96,21 @@ function Header() {
                     <FontAwesomeIcon icon={faSearch} />
                 </div>
 
-                {/* Menu burger  */}
+                {/* Burger Menu  */}
                 <div
                     className="burger-menu flex flex-col cursor-pointer"
                     onClick={toggleMenu}
                 >
-                    {/* Trois lignes du menu burger */}
                     <div className="line bg-skin"></div>
                     <div className="line bg-skin"></div>
                     <div className="line bg-skin"></div>
                 </div>
             </div>
 
-            {/* Menu mobile - affiché/caché instantanément selon l'état */}
+            {/* Mobile menu - shown/hidden based on isMenuOpen state */}
             {isMenuOpen && (
-                <div className="mobile-menu bg-dark-red w-full absolute">
-                    {/* Liens du menu mobile */}
+                <div className="mobile-menu bg-dark-red  ${isDesktop ? 'w-1/2' : 'w-full'} absolute">
+                    {/* burger menu links */}
                     <div className="p-4">
                         <Link to="/" className="block py-2" onClick={closeMenu}>
                             Accueil
@@ -131,7 +137,7 @@ function Header() {
                             Inscription
                         </Link>
                         <Link
-                            to="/addrecipe"
+                            to="/inscription"
                             className="block py-2"
                             onClick={closeMenu}
                         >
