@@ -54,7 +54,7 @@ function RegistrationPage() {
                     field: 'message',
                     value: 'Inscription réussie, connectez vous!',
                 });
-                navigate('/');
+                navigate('/connexion');
             } else if (response.status === 400) {
                 dispatch({
                     type: 'SET_ERROR',
