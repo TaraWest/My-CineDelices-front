@@ -170,7 +170,7 @@ function RecipePage() {
             </main>
 
             <footer className="m-1.5em text-center italic flex flex-col">
-                <UpdateRecipeModal recipeData={dataFetch}></UpdateRecipeModal>
+                {/* <UpdateRecipeModal recipeData={dataFetch}></UpdateRecipeModal> */}
                 <p>Une recette à proposer?</p>
                 <Link to="/connexion" className="my-1em">
                     Connectez vous!

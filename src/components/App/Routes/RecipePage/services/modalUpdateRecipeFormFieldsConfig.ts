@@ -41,7 +41,7 @@ export const getInputsRecipeForm = (data: IRecipe) => [
             { id: '3', name: 'Dessert' },
             { id: '4', name: 'Entrée' },
         ],
-        value: data.DishType.name,
+        value: data.DishType,
     },
     {
         tag: 'textarea',

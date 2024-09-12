@@ -41,8 +41,29 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
             HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
         >,
     ) {
-        const { name, value } = event.target;
-        if (name.includes('step_position') || name.includes('description')) {
+        console.log(event);
+
+        const { name, value, id, dataset } = event.target;
+        console.log(name);
+        console.log(value);
+        console.log(id);
+        console.log(id.toUpperCase());
+
+        console.log(dataset.index);
+        const index = dataset.index ? Number(dataset.index) : undefined;
+        const field = name;
+
+        // dispatch({
+        //     type:
+        // })
+
+        if (id === 'movie') {
+            dispatch({
+                type: 'UPDATE_MOVIE',
+                field: name,
+                value: value,
+            });
+        } else if (id === 'preparation') {
             const index = Number(name.split(' ')[1]);
             const field = name.split(' ')[0];
             console.log(index);
@@ -54,7 +75,7 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                 index,
                 value: value,
             });
-        } else if (name.includes('name') || name.includes('quantity')) {
+        } else if (id === 'ingredients') {
             const index = Number(name.split('_')[1]);
             const field = name.split('_')[0];
 
@@ -126,13 +147,16 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                         Ingredient.map((item, index) => {
                                             return (
                                                 <div
+                                                    className="label-input-linked"
                                                     key={item.id}
-                                                    className="text-black"
                                                 >
-                                                    <label>
+                                                    <label className="modal-label">
                                                         Ingrédient {index + 1}
                                                         <input
-                                                            name={`name_${index}`}
+                                                            data-index={index}
+                                                            className="modal-input"
+                                                            id="update_ingredient"
+                                                            name={'name'}
                                                             type="text"
                                                             onChange={
                                                                 handleChange
@@ -145,11 +169,15 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                                             }
                                                         />
                                                     </label>
-                                                    <label>
+
+                                                    <label className="modal-label">
                                                         {' '}
                                                         Quantité {index + 1}
                                                         <input
-                                                            name={`quantity_${index}`}
+                                                            data-index={index}
+                                                            className="modal-input"
+                                                            id="update_ingredient"
+                                                            name={`quantity`}
                                                             type="text"
                                                             onChange={
                                                                 handleChange
@@ -172,12 +200,15 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                             return (
                                                 <div
                                                     key={step.id}
-                                                    className="text-black"
+                                                    className="label-input-linked"
                                                 >
-                                                    <label>
+                                                    <label className="modal-label">
                                                         Etape:
                                                         <input
-                                                            name={`step_position ${index}`}
+                                                            data-index={index}
+                                                            className="modal-input"
+                                                            id="update_preparation"
+                                                            name={`step_position`}
                                                             onChange={
                                                                 handleChange
                                                             }
@@ -190,11 +221,13 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                                             }
                                                         />
                                                     </label>
-                                                    <label>
+                                                    <label className="modal-label">
                                                         Description:
-                                                        <input
-                                                            name={`description ${index}`}
-                                                            type="text"
+                                                        <textarea
+                                                            data-index={index}
+                                                            className="modal-input text-input"
+                                                            id="update_preparation"
+                                                            name={`description`}
                                                             onChange={
                                                                 handleChange
                                                             }
@@ -204,7 +237,7 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                                                     index
                                                                 ].description
                                                             }
-                                                        />
+                                                        ></textarea>
                                                     </label>
                                                 </div>
                                             );
@@ -213,42 +246,45 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                             </div>
                         )}
                         {recipeOrFilm === 'film' && (
-                            <div className="text-black ">
-                                <div className="flex flex-col">
-                                    <label>
-                                        Titre
-                                        <input
-                                            name="name"
-                                            type="text"
-                                            defaultValue={Movie.name}
-                                        />
-                                    </label>
-                                    <label>
-                                        Catégorie
-                                        <select
-                                            name="Category"
-                                            defaultValue={Movie.Category.name}
-                                        >
-                                            <option value="Film" id="1">
-                                                Film
-                                            </option>
-                                            <option value="Série" id="2">
-                                                Série
-                                            </option>
-                                            <option value="Anime" id="3">
-                                                Anime
-                                            </option>
-                                        </select>
-                                    </label>
-                                    <label>
-                                        Image associée
-                                        <input
-                                            name="picture"
-                                            type="file"
-                                            value=""
-                                        />
-                                    </label>
-                                </div>
+                            <div className="label-input-container">
+                                <label className="modal-label">
+                                    Titre
+                                    <textarea
+                                        className="modal-input"
+                                        id="update_movie"
+                                        name="name"
+                                        value={state.Movie.name}
+                                        onChange={handleChange}
+                                    ></textarea>
+                                </label>
+                                <label className="modal-label">
+                                    Catégorie
+                                    <select
+                                        className="modal-input"
+                                        id="update_movie"
+                                        name="Category"
+                                        value={state.Movie.Category.name}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="Film" id="1">
+                                            Film
+                                        </option>
+                                        <option value="Série" id="2">
+                                            Série
+                                        </option>
+                                        <option value="Anime" id="3">
+                                            Anime
+                                        </option>
+                                    </select>
+                                </label>
+                                <label className="modal-label">
+                                    Image associée
+                                    <input
+                                        id="update_movie"
+                                        name="picture"
+                                        type="file"
+                                    />
+                                </label>
                             </div>
                         )}
 

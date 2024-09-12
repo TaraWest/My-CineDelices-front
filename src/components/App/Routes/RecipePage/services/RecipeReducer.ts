@@ -14,6 +14,12 @@ export const recipeReducer = (state, action) => {
                         : key,
                 ),
             };
+        case 'ADD_INGREDIENT':
+            return {
+                ...state,
+            };
+        case 'DELETE_INGREDIENT':
+            return { ...state };
         case 'UPDATE_PREPARATION':
             return {
                 ...state,
@@ -22,6 +28,22 @@ export const recipeReducer = (state, action) => {
                         ? { ...key, [action.field]: action.value }
                         : key,
                 ),
+            };
+        case 'ADD_PREPARATION':
+            return {
+                ...state,
+            };
+        case 'DELETE_PREPARATION':
+            return { ...state };
+        case 'UPDATE_MOVIE':
+            console.log('update movie:', action.field, action.value);
+
+            return {
+                ...state,
+                Movie: {
+                    ...state.Movie,
+                    [action.field]: action.value,
+                },
             };
         default:
             return state;

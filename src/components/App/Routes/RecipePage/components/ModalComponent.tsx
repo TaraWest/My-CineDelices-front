@@ -27,6 +27,7 @@ function ModalComponent({ item, handleChange }: ModalComponentProps) {
                         onChange={handleChange}
                         value={item.value ? item.value : undefined}
                         required
+                        id="set_field"
                     />
                 </label>
                 {/* {errorMessage && (
@@ -46,6 +47,7 @@ function ModalComponent({ item, handleChange }: ModalComponentProps) {
                         name={item.name}
                         onChange={handleChange}
                         value={item.value ?? ''}
+                        id="set_field"
                     >
                         {item.option?.map((option: IOption) => {
                             return (
@@ -63,15 +65,16 @@ function ModalComponent({ item, handleChange }: ModalComponentProps) {
         );
     } else if (item.tag === 'textarea') {
         return (
-            <div className="flex flex-col items-center gap-2 w-full">
-                <label className="modal-label">
+            <div className="label-input-container">
+                <label className="modal-label w-full mx-5em">
                     {item.label}
 
                     <textarea
+                        id="set_field"
                         name="anecdote"
                         value={item.value ?? ''}
                         onChange={handleChange}
-                        className="modal-textarea"
+                        className="modal-input text-input"
                     ></textarea>
                 </label>
                 {/* {errorMessage && (
