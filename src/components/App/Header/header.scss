@@ -8,15 +8,10 @@
 
 .header {
     // Base style for the header
-    @apply flex justify-between items-center p-4 bg-dark-red text-skin border-b-2 relative;
-
-    .logo-container {
-        // text size and font weight
-        @apply text-2xl font-bold;
-    }
+    @apply flex justify-between items-center p-4 bg-dark-red  border-b-2 relative;
 
     .logo-link {
-        @apply no-underline text-3xl font-semibold text-skin;
+        @apply no-underline text-xl font-semibold text-skin;
         font-family: 'Cinzel', serif;
         // font-size: 1em;
         @media (min-width: var.$breakpoint-s) {
@@ -29,7 +24,7 @@
     }
 
     .highlight {
-        @apply text-5xl;
+        @apply text-4xl;
     }
 
     .link-container {
@@ -40,6 +35,12 @@
     .icon {
         // text size
         @apply text-xl cursor-pointer;
+    }
+
+    .user-icon {
+        &:visited {
+            color: var.$color-skin;
+        }
     }
 
     .burger-menu .line {

@@ -83,7 +83,11 @@ const SearchBar: React.FC = () => {
             onSuggestionSelected={onSuggestionSelected}
             //Fonction qui retourne la valeur de la suggestion. Ici, elle retourne le nom de la recette pour qu'il soit utilisé comme texte dans l'input.
             getSuggestionValue={(suggestion) => suggestion.name}
-            renderSuggestion={(suggestion) => <div>{suggestion.name}</div>}
+            renderSuggestion={(suggestion) => (
+                <div className="md:cursor-pointer hover:bg-dark-red transition-all duration-200">
+                    {suggestion.name}
+                </div>
+            )}
             inputProps={inputProps}
         />
     );

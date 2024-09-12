@@ -37,7 +37,7 @@ function Header() {
     }, [isDesktop]);
 
     return (
-        <div className="header flex justify-between items-center p-4 bg-dark-red text-white border-b-2 relative">
+        <div className="header flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
             {/* logo Container */}
             <div className="logo-container text-skin">
                 {/* Link to home page */}
@@ -51,7 +51,7 @@ function Header() {
             <div className="link-container flex items-center space-x-4 relative ml-2 text-skin ">
                 {/* User Icon*/}
                 {(!isSearchOpen || isDesktop) && (
-                    <Link to="/connexion" className="block py-2">
+                    <Link to="/connexion" className="user-icon block py-2">
                         <div className="icon cursor-pointer ">
                             <FontAwesomeIcon icon={faUser} />
                         </div>
@@ -59,7 +59,10 @@ function Header() {
                 )}
                 {/* recipes icon */}
                 {(!isSearchOpen || isDesktop) && (
-                    <Link to="/catalogue" className="icon flex items-center">
+                    <Link
+                        to="/catalogue"
+                        className=" user-icon flex items-center"
+                    >
                         {/* Display icon on small screens */}
 
                         <FontAwesomeIcon
