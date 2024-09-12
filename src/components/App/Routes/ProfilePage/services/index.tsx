@@ -17,11 +17,14 @@ export async function fetchUser() {
 }
 
 export async function updateUser(userUpdateData: IUser) {
+    console.log('log dans la fonction update', userUpdateData);
+
     try {
         const response = await axios.put(
             'http://localhost:3000/me',
             {
                 // User data to update
+                id: userUpdateData.id,
                 last_name: userUpdateData.last_name,
                 first_name: userUpdateData.first_name,
                 username: userUpdateData.username,
