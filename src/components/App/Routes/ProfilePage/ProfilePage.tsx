@@ -4,7 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import { fetchUser, updateUser } from './services';
 import { IUser } from './models';
 import './ProfilPage.css';
-// import RecepiesTab from './RecepiesTab';
+import RecepiesTab from './RecepiesTab';
 
 function ProfilePage() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
@@ -93,8 +93,8 @@ function ProfilePage() {
         return (
             <div className="justify-center flex h-160">
                 <div className="flex flex-col max-w-xs m-6 items-center ">
-                    <p>Merci de vous connecter pour accéder à cette page</p>
-                    <button onClick={handleNavigate} className="mt-30">
+                    <h4>Merci de vous connecter pour accéder à cette page</h4>
+                    <button onClick={handleNavigate} className="button-link">
                         Connectez vous!
                     </button>
                 </div>
@@ -130,7 +130,7 @@ function ProfilePage() {
             </div>
             {/* here the tab "Mes Informations personnelles" */}
             <div
-                className={`${switchTab ? 'hidden' : 'flex m-4 flex-col sm:flex-row'}`}
+                className={`${switchTab ? 'hidden' : 'flex justify-center items-center m-4 flex-col sm:flex-row'}`}
             >
                 <form className="flex m-4 flex-col" onSubmit={handleSubmit}>
                     <label htmlFor="prenom">Prénom</label>
@@ -205,8 +205,26 @@ function ProfilePage() {
                         onChange={handleInputChange}
                         disabled={!editForm}
                     />
+                    <label htmlFor="password">Mot de passe</label>
+                    <input
+                        className={
+                            editForm
+                                ? 'form-input m-4 text-center'
+                                : 'm-4 text-center bg-transparent'
+                        }
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={userData.password}
+                        onChange={handleInputChange}
+                        disabled={!editForm}
+                    />
 
-                    <button type="submit" onClick={handleSubmit}>
+                    <button
+                        className="button-link"
+                        type="submit"
+                        onClick={handleSubmit}
+                    >
                         {editForm
                             ? 'Enregistrer les modifications'
                             : 'Modifier'}
@@ -217,7 +235,7 @@ function ProfilePage() {
             <div
                 className={`${switchTab ? 'flex m-4 flex-col sm:flex-row' : 'hidden'}`}
             >
-                {/* <RecepiesTab></RecepiesTab> */}
+                <RecepiesTab></RecepiesTab>
             </div>
         </div>
     );
