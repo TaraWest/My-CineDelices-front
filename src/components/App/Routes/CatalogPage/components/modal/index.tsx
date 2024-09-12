@@ -104,6 +104,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
             name: formElements.name.value,
             movie_name: formElements.movie_name.value,
             dish_types_id: formElements.dish_types_id.value,
+            category_id: formElements.category_id.value,
             difficulty: formElements.difficulty.value,
             total_duration: formElements.total_duration.value,
             anecdote: formElements.anecdote.value,

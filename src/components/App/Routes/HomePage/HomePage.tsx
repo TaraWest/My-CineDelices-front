@@ -2,13 +2,19 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { IRecipe } from './models';
 import Slider from './components/slider/slider';
-import AddRecipeModal from './components/modal';
 import { fetchOneRandom } from './services';
 import './components/slider/slider.scss';
 import './homePage.scss';
+import AddRecipeModal from '../CatalogPage/components/modal';
 
 function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);
+
+    // Fonction pour gérer l'ajout d'une recette
+    const handleAddRecipe = (newRecipe: any) => {
+        // Logique pour ajouter la recette, par exemple mettre à jour l'état ou faire une action spécifique
+        console.log('Nouvelle recette ajoutée :', newRecipe);
+    };
 
     useEffect(() => {
         fetchOneRandom()
@@ -23,6 +29,7 @@ function HomePage() {
     if (!data) {
         return <div>Oups, petit problème !? Merci de revenir plus tard...</div>;
     }
+
     return (
         <div className="homePage">
             <h1 className="homepage-title">
@@ -41,11 +48,10 @@ function HomePage() {
                     </Link>
                 </li>
                 <li className="presentation-list-item">
-                    <AddRecipeModal></AddRecipeModal>
+                    <AddRecipeModal onAddRecipe={handleAddRecipe} />{' '}
                 </li>
             </ul>
             <p>Bon appétit et bon visionnage !</p>
-
             <div className="img_presentation">
                 <img
                     className="homepage-image"
@@ -62,7 +68,6 @@ function HomePage() {
                             alt={`image illustrant la recette : ${data?.name}`}
                             className="random-img random-img-left"
                         />
-
                         <p className="inspiration-subtitle">
                             Ce soir c'est "{data.name}"
                         </p>
@@ -93,5 +98,4 @@ function HomePage() {
         </div>
     );
 }
-
 export default HomePage;
