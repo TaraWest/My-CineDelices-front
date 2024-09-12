@@ -4,7 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import { fetchUser, updateUser } from './services';
 import { IUser } from './models';
 import './ProfilPage.css';
-import RecepiesTab from './RecepiesTab';
+// import RecepiesTab from './RecepiesTab';
 
 function ProfilePage() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
@@ -57,11 +57,13 @@ function ProfilePage() {
         } else {
             // au submitForm si editForm=true
             const dataToSend: IUser = {
+                id: userData?.id,
                 first_name: firstName,
                 last_name: lastName,
                 username: userName,
                 email_address: email,
             };
+            console.log('log de data to send', dataToSend);
             // On mettra la bdd a jour
             updateUser(dataToSend);
             // Les inputs sont désactivés
@@ -215,7 +217,7 @@ function ProfilePage() {
             <div
                 className={`${switchTab ? 'flex m-4 flex-col sm:flex-row' : 'hidden'}`}
             >
-                <RecepiesTab></RecepiesTab>
+                {/* <RecepiesTab></RecepiesTab> */}
             </div>
         </div>
     );
