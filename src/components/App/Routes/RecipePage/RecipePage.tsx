@@ -5,6 +5,7 @@ import { IIngredientsList, IRecipe } from './models';
 import { fetchRecipe } from './services';
 import { extractNumber } from './services/numberExtraction';
 import UpdateRecipeModal from './components/UpdateRecipeModal';
+import { useAuthContext } from '../../Context/Authentification';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -16,8 +17,13 @@ function RecipePage() {
     const [ingredientsList, setIngredientsList] = useState<
         IIngredientsList[] | null
     >(null);
+    const { isAuth, userAuth } = useAuthContext();
+
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
+        // Vérification du contexte authentification
+        console.log(isAuth);
+        console.log(userAuth);
         fetchRecipe(Number(id))
             .then((data) => {
                 if ('error' in data) {
