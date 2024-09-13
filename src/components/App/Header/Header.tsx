@@ -27,14 +27,6 @@ function Header() {
 
     const { userAuth } = useAuthContext();
 
-    useEffect(() => {
-        if (isDesktop) {
-            setIsSearchOpen(true);
-        } else {
-            setIsSearchOpen(false);
-        }
-    }, [isDesktop]);
-
     return (
         <div className="header flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
             {/* logo Container */}
@@ -61,7 +53,7 @@ function Header() {
                         </div>
                     </Link>
                 )}
-                {/* recipes icon */}
+                {/* add recipes icon */}
                 {(!isSearchOpen || isDesktop) && (
                     <Link
                         to="/catalogue"
@@ -86,18 +78,18 @@ function Header() {
                 {/* Search Bar */}
                 {isSearchOpen && (
                     <div
-                        className={`search-bar top-16 right-0 bg-skin text-black w-64 transition-transform duration-300 md:block md:relative md:w-auto md:bg-transparent md:text-skin`}
+                        className={`search-bar top-16 right-0 bg-white text-gray-700 w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto md:bg-transparent md:text-skin`}
                     >
                         {/*Search Bar component*/}
                         <SearchBar />
                     </div>
                 )}
-                {/* Search icon - hidden on larger screens */}
-                <div
-                    className={`icon cursor-pointer md:hidden`}
-                    onClick={toggleSearch}
-                >
-                    <FontAwesomeIcon icon={faSearch} />
+                {/* Search icon */}
+                <div onClick={toggleSearch}>
+                    <FontAwesomeIcon
+                        icon={faSearch}
+                        className="cursor-pointer"
+                    />
                 </div>
 
                 {/* Burger Menu  */}
