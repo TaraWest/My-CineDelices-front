@@ -16,8 +16,33 @@ export interface IRecipe {
     difficulty: string;
     is_checked: boolean;
     Movie: IMovie;
-    // DishType: IDishType;
-    // Preparations: IPreparation[];
-    // Ingredient: IIngredients[];
     User: IUser;
+}
+
+export interface IMovie {
+    id: number;
+    name: string;
+    picture: string;
+}
+
+export interface InputFieldProps {
+    label: string;
+    type: string;
+    name: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    disabled: boolean;
+    error?: string; // message d'erreur optionnel
+}
+
+export interface UserInfoFormProps {
+    firstName: string;
+    lastName: string;
+    userName: string;
+    email: string;
+    // password: string;
+    editForm: boolean;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    setEditForm: React.Dispatch<React.SetStateAction<boolean>>;
 }

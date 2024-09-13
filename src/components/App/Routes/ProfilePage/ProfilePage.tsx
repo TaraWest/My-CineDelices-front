@@ -5,6 +5,7 @@ import { fetchUser, updateUser } from './services';
 import { IUser } from './models';
 import './ProfilPage.css';
 import RecepiesTab from './RecepiesTab';
+import UserInfoForm from './components/UserInfoForm';
 
 function ProfilePage() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
@@ -52,10 +53,10 @@ function ProfilePage() {
     function handleSubmit(event: any) {
         event.preventDefault();
         if (editForm === false) {
-            // On rend les inputs éditables
+            // set inputs editables
             setEditForm(true);
         } else {
-            // au submitForm si editForm=true
+            // on submitForm if editForm=true
             const dataToSend: IUser = {
                 id: userData?.id,
                 first_name: firstName,
@@ -64,9 +65,9 @@ function ProfilePage() {
                 email_address: email,
             };
             console.log('log de data to send', dataToSend);
-            // On mettra la bdd a jour
+            // fetch and update user info
             updateUser(dataToSend);
-            // Les inputs sont désactivés
+            // set input disable
             setEditForm(false);
         }
     }
@@ -132,7 +133,7 @@ function ProfilePage() {
             <div
                 className={`${switchTab ? 'hidden' : 'flex justify-center items-center m-4 flex-col sm:flex-row'}`}
             >
-                <form className="flex m-4 flex-col" onSubmit={handleSubmit}>
+                {/* <form className="flex m-4 flex-col" onSubmit={handleSubmit}>
                     <label htmlFor="prenom">Prénom</label>
                     <input
                         className={
@@ -229,7 +230,20 @@ function ProfilePage() {
                             ? 'Enregistrer les modifications'
                             : 'Modifier'}
                     </button>
-                </form>
+                </form> */}
+                <div>
+                    <UserInfoForm
+                        firstName={firstName}
+                        lastName={lastName}
+                        userName={userName}
+                        email={email}
+                        // password={password}
+                        editForm={editForm}
+                        onChange={handleInputChange}
+                        onSubmit={handleSubmit}
+                        setEditForm={setEditForm}
+                    />
+                </div>
             </div>
             {/* here the tab "mes recettes" */}
             <div
