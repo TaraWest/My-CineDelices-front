@@ -5,7 +5,7 @@ import { IIngredientsList, IRecipe } from './models';
 import { fetchRecipe } from './services';
 import { extractNumber } from './services/numberExtraction';
 import UpdateRecipeModal from './components/UpdateRecipeModal';
-import { useAuthContext } from '../../Context/useAuthContext';
+import { useAuthContext } from '../../Context/Authentification/useAuthContext';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue

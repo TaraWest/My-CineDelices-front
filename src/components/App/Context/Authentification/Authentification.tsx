@@ -2,13 +2,14 @@
 
 import axios from 'axios';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { ILogin } from '../Routes/LoginPage/models';
+import { ILogin } from '../../Routes/LoginPage/models';
 import {
     IAuthenticateContext,
     IAuthenticateContextProviderType,
     IUserAuth,
-} from '../@types/authenticate';
+} from '../../@types/authenticate';
 import { useNavigate } from 'react-router-dom';
+import { getUserData } from '../services';
 
 const defaultAuth: IUserAuth = {
     first_name: null,
@@ -40,28 +41,19 @@ export const AuthProvider = ({
     const navigate = useNavigate();
     //  Check if user is authitified in a loading or reloading of a page
     useEffect(() => {
-        function getUserData() {
-            return axios
-                .get('http://localhost:3000/me', {
-                    withCredentials: true,
-                })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setIsAuth(true);
-                        setUserAuth(response.data);
-                        return true;
-                    }
+        if (getData) {
+            getUserData()
+                .then((data) => {
+                    setIsAuth(true);
+                    setUserAuth(data);
                 })
                 .catch((error) => {
-                    setUserAuth(null);
                     setIsAuth(false);
+                    setUserAuth(null);
                     return error;
                 });
-            //End of checkAuth
         }
-        if (getData) {
-            getUserData();
-        }
+        console.log(userAuth);
     }, [getData]);
 
     // set the isAuth state true
@@ -79,7 +71,6 @@ export const AuthProvider = ({
                 if (response.status !== 200) {
                     return response.data;
                 }
-                setIsAuth(true);
                 setGetData(true);
             })
             .catch((error) => {
