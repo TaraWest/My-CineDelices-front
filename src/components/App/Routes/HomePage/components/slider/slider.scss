@@ -1,3 +1,4 @@
+@use '../../../../../../styles/variables' as var;
 img {
     width: 100%;
 }
@@ -9,6 +10,12 @@ img {
     display: flex;
     margin: 1em 0;
     border-radius: 5%;
+    border-right: 10px double var.$color-skin;
+    border-bottom: 10px double var.$color-skin;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10%;
+    border-bottom-left-radius: 10%;
+    padding: 2.5em;
 }
 
 // .slider-container {
