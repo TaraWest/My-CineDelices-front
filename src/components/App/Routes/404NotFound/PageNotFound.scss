@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 .not-found-part {
-    @apply my-5em mx-2em text-center flex flex-col items-center p-1.5em;
+    @apply my-2em mx-2em text-center flex flex-col items-center p-1.5em;
 
     border-right: 10px double var.$color-skin;
     border-bottom: 10px double var.$color-skin;
