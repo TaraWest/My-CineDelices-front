@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import './header.scss';
 import { useAuthContext } from '../Context/Authentification/useAuthContext';
+import AddRecipeModal from '../Routes/CatalogPage/components/modal';
 
 function Header() {
     // If the burger menu is open or closed
@@ -14,11 +15,16 @@ function Header() {
     // If the search bar is open or closed
     const [isSearchOpen, setIsSearchOpen] = useState(false);
 
+    const navigate = useNavigate();
+
     // Function to toggle the burger menu state
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     // menu closed
     const closeMenu = () => setIsMenuOpen(false);
+
+    // modal is open or closed
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Function to toggle the search bar state
     const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
@@ -26,6 +32,15 @@ function Header() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
 
     const { userAuth } = useAuthContext();
+
+    // redirection link if user is authentificated
+    const handleInscriptionClick = () => {
+        if (userAuth?.username) {
+            navigate('/profil/me');
+        } else {
+            navigate('/inscription');
+        }
+    };
 
     return (
         <div className="header flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
@@ -37,7 +52,7 @@ function Header() {
                     <span className="highlight">D</span>élices
                 </Link>
             </div>
-            {/*show this message when user is connected*/}
+            {/*show this message when user is authentificated*/}
             {userAuth?.username && (
                 <div className="userAuth absolute left-1/2 top-16 transform -translate-x-1/2 text-center">
                     Bienvenue {userAuth.username} !
@@ -47,7 +62,10 @@ function Header() {
             <div className="link-container flex items-center space-x-4 relative ml-2 text-skin ">
                 {/* User Icon*/}
                 {(!isSearchOpen || isDesktop) && (
-                    <Link to="/connexion" className="user-icon block py-2">
+                    <Link
+                        to={userAuth?.username ? '/profil/me' : '/connexion'}
+                        className="user-icon block py-2"
+                    >
                         <div
                             className="icon cursor-pointer "
                             onClick={closeMenu}
@@ -60,7 +78,7 @@ function Header() {
                 {(!isSearchOpen || isDesktop) && (
                     <Link
                         to="/catalogue"
-                        className=" user-icon flex items-center"
+                        className=" presentation-list-item"
                         onClick={closeMenu}
                     >
                         {/* Display icon on small screens */}
@@ -127,16 +145,22 @@ function Header() {
                             Catalogue
                         </Link>
                         <Link
-                            to="/connexion"
+                            to={
+                                userAuth?.username ? '/profil/me' : '/connexion'
+                            }
                             className="block py-2"
                             onClick={closeMenu}
                         >
                             Connexion
                         </Link>
                         <Link
-                            to="/inscription"
+                            to={
+                                userAuth?.username
+                                    ? '/profil/me'
+                                    : '/inscription'
+                            }
                             className="block py-2"
-                            onClick={closeMenu}
+                            onClick={handleInscriptionClick}
                         >
                             Inscription
                         </Link>
