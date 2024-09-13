@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import './header.scss';
-import { useAuthContext } from '../Context/useAuthContext';
+import { useAuthContext } from '../Context/Authentification/useAuthContext';
 
 function Header() {
     // If the burger menu is open or closed
