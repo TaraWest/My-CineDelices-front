@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useAsyncValue } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faUser,
-    faSearch,
-    faUtensils,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import './header.scss';
 
@@ -27,6 +23,8 @@ function Header() {
     const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
+
+    const { userAuth } = useAuthContext();
 
     useEffect(() => {
         if (isDesktop) {
@@ -66,16 +64,16 @@ function Header() {
                         {/* Display icon on small screens */}
 
                         <FontAwesomeIcon
-                            icon={faUtensils}
+                            icon={faPlus}
                             className="block sm:hidden"
                         />
 
                         {/* text visible on screens larger than 500px */}
                         <Link
-                            to="/catalogue"
+                            to="/connexion"
                             className="hidden sm:block cursor-pointer"
                         >
-                            <button>Recettes</button>
+                            <button>Ajoute ta recette</button>
                         </Link>
                     </Link>
                 )}
