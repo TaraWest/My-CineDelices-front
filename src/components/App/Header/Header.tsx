@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,20 +27,12 @@ function Header() {
 
     const { userAuth } = useAuthContext();
 
-    useEffect(() => {
-        if (isDesktop) {
-            setIsSearchOpen(true);
-        } else {
-            setIsSearchOpen(false);
-        }
-    }, [isDesktop]);
-
     return (
         <div className="header flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
             {/* logo Container */}
             <div className="logo-container text-skin">
                 {/* Link to home page */}
-                <Link to="/" className="logo-link">
+                <Link to="/" className="logo-link" onClick={closeMenu}>
                     <span className="highlight">C</span>iné
                     <span className="highlight">D</span>élices
                 </Link>
@@ -56,16 +48,20 @@ function Header() {
                 {/* User Icon*/}
                 {(!isSearchOpen || isDesktop) && (
                     <Link to="/connexion" className="user-icon block py-2">
-                        <div className="icon cursor-pointer ">
+                        <div
+                            className="icon cursor-pointer "
+                            onClick={closeMenu}
+                        >
                             <FontAwesomeIcon icon={faUser} />
                         </div>
                     </Link>
                 )}
-                {/* recipes icon */}
+                {/* add recipes icon */}
                 {(!isSearchOpen || isDesktop) && (
                     <Link
                         to="/catalogue"
                         className=" user-icon flex items-center"
+                        onClick={closeMenu}
                     >
                         {/* Display icon on small screens */}
 
@@ -78,6 +74,7 @@ function Header() {
                         <Link
                             to="/connexion"
                             className="hidden sm:block cursor-pointer"
+                            onClick={closeMenu}
                         >
                             <button>Ajoute ta recette</button>
                         </Link>
@@ -86,18 +83,19 @@ function Header() {
                 {/* Search Bar */}
                 {isSearchOpen && (
                     <div
-                        className={`search-bar top-16 right-0 bg-skin text-black w-64 transition-transform duration-300 md:block md:relative md:w-auto md:bg-transparent md:text-skin`}
+                        className={`search-bar top-16 right-0 bg-white text-gray-700 w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto md:bg-transparent md:text-skin`}
+                        onClick={closeMenu}
                     >
                         {/*Search Bar component*/}
                         <SearchBar />
                     </div>
                 )}
-                {/* Search icon - hidden on larger screens */}
-                <div
-                    className={`icon cursor-pointer md:hidden`}
-                    onClick={toggleSearch}
-                >
-                    <FontAwesomeIcon icon={faSearch} />
+                {/* Search icon */}
+                <div onClick={toggleSearch}>
+                    <FontAwesomeIcon
+                        icon={faSearch}
+                        className="cursor-pointer"
+                    />
                 </div>
 
                 {/* Burger Menu  */}

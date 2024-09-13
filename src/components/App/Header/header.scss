@@ -53,14 +53,7 @@
 
     // Search bar styles
     .search-bar {
-        @apply absolute top-9 right-28 bg-skin text-black w-64 transition-transform duration-300 ease-in-out;
-        right: 7.5rem;
-
-        @media (min-width: 500px) {
-            @apply md:relative md:w-auto md:bg-transparent md:text-skin;
-            top: 0;
-            right: 0;
-        }
+        @apply absolute top-16  text-black bg-white w-64 transition-transform duration-300 ease-in-out;
     }
     .mobile-menu {
         @apply absolute right-0 top-20 bg-dark-red w-full h-screen transition-transform duration-300 ease-in-out;
