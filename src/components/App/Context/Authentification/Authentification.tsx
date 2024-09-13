@@ -1,7 +1,7 @@
 //contexte authentification ici
 
 import axios from 'axios';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { ILogin } from '../../Routes/LoginPage/models';
 import {
     IAuthenticateContext,
@@ -16,6 +16,7 @@ const defaultAuth: IUserAuth = {
     last_name: null,
     username: null,
     email_address: null,
+    id: null,
 };
 
 const defaultContext: IAuthenticateContext = {
@@ -41,11 +42,12 @@ export const AuthProvider = ({
     const navigate = useNavigate();
     //  Check if user is authitified in a loading or reloading of a page
     useEffect(() => {
-        if (getData) {
+        const storedIsAuth = sessionStorage.getItem('isAuth');
+        if (storedIsAuth === 'true') {
             getUserData()
                 .then((data) => {
-                    setIsAuth(true);
                     setUserAuth(data);
+                    setIsAuth(true);
                 })
                 .catch((error) => {
                     setIsAuth(false);
@@ -53,10 +55,10 @@ export const AuthProvider = ({
                     return error;
                 });
         }
-        console.log(userAuth);
-    }, [getData]);
+    }, []);
 
     // set the isAuth state true
+    console.log(userAuth);
 
     async function handleLogin(data: ILogin) {
         return axios
@@ -71,7 +73,14 @@ export const AuthProvider = ({
                 if (response.status !== 200) {
                     return response.data;
                 }
-                setGetData(true);
+                setIsAuth(true);
+                sessionStorage.setItem('isAuth', 'true');
+                return getUserData();
+            })
+            .then((data) => {
+                if (data) {
+                    setUserAuth(data);
+                }
             })
             .catch((error) => {
                 console.log(error);
