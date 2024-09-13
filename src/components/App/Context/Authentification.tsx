@@ -35,6 +35,7 @@ export const AuthProvider = ({
 }: IAuthenticateContextProviderType) => {
     const [userAuth, setUserAuth] = useState<IUserAuth | null>(null);
     const [isAuth, setIsAuth] = useState<boolean>(false);
+    const [getData, setGetData] = useState<boolean>(false);
 
     const navigate = useNavigate();
     //  Check if user is authitified in a loading or reloading of a page
@@ -58,8 +59,10 @@ export const AuthProvider = ({
                 });
             //End of checkAuth
         }
-        getUserData();
-    }, []);
+        if (getData) {
+            getUserData();
+        }
+    }, [getData]);
 
     // set the isAuth state true
 
@@ -77,6 +80,7 @@ export const AuthProvider = ({
                     return response.data;
                 }
                 setIsAuth(true);
+                setGetData(true);
             })
             .catch((error) => {
                 console.log(error);

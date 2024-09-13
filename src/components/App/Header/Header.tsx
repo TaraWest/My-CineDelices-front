@@ -107,9 +107,11 @@ function Header() {
 
             {/* Mobile menu - shown/hidden based on isMenuOpen state */}
             {isMenuOpen && (
-                <div className="mobile-menu bg-dark-red  ${isDesktop ? 'w-1/2' : 'w-full'} absolute">
+                <div
+                    className={`mobile-menu bg-dark-red ${isDesktop ? 'w-1/2' : 'w-full'} absolute text-align-center`}
+                >
                     {/* burger menu links */}
-                    <div className="p-4">
+                    <div className="p-4" style={{ textAlign: 'center' }}>
                         <Link to="/" className="block py-2" onClick={closeMenu}>
                             Accueil
                         </Link>

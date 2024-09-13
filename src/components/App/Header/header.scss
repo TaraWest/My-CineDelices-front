@@ -65,7 +65,7 @@
         @apply absolute right-0 top-20 bg-dark-red w-full h-screen transition-transform duration-300 ease-in-out;
 
         @media (min-width: 768px) {
-            @apply w-1/2; // Apply w-1/2 only on desktop
+            @apply w-1/6; // Apply w-1/2 only on desktop
         }
 
         .block {
