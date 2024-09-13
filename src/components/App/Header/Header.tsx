@@ -45,7 +45,12 @@ function Header() {
                     <span className="highlight">D</span>élices
                 </Link>
             </div>
-
+            {/*show this message when user is connected*/}
+            {userAuth && (
+                <div className="userAuth absolute left-1/2 top-16 transform -translate-x-1/2 text-center">
+                    Bienvenue {userAuth.username} !
+                </div>
+            )}
             {/* Icons and links container */}
             <div className="link-container flex items-center space-x-4 relative ml-2 text-skin ">
                 {/* User Icon*/}
@@ -105,7 +110,7 @@ function Header() {
                     <div className="line bg-skin"></div>
                 </div>
             </div>
-            {userAuth && <div> Bienvenue {userAuth.username} ! </div>}
+
             {/* Mobile menu - shown/hidden based on isMenuOpen state */}
             {isMenuOpen && (
                 <div
