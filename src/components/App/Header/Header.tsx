@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,7 +32,7 @@ function Header() {
             {/* logo Container */}
             <div className="logo-container text-skin">
                 {/* Link to home page */}
-                <Link to="/" className="logo-link">
+                <Link to="/" className="logo-link" onClick={closeMenu}>
                     <span className="highlight">C</span>iné
                     <span className="highlight">D</span>élices
                 </Link>
@@ -48,7 +48,10 @@ function Header() {
                 {/* User Icon*/}
                 {(!isSearchOpen || isDesktop) && (
                     <Link to="/connexion" className="user-icon block py-2">
-                        <div className="icon cursor-pointer ">
+                        <div
+                            className="icon cursor-pointer "
+                            onClick={closeMenu}
+                        >
                             <FontAwesomeIcon icon={faUser} />
                         </div>
                     </Link>
@@ -58,6 +61,7 @@ function Header() {
                     <Link
                         to="/catalogue"
                         className=" user-icon flex items-center"
+                        onClick={closeMenu}
                     >
                         {/* Display icon on small screens */}
 
@@ -70,6 +74,7 @@ function Header() {
                         <Link
                             to="/connexion"
                             className="hidden sm:block cursor-pointer"
+                            onClick={closeMenu}
                         >
                             <button>Ajoute ta recette</button>
                         </Link>
@@ -79,6 +84,7 @@ function Header() {
                 {isSearchOpen && (
                     <div
                         className={`search-bar top-16 right-0 bg-white text-gray-700 w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto md:bg-transparent md:text-skin`}
+                        onClick={closeMenu}
                     >
                         {/*Search Bar component*/}
                         <SearchBar />
