@@ -31,6 +31,10 @@ li {
 
 .img_presentation {
     width: 80%;
+    margin-right: 10%;
+    object-fit: cover;
+    width: 150%;
+    border-radius: 10%;
     @media (min-width: var.$breakpoint-m) {
         max-width: 700px;
     }
@@ -43,6 +47,24 @@ li {
 
 .recipe-movie img {
     width: 100%;
+}
+.homepage-image {
+    border-radius: 10%;
+}
+
+.presentation {
+    text-align: center;
+    margin: auto;
+    /* padding: 10%; */
+    padding-right: 10%;
+    padding-left: 10%;
+    font-size: 1.3rem;
+}
+
+.container {
+    display: flex;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 .img-left,
@@ -73,7 +95,7 @@ li {
 
 .img-container {
     display: flex;
-    width: 90%;
+    width: 70%;
     margin-bottom: 1em;
 }
 

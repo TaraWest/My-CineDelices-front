@@ -3,7 +3,7 @@ img {
 }
 
 .main_slider {
-    width: 90%;
+    width: 70%;
     overflow: hidden;
     position: relative;
     display: flex;
@@ -54,7 +54,7 @@ img {
 .img-left,
 .img-right {
     position: relative;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 3s ease-in-out;
 }
 
 .img-img-left {
