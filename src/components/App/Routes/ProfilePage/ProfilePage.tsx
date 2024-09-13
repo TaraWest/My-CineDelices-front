@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
-import { fetchUser, updateUser } from './services';
-import { IUser } from './models';
+import { fetchUser, getUserRecipes, updateUser } from './services';
+import { IRecipe, IUser } from './models';
 import './ProfilPage.css';
-import RecepiesTab from './RecepiesTab';
+import RecepiesTab from './components/RecepiesTab';
 import UserInfoForm from './components/UserInfoForm';
 
 function ProfilePage() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
     const navigate = useNavigate();
-    // State de données de notre utilisateur
+    // State for user's personnel data
     const [userData, setUserData] = useState<IUser | null>(null);
+
+    //State for user's recipies
+    const [recipies, setRecipies] = useState<IRecipe[]>([]);
 
     //State for the tab
     // false : "mes recettes"
@@ -81,6 +84,9 @@ function ProfilePage() {
                 setLastName(data.last_name);
                 setUserName(data.username);
                 setEmail(data.email_address);
+                getUserRecipes().then((data) => {
+                    setRecipies(data);
+                });
                 return;
             })
 
@@ -249,7 +255,7 @@ function ProfilePage() {
             <div
                 className={`${switchTab ? 'flex m-4 flex-col sm:flex-row' : 'hidden'}`}
             >
-                <RecepiesTab></RecepiesTab>
+                <RecepiesTab recipies={recipies} />
             </div>
         </div>
     );
