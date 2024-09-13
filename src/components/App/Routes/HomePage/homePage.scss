@@ -154,12 +154,12 @@ h4 {
 
 @media (max-width: 600px) {
     .img_presentation {
-        background-image: url('/Jack-medium.webp');
+        display: none;
     }
 }
 
 @media (max-width: 900px) {
     .img_presentation {
-        background-image: url('/Jack-normal.webp');
+        display: none;
     }
 }
