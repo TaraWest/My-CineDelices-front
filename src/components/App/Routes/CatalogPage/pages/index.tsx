@@ -135,13 +135,13 @@ export const Catalog = () => {
                                     <img
                                         src={`http://localhost:3000/recipes/${recipe.picture}`}
                                         alt={recipe.name}
-                                        className="h-50 w-full object-cover object-center"
+                                        className="h-full w-full object-cover object-center border-none"
                                     />
                                     {movie && (
                                         <img
                                             src={`http://localhost:3000/movies/${movie.picture}`}
                                             alt={movie.name}
-                                            className="h-50 w-full object-cover object-center mt-1"
+                                            className="h-full w-full object-cover object-center border-none  mt-1"
                                         />
                                     )}
                                     <div className="p-4">

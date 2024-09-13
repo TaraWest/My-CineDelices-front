@@ -9,7 +9,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import './header.scss';
-import { useAuthContext } from '../Context/useAuthContext';
 
 function Header() {
     // If the burger menu is open or closed
@@ -29,8 +28,6 @@ function Header() {
 
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
 
-    const { userAuth, isAuth } = useAuthContext();
-
     useEffect(() => {
         if (isDesktop) {
             setIsSearchOpen(true);
@@ -38,9 +35,6 @@ function Header() {
             setIsSearchOpen(false);
         }
     }, [isDesktop]);
-
-    console.log(userAuth);
-    console.log(isAuth);
 
     return (
         <div className="header flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
@@ -52,8 +46,6 @@ function Header() {
                     <span className="highlight">D</span>élices
                 </Link>
             </div>
-
-            {userAuth && <div>Bienvenue {userAuth.username}</div>}
 
             {/* Icons and links container */}
             <div className="link-container flex items-center space-x-4 relative ml-2 text-skin ">
@@ -117,9 +109,11 @@ function Header() {
 
             {/* Mobile menu - shown/hidden based on isMenuOpen state */}
             {isMenuOpen && (
-                <div className="mobile-menu bg-dark-red  ${isDesktop ? 'w-1/2' : 'w-full'} absolute">
+                <div
+                    className={`mobile-menu bg-dark-red ${isDesktop ? 'w-1/2' : 'w-full'} absolute text-align-center`}
+                >
                     {/* burger menu links */}
-                    <div className="p-4">
+                    <div className="p-4" style={{ textAlign: 'center' }}>
                         <Link to="/" className="block py-2" onClick={closeMenu}>
                             Accueil
                         </Link>
