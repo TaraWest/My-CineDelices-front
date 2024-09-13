@@ -60,6 +60,7 @@ li {
     padding-right: 10%;
     padding-left: 10%;
     font-size: 1.3rem;
+    line-height: 1.6;
 }
 
 .container {
@@ -98,11 +99,6 @@ li {
     display: flex;
     width: 70%;
     margin-bottom: 1em;
-    border-right: 10px double var.$color-skin;
-    border-bottom: 10px double var.$color-skin;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10%;
-    border-bottom-left-radius: 10%;
 }
 
 .right-div {
@@ -120,7 +116,7 @@ li {
     text-align: center;
     width: 100%;
     padding: 3px;
-    font-size: 1.2rem;
+    font-size: 1.8rem;
 }
 
 h2,
@@ -143,12 +139,17 @@ h4 {
 
 .presentation-list-item {
     margin: 0.5em;
+    margin-top: 40px;
     & button,
     a {
         margin: 0.5em;
         padding: 10px 15px;
         font-weight: 500;
     }
+}
+.suggestion {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
 }
 
 @media (max-width: 600px) {
