@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './LoginPage.scss';
 import { IError } from './models';
 import { Link } from 'react-router-dom';
-import { useAuthContext } from '../../Context/useAuthContext';
+import { useAuthContext } from '../../Context/Authentification/useAuthContext';
 function LoginPage() {
     const [error, setError] = useState<IError | null>(null);
     const { handleLogin } = useAuthContext();

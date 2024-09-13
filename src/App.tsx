@@ -22,6 +22,7 @@ function App() {
                 <Route path="/recette/:id" element={<RecipePage />} />
                 <Route path="/inscription" element={<RegistrationPage />} />
                 <Route path="/connexion" element={<LoginPage />} />
+
                 <Route path="/profil/me" element={<ProfilePage />} />
             </Routes>
 

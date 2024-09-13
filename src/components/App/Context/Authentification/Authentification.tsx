@@ -1,20 +1,22 @@
 //contexte authentification ici
 
 import axios from 'axios';
-import { createContext, useContext, useEffect, useState } from 'react';
-import { ILogin } from '../Routes/LoginPage/models';
+import { createContext, useEffect, useState } from 'react';
+import { ILogin } from '../../Routes/LoginPage/models';
 import {
     IAuthenticateContext,
     IAuthenticateContextProviderType,
     IUserAuth,
-} from '../@types/authenticate';
+} from '../../@types/authenticate';
 import { useNavigate } from 'react-router-dom';
+import { getUserData } from '../services';
 
 const defaultAuth: IUserAuth = {
     first_name: null,
     last_name: null,
     username: null,
     email_address: null,
+    id: null,
 };
 
 const defaultContext: IAuthenticateContext = {
@@ -40,31 +42,23 @@ export const AuthProvider = ({
     const navigate = useNavigate();
     //  Check if user is authitified in a loading or reloading of a page
     useEffect(() => {
-        function getUserData() {
-            return axios
-                .get('http://localhost:3000/me', {
-                    withCredentials: true,
-                })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setIsAuth(true);
-                        setUserAuth(response.data);
-                        return true;
-                    }
+        const storedIsAuth = sessionStorage.getItem('isAuth');
+        if (storedIsAuth === 'true') {
+            getUserData()
+                .then((data) => {
+                    setUserAuth(data);
+                    setIsAuth(true);
                 })
                 .catch((error) => {
-                    setUserAuth(null);
                     setIsAuth(false);
+                    setUserAuth(null);
                     return error;
                 });
-            //End of checkAuth
         }
-        if (getData) {
-            getUserData();
-        }
-    }, [getData]);
+    }, []);
 
     // set the isAuth state true
+    console.log(userAuth);
 
     async function handleLogin(data: ILogin) {
         return axios
@@ -80,7 +74,13 @@ export const AuthProvider = ({
                     return response.data;
                 }
                 setIsAuth(true);
-                setGetData(true);
+                sessionStorage.setItem('isAuth', 'true');
+                return getUserData();
+            })
+            .then((data) => {
+                if (data) {
+                    setUserAuth(data);
+                }
             })
             .catch((error) => {
                 console.log(error);
