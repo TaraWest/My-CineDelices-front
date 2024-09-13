@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link, useAsyncValue } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import './header.scss';
+import { useAuthContext } from '../Context/useAuthContext';
 
 function Header() {
     // If the burger menu is open or closed
@@ -104,7 +105,7 @@ function Header() {
                     <div className="line bg-skin"></div>
                 </div>
             </div>
-
+            {userAuth && <div> Bienvenue {userAuth.username} ! </div>}
             {/* Mobile menu - shown/hidden based on isMenuOpen state */}
             {isMenuOpen && (
                 <div
