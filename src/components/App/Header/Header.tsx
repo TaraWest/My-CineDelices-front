@@ -46,7 +46,7 @@ function Header() {
                 </Link>
             </div>
             {/*show this message when user is connected*/}
-            {userAuth && (
+            {userAuth?.username && (
                 <div className="userAuth absolute left-1/2 top-16 transform -translate-x-1/2 text-center">
                     Bienvenue {userAuth.username} !
                 </div>

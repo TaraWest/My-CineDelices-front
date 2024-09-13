@@ -17,12 +17,12 @@ function RecipePage() {
     const [ingredientsList, setIngredientsList] = useState<
         IIngredientsList[] | null
     >(null);
+    const [isRecipeOwner, setIsRecipeOwner] = useState<boolean>(false);
     const { isAuth, userAuth } = useAuthContext();
 
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
-        // Vérification du contexte authentification
-
+        //Fetch recipe with the id provided
         fetchRecipe(Number(id))
             .then((data) => {
                 if ('error' in data) {
@@ -55,6 +55,15 @@ function RecipePage() {
             }
         }
     }, [dataFetch]);
+
+    useEffect(() => {
+        if (isAuth && userAuth?.id && dataFetch?.id) {
+            const userId = userAuth.id;
+            const recipeId = dataFetch.id;
+
+            setIsRecipeOwner(userId === recipeId);
+        }
+    }, [isAuth, userAuth, dataFetch]);
 
     const incrementCounter = () => {
         setCount(count + 1);
@@ -173,7 +182,11 @@ function RecipePage() {
             </main>
 
             <footer className="m-1.5em text-center italic flex flex-col">
-                {/* <UpdateRecipeModal recipeData={dataFetch}></UpdateRecipeModal> */}
+                {isAuth /*&& isRecipeOwner*/ && (
+                    <UpdateRecipeModal
+                        recipeData={dataFetch}
+                    ></UpdateRecipeModal>
+                )}
                 <p>Une recette à proposer?</p>
                 <Link to="/connexion" className="my-1em">
                     Connectez vous!

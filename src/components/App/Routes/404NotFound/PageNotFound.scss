@@ -1,0 +1,22 @@
+@use '../../../../styles/variables' as var;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.not-found-part {
+    @apply my-5em mx-2em text-center flex flex-col items-center p-1.5em;
+
+    border-right: 10px double var.$color-skin;
+    border-bottom: 10px double var.$color-skin;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10%;
+    border-bottom-left-radius: 10%;
+}
+
+.not-found-img {
+    box-shadow: 0px 0px 20px var.$color-skin;
+
+    @media (min-width: var.$breakpoint-l) {
+        width: 500px;
+    }
+}
