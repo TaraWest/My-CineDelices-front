@@ -5,7 +5,8 @@ function PageNotFound() {
     return (
         <div className="flex flex-col items-center">
             <p className="mt-2em font-cinzel text-2xl font-semibold">
-                La page que vous cherchez est introuvable....
+                Oh non ! la page que vous cherchez est aussi introuvable qu'un
+                ramen dans un film de science-fiction
             </p>
             <div className="not-found-part">
                 <img
