@@ -9,6 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import './header.scss';
+import { useAuthContext } from '../Context/useAuthContext';
 
 function Header() {
     // If the burger menu is open or closed
@@ -28,6 +29,8 @@ function Header() {
 
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
 
+    const { userAuth, isAuth } = useAuthContext();
+
     useEffect(() => {
         if (isDesktop) {
             setIsSearchOpen(true);
@@ -35,6 +38,9 @@ function Header() {
             setIsSearchOpen(false);
         }
     }, [isDesktop]);
+
+    console.log(userAuth);
+    console.log(isAuth);
 
     return (
         <div className="header flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
@@ -46,6 +52,8 @@ function Header() {
                     <span className="highlight">D</span>élices
                 </Link>
             </div>
+
+            {userAuth && <div>Bienvenue {userAuth.username}</div>}
 
             {/* Icons and links container */}
             <div className="link-container flex items-center space-x-4 relative ml-2 text-skin ">
