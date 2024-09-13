@@ -5,6 +5,7 @@ export interface IUserAuth {
     last_name: string | null;
     email_address: string | null;
     username: string | null;
+    id: number | null;
 }
 
 export interface IAuthenticateContext {

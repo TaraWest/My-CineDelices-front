@@ -2,13 +2,10 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faUser,
-    faSearch,
-    faUtensils,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import './header.scss';
+import { useAuthContext } from '../Context/Authentification/useAuthContext';
 
 function Header() {
     // If the burger menu is open or closed
@@ -28,6 +25,8 @@ function Header() {
 
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
 
+    const { userAuth } = useAuthContext();
+
     useEffect(() => {
         if (isDesktop) {
             setIsSearchOpen(true);
@@ -46,7 +45,12 @@ function Header() {
                     <span className="highlight">D</span>élices
                 </Link>
             </div>
-
+            {/*show this message when user is connected*/}
+            {userAuth && (
+                <div className="userAuth absolute left-1/2 top-16 transform -translate-x-1/2 text-center">
+                    Bienvenue {userAuth.username} !
+                </div>
+            )}
             {/* Icons and links container */}
             <div className="link-container flex items-center space-x-4 relative ml-2 text-skin ">
                 {/* User Icon*/}
@@ -66,16 +70,16 @@ function Header() {
                         {/* Display icon on small screens */}
 
                         <FontAwesomeIcon
-                            icon={faUtensils}
+                            icon={faPlus}
                             className="block sm:hidden"
                         />
 
                         {/* text visible on screens larger than 500px */}
                         <Link
-                            to="/catalogue"
+                            to="/connexion"
                             className="hidden sm:block cursor-pointer"
                         >
-                            <button>Recettes</button>
+                            <button>Ajoute ta recette</button>
                         </Link>
                     </Link>
                 )}
