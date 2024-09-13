@@ -1,8 +1,6 @@
-import React from 'react';
-
-import AddRecipeModal from '../modal';
 import { DifficultyFilter } from '../difficultyFIlter';
 import { DishTypeFilter } from '../dishtypeFIlter';
+import AddRecipeModal from '../modal';
 
 interface NavBarCalogueProps {
     onDifficultyFilterChange: (difficulty: string) => void;
