@@ -37,7 +37,6 @@ export const AuthProvider = ({
 }: IAuthenticateContextProviderType) => {
     const [userAuth, setUserAuth] = useState<IUserAuth | null>(null);
     const [isAuth, setIsAuth] = useState<boolean>(false);
-    const [getData, setGetData] = useState<boolean>(false);
 
     const navigate = useNavigate();
     //  Check if user is authitified in a loading or reloading of a page
@@ -109,6 +108,8 @@ export const AuthProvider = ({
             .then((response) => {
                 if (response.status === 200) {
                     setUserAuth(null);
+                    setIsAuth(false);
+                    sessionStorage.removeItem('isAuth');
                     return response.data;
                 }
             })
