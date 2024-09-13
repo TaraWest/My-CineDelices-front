@@ -138,11 +138,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
         <>
             <button
                 onClick={toggleModal}
-<<<<<<< HEAD
                 className="text-sm font-medium text-[#0d0d0d] bg-[#d9c7b8] rounded-lg w-full md:w-32 h-12 flex items-center justify-center hover:bg-[#59041b]"
-=======
-                // className="text-sm font-medium text-white bg-blue-600 rounded-lg w-full md:w-32 h-12 flex items-center justify-center hover:bg-blue-700"
->>>>>>> eb28fdb1670906f02c6d5d32bfa5e5f00a77cea0
             >
                 Ajouter une recette
             </button>
