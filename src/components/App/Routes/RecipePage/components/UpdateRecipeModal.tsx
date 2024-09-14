@@ -96,6 +96,8 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
 
     console.log(state);
 
+   
+
     if (!recipeData) return <div>Chargement en cours ^^</div>;
 
     return (

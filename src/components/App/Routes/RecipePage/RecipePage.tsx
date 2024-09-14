@@ -6,6 +6,7 @@ import { fetchRecipe } from './services';
 import { extractNumber } from './services/numberExtraction';
 import UpdateRecipeModal from './components/UpdateRecipeModal';
 import { useAuthContext } from '../../Context/Authentification/useAuthContext';
+import CommentComponent from './components/CommentPart/CommentComponent';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -73,6 +74,8 @@ function RecipePage() {
             setCount(count - 1);
         }
     };
+
+    console.log(isRecipeOwner);
 
     //S'il y a une erreur, j'affiche un message dans le navigateur
     if (errorMessage) return <div>{errorMessage}</div>;
@@ -191,6 +194,11 @@ function RecipePage() {
                 <Link to="/connexion" className="my-1em">
                     Connectez vous!
                 </Link>
+                <div>
+                    <CommentComponent
+                        recipeId={dataFetch.id}
+                    ></CommentComponent>
+                </div>
             </footer>
         </div>
     );
