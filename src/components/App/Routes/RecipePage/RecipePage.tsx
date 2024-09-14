@@ -9,6 +9,7 @@ import { useAuthContext } from '../../Context/Authentification/useAuthContext';
 import CommentComponent from './components/CommentPart/CommentComponent';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -23,6 +24,7 @@ function RecipePage() {
     const [isRecipeOwner, setIsRecipeOwner] = useState<boolean>(false);
     const { isAuth, userAuth } = useAuthContext();
     const [recipeLiked, setRecipeLiked] = useState<boolean>(false);
+    const [likesNumber, setLikesNumber] = useState<number>(0);
 
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
@@ -57,6 +59,15 @@ function RecipePage() {
             if (result) {
                 setIngredientsList(result);
             }
+        }
+
+        // Load the number of likes for this recipe after data fetched
+        if (dataFetch && dataFetch.id) {
+            axios
+                .get(`http://localhost:3000/likes/${dataFetch.id}`)
+                .then((result) => {
+                    setLikesNumber(result.data);
+                });
         }
     }, [dataFetch]);
 
@@ -108,7 +119,15 @@ function RecipePage() {
                     Recette inspirée du film {dataFetch.Movie.name}
                 </span>
                 <div className="flex  items-center my-1em w-4/5 justify-between">
-                    <p>Cette recette a été aimée par 45 personnes</p>
+                    {likesNumber === 0 && <p></p>}
+                    {likesNumber !== 0 && (
+                        <p>
+                            Cette recette a été aimée par{' '}
+                            {likesNumber > 1
+                                ? `${likesNumber} personnes`
+                                : `${likesNumber} personne`}
+                        </p>
+                    )}
                     <span className="recipe-page-author p-1em m-1em italic">
                         Recette proposée par {dataFetch.User.username}
                     </span>
@@ -221,7 +240,7 @@ function RecipePage() {
                         />
                         J'aime
                     </button>
-                    <p className="text-ld">45</p>
+                    <p className="text-ld">{likesNumber}</p>
                 </div>
                 <p>Une recette à proposer?</p>
                 <Link to="/connexion" className="my-1em">
