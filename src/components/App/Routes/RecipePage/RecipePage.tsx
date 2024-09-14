@@ -7,6 +7,8 @@ import { extractNumber } from './services/numberExtraction';
 import UpdateRecipeModal from './components/UpdateRecipeModal';
 import { useAuthContext } from '../../Context/Authentification/useAuthContext';
 import CommentComponent from './components/CommentPart/CommentComponent';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -20,6 +22,7 @@ function RecipePage() {
     >(null);
     const [isRecipeOwner, setIsRecipeOwner] = useState<boolean>(false);
     const { isAuth, userAuth } = useAuthContext();
+    const [recipeLiked, setRecipeLiked] = useState<boolean>(false);
 
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
@@ -63,6 +66,7 @@ function RecipePage() {
             const recipeId = dataFetch.id;
 
             setIsRecipeOwner(userId === recipeId);
+            // si le user a déjà liké la recette, setRecipeLiked sur true
         }
     }, [isAuth, userAuth, dataFetch]);
 
@@ -74,6 +78,15 @@ function RecipePage() {
             setCount(count - 1);
         }
     };
+
+    function handleLikeRecipeButton() {
+        if (!recipeLiked) {
+            // décencher la fonction d'ajout de like
+        }
+        if (recipeLiked) {
+            // déclencher la fonction pour enlever le like
+        }
+    }
 
     console.log(isRecipeOwner);
 
@@ -94,9 +107,12 @@ function RecipePage() {
                 <span className="recipe-page-film font-cinzel m-2em text-center">
                     Recette inspirée du film {dataFetch.Movie.name}
                 </span>
-                <span className="recipe-page-author p-1em m-1em italic">
-                    Recette proposée par {dataFetch.User.username}
-                </span>
+                <div className="flex  items-center my-1em w-4/5 justify-between">
+                    <p>Cette recette a été aimée par 45 personnes</p>
+                    <span className="recipe-page-author p-1em m-1em italic">
+                        Recette proposée par {dataFetch.User.username}
+                    </span>
+                </div>
 
                 <div className="images-container mx-1.5em my-0.5em p-1.5em flex flex-col justify-center items-center max-w-90%">
                     <img
@@ -184,12 +200,29 @@ function RecipePage() {
                 </div>
             </main>
 
-            <footer className="m-1.5em text-center italic flex flex-col">
+            <footer className="m-1.5em text-center italic flex flex-col items-center">
                 {isAuth /*&& isRecipeOwner*/ && (
                     <UpdateRecipeModal
                         recipeData={dataFetch}
                     ></UpdateRecipeModal>
                 )}
+                <div className="flex items-center gap-1 my-1em">
+                    Vous aimez cette recette?
+                    <button
+                        onClick={handleLikeRecipeButton}
+                        className="like-button font-body text-base mx-0.5em"
+                    >
+                        <FontAwesomeIcon
+                            icon={faThumbsUp}
+                            style={{
+                                color: '#bb7133',
+                                marginRight: '0.5em',
+                            }}
+                        />
+                        J'aime
+                    </button>
+                    <p className="text-ld">45</p>
+                </div>
                 <p>Une recette à proposer?</p>
                 <Link to="/connexion" className="my-1em">
                     Connectez vous!

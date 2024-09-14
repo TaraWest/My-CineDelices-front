@@ -5,4 +5,17 @@
 
 .card-shadow {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.219);
+    background-color: #ffffff15;
+}
+
+.text-label {
+    width: 90%;
+}
+.text-area {
+    padding: 2em;
+}
+textarea::placeholder {
+    text-align: center;
+    padding: 2em;
+    color: var.$color-dark;
 }
