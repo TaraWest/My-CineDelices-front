@@ -2,6 +2,13 @@ import { Link, useParams } from 'react-router-dom';
 import './RecipePage.scss';
 import { useEffect, useState } from 'react';
 import { IIngredientsList, IRecipe } from './models';
+
+import { extractNumber } from './services/numberExtraction';
+import UpdateRecipeModal from './components/UpdateRecipeModal';
+import { useAuthContext } from '../../Context/Authentification/useAuthContext';
+import CommentComponent from './components/CommentPart/CommentComponent';
+
+import LikeButton from './components/LikeButton';
 import {
     checkUserLikedIt,
     deleteOneLike,
@@ -9,13 +16,6 @@ import {
     fetchRecipe,
     putOneLike,
 } from './services/APICall';
-import { extractNumber } from './services/numberExtraction';
-import UpdateRecipeModal from './components/UpdateRecipeModal';
-import { useAuthContext } from '../../Context/Authentification/useAuthContext';
-import CommentComponent from './components/CommentPart/CommentComponent';
-
-import LikeButton from './components/LikeButton';
-import { useLikesContext } from '../../Context/Likes/useLikesContext';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -28,21 +28,11 @@ function RecipePage() {
         IIngredientsList[] | null
     >(null);
     const [isRecipeOwner, setIsRecipeOwner] = useState<boolean>(false);
-    // const [userLikedIt, setUserLikedIt] = useState<boolean>(false);
-    // const [likesNumber, setLikesNumber] = useState<number>(0);
+    const [userLikedIt, setUserLikedIt] = useState<boolean>(false);
+    const [likesNumber, setLikesNumber] = useState<number>(0);
 
     // use the authentification context
     const { isAuth, userAuth } = useAuthContext();
-    // use the likes context
-    const {
-        userLikedIt,
-        setUserLikedIt,
-        handleLikeRecipeButton,
-        likesNumber,
-        setLikesNumber,
-        recipeId,
-        setRecipeId,
-    } = useLikesContext();
 
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
@@ -53,7 +43,6 @@ function RecipePage() {
                     setErrorMessage(data.error);
                 } else {
                     setDataFetch(data);
-                    setRecipeId(data.id);
                 }
             })
             .catch((error) => {
@@ -63,7 +52,7 @@ function RecipePage() {
                         'Une erreur est survenue lors du chargement de la recette',
                 };
             });
-    }, [id, setRecipeId]);
+    }, [id]);
     console.log(dataFetch);
     useEffect(() => {
         if (dataFetch && dataFetch.Ingredient) {
@@ -89,11 +78,11 @@ function RecipePage() {
             setIsRecipeOwner(userId === recipeId);
 
             // // si le user a déjà liké la recette, setUserLikedIt sur true
-            // checkUserLikedIt(recipeId, userId).then((result) => {
-            //     console.log(result.userLikedIt);
+            checkUserLikedIt(recipeId, userId).then((result) => {
+                console.log(result.userLikedIt);
 
-            //     setUserLikedIt(result.userLikedIt);
-            // });
+                setUserLikedIt(result.userLikedIt);
+            });
         }
     }, [isAuth, userAuth, dataFetch]);
 
@@ -105,58 +94,58 @@ function RecipePage() {
             setCount(count - 1);
         }
     };
-    // useEffect(() => {
-    //     console.log(userLikedIt);
-    //     // Load the number of likes for this recipe after data fetched
-    //     if (dataFetch && dataFetch.id) {
-    //         fetchLikesNumber(dataFetch.id)
-    //             .then((result) => {
-    //                 setLikesNumber(result);
-    //             })
-    //             .catch((error) => {
-    //                 console.log(error);
-    //             });
-    //     }
-    // }, [dataFetch, userLikedIt]);
+    useEffect(() => {
+        console.log(userLikedIt);
+        // Load the number of likes for this recipe after data fetched
+        if (dataFetch && dataFetch.id) {
+            fetchLikesNumber(dataFetch.id)
+                .then((result) => {
+                    setLikesNumber(result);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }, [dataFetch, userLikedIt]);
 
-    // function handleLikeRecipeButton() {
-    //     console.log(!userLikedIt);
+    function handleLikeRecipeButton() {
+        console.log(!userLikedIt);
 
-    //     if (!userLikedIt) {
-    //         // décencher la fonction d'ajout de like
-    //         console.log('action de like déclenchée');
-    //         console.log(userLikedIt);
+        if (!userLikedIt) {
+            // décencher la fonction d'ajout de like
+            console.log('action de like déclenchée');
+            console.log(userLikedIt);
 
-    //         if (isAuth && userAuth?.id && dataFetch?.id) {
-    //             putOneLike(dataFetch.id, userAuth.id).then((result) => {
-    //                 console.log(result);
+            if (isAuth && userAuth?.id && dataFetch?.id) {
+                putOneLike(dataFetch.id, userAuth.id).then((result) => {
+                    console.log(result);
 
-    //                 if (result === 201) {
-    //                     setUserLikedIt(true);
-    //                     console.log(result);
-    //                 }
-    //                 return;
-    //             });
-    //         } else {
-    //             console.log('il faut se connecter pour pouvoir liker!');
-    //         }
-    //     } else if (userLikedIt) {
-    //         // déclencher la fonction pour enlever le like
-    //         if (isAuth && userAuth?.id && dataFetch?.id) {
-    //             deleteOneLike(dataFetch?.id, userAuth?.id).then((result) => {
-    //                 console.log(result);
+                    if (result === 201) {
+                        setUserLikedIt(true);
+                        console.log(result);
+                    }
+                    return;
+                });
+            } else {
+                console.log('il faut se connecter pour pouvoir liker!');
+            }
+        } else if (userLikedIt) {
+            // déclencher la fonction pour enlever le like
+            if (isAuth && userAuth?.id && dataFetch?.id) {
+                deleteOneLike(dataFetch?.id, userAuth?.id).then((result) => {
+                    console.log(result);
 
-    //                 if (result === 204) {
-    //                     setUserLikedIt(false);
-    //                     console.log(userLikedIt);
-    //                 }
-    //                 return;
-    //             });
-    //         }
-    //     } else {
-    //         return;
-    //     }
-    // }
+                    if (result === 204) {
+                        setUserLikedIt(false);
+                        console.log(userLikedIt);
+                    }
+                    return;
+                });
+            }
+        } else {
+            return;
+        }
+    }
 
     // console.log(isRecipeOwner);
 
@@ -285,7 +274,11 @@ function RecipePage() {
                     ></UpdateRecipeModal>
                 )}
                 {/* button like here */}
-                <LikeButton></LikeButton>
+                <LikeButton
+                    handleLikeRecipeButton={handleLikeRecipeButton}
+                    userLikedIt={userLikedIt}
+                    likesNumber={likesNumber}
+                ></LikeButton>
                 <p>Une recette à proposer?</p>
                 <Link to="/connexion" className="my-1em">
                     Connectez vous!

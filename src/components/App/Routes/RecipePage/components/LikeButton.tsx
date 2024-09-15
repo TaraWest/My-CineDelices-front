@@ -1,17 +1,17 @@
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useLikesContext } from '../../../Context/Likes/useLikesContext';
 
-// interface likeButtonProps {
-//     handleLikeRecipeButton: () => void;
-//     userLikedIt: boolean;
-//     likesNumber: number;
-// }
+interface likeButtonProps {
+    handleLikeRecipeButton: () => void;
+    userLikedIt: boolean;
+    likesNumber: number;
+}
 
-function LikeButton() {
-    const { handleLikeRecipeButton, userLikedIt, likesNumber } =
-        useLikesContext();
-
+function LikeButton({
+    handleLikeRecipeButton,
+    userLikedIt,
+    likesNumber,
+}: likeButtonProps) {
     return (
         <div className="flex items-center gap-1 my-1em">
             Vous aimez cette recette?

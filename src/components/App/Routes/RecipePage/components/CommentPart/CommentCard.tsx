@@ -3,7 +3,6 @@ import StarRatings from 'react-star-ratings';
 import { ICommentCard } from './Model/type';
 import './CommentComponent.scss';
 import { useAuthContext } from '../../../../Context/Authentification/useAuthContext';
-import LikeButton from '../LikeButton';
 
 interface ICommentCardProps {
     comment: ICommentCard;
