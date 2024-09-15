@@ -9,6 +9,7 @@ ul {
 .fixed-button-desktop {
     @apply fixed bottom-0 right-2;
     background-color: #d9c7b8c0;
+    z-index: 1;
 }
 
 .fixed-button-mobile {

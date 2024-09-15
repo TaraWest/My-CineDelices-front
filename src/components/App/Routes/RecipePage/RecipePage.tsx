@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import './RecipePage.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IIngredientsList, IRecipe } from './models';
 
 import { extractNumber } from './services/numberExtraction';
@@ -308,7 +308,7 @@ function RecipePage() {
                     userLikedIt={userLikedIt}
                     likesNumber={likesNumber}
                 ></LikeButton>
-                <p>Une recette à proposer?</p>
+                <p className="mt-0.5em">Une recette à proposer?</p>
                 {!isAuth && (
                     <Link to="/connexion" className="my-1em">
                         Connectez vous!
@@ -319,7 +319,8 @@ function RecipePage() {
                         C'est par ici!{' '}
                     </Link>
                 )}
-                <div>
+
+                <div className="w-full">
                     <CommentComponent
                         recipeId={dataFetch.id}
                     ></CommentComponent>

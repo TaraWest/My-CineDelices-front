@@ -16,6 +16,7 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
     const [commentData, setCommentData] = useState<ICommentCard[] | null>(null);
     const [commentNote, setCommentNote] = useState<number>(0);
     const [error, setError] = useState<string | null>(null);
+    const [starsClicked, setStarsClicked] = useState<boolean>(false);
     // const [liked, setLiked] = useState<boolean>(false)
 
     function handleSubmitForm(event: FormEvent<HTMLFormElement>) {
@@ -60,6 +61,18 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
     function handleRatingChange(note: number) {
         setCommentNote(note);
     }
+    function handleClickOnStars() {
+        console.log('click');
+        if (isAuth) {
+            return;
+        }
+        setStarsClicked(true);
+
+        setTimeout(() => {
+            setStarsClicked(false);
+        }, 3000);
+    }
+    console.log(starsClicked);
 
     useEffect(() => {
         fetchComments(recipeId).then((data) => {
@@ -68,7 +81,7 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
     }, [recipeId]);
     if (!commentData) return <div>Les commentaires chargent :D</div>;
     return (
-        <section>
+        <section className="w-full">
             <h2>Commentaires</h2>
             {/* card container */}
             <div>
@@ -83,10 +96,13 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
                         );
                     })}
             </div>
-            <div>
+            <div className="relative">
                 <h3 className="mt-2em">Envie de laisser un commentaire?</h3>
                 <form onSubmit={handleSubmitForm}>
-                    <div className="flex flex-col items-center justify-center gap-2">
+                    <div
+                        className="flex flex-col items-center justify-center gap-2 "
+                        onClick={handleClickOnStars}
+                    >
                         <StarRatings
                             name="note"
                             rating={commentNote}
@@ -101,6 +117,11 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
                                     : undefined
                             }
                         />
+                        {!isAuth && starsClicked && (
+                            <div className="error-message-stars">
+                                Veuillez vous connecter pour donner votre avis!
+                            </div>
+                        )}
 
                         <label className="text-label">
                             <textarea

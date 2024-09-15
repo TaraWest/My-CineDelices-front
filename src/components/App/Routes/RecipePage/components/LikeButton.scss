@@ -2,3 +2,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.error-message {
+    @apply absolute bottom-4 text-dark bg-skin p-2 rounded-2xl;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.479);
+}
