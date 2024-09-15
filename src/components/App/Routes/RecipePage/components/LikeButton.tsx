@@ -1,5 +1,7 @@
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './LikeButton.scss';
+import { useMediaQuery } from 'react-responsive';
 
 interface likeButtonProps {
     handleLikeRecipeButton: () => void;
@@ -12,13 +14,17 @@ function LikeButton({
     userLikedIt,
     likesNumber,
 }: likeButtonProps) {
+    const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
+
     return (
         <div className="flex items-center gap-1 my-1em">
-            Vous aimez cette recette?
+            {userLikedIt
+                ? 'Vous aimez cette recette!'
+                : 'Vous aimez cette recette?'}
             {
                 <button
                     onClick={handleLikeRecipeButton}
-                    className="like-button font-body text-base mx-0.5em"
+                    className={`font-body mx-0.5em text-center ${isDesktop ? 'text-base' : 'text-xs'}`}
                 >
                     <FontAwesomeIcon
                         icon={faThumbsUp}

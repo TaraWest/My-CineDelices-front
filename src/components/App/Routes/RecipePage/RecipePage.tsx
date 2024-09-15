@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import './RecipePage.scss';
 import { useEffect, useState } from 'react';
 import { IIngredientsList, IRecipe } from './models';
@@ -16,6 +16,9 @@ import {
     fetchRecipe,
     putOneLike,
 } from './services/APICall';
+import { useMediaQuery } from 'react-responsive';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -30,9 +33,13 @@ function RecipePage() {
     const [isRecipeOwner, setIsRecipeOwner] = useState<boolean>(false);
     const [userLikedIt, setUserLikedIt] = useState<boolean>(false);
     const [likesNumber, setLikesNumber] = useState<number>(0);
+    const [plusClicked, setPlusClicked] = useState<boolean>(false);
 
     // use the authentification context
     const { isAuth, userAuth } = useAuthContext();
+
+    const navigate = useNavigate();
+    const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
 
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
@@ -158,6 +165,28 @@ function RecipePage() {
 
     return (
         <div className="w-full text-base">
+            {!isDesktop && (
+                <button onClick={() => setPlusClicked(!plusClicked)}>
+                    <FontAwesomeIcon
+                        className="button-plus"
+                        icon={faPlus}
+                        style={{ color: '#bb7133' }}
+                        size="2xl"
+                    />
+                </button>
+            )}
+            {(isDesktop || (!isDesktop && plusClicked)) && (
+                <button
+                    className={
+                        isDesktop
+                            ? 'fixed-button-desktop'
+                            : ' fixed-button-mobile'
+                    }
+                    onClick={() => navigate('/catalogue')}
+                >
+                    Catalogue
+                </button>
+            )}
             <header className="flex flex-col items-center mb-2em">
                 <h1 className="semibold py-1em text-5xl border-b-4 border-solid border-skin recipe-title ">
                     {dataFetch.name}
@@ -280,9 +309,16 @@ function RecipePage() {
                     likesNumber={likesNumber}
                 ></LikeButton>
                 <p>Une recette à proposer?</p>
-                <Link to="/connexion" className="my-1em">
-                    Connectez vous!
-                </Link>
+                {!isAuth && (
+                    <Link to="/connexion" className="my-1em">
+                        Connectez vous!
+                    </Link>
+                )}
+                {isAuth && (
+                    <Link to="/catalogue" className="my-1em">
+                        C'est par ici!{' '}
+                    </Link>
+                )}
                 <div>
                     <CommentComponent
                         recipeId={dataFetch.id}
