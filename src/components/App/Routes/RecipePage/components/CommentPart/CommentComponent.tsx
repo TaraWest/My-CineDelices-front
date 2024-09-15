@@ -20,9 +20,6 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
 
     function handleSubmitForm(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log('form soumis');
-        console.log(commentContent);
-        console.log(commentNote);
 
         if (commentNote === 0 || commentContent === '') {
             setError('Attribuez une note et écrivez votre commentaire');
@@ -37,7 +34,7 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
             user_id: userAuth?.id,
             recipe_id: recipeId,
         };
-        console.log(dataToSend);
+        // console.log(dataToSend);
         if (dataToSend) {
             axios
                 .post('http://localhost:3000/comment', dataToSend, {
@@ -48,6 +45,7 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
                 })
                 .then((response) => {
                     console.log(response);
+
                     setCommentContent('');
                     fetchComments(recipeId).then((data) => {
                         setCommentData(data);
@@ -55,8 +53,6 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
                 });
         }
     }
-    console.log(userAuth);
-    console.log(isAuth);
 
     function handleTextChange(event: ChangeEvent<HTMLTextAreaElement | null>) {
         setCommentContent(event.target.value);
@@ -70,7 +66,6 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
             setCommentData(data);
         });
     }, [recipeId]);
-    console.log(commentData);
     if (!commentData) return <div>Les commentaires chargent :D</div>;
     return (
         <section>

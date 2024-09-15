@@ -3,15 +3,14 @@ import StarRatings from 'react-star-ratings';
 import { ICommentCard } from './Model/type';
 import './CommentComponent.scss';
 import { useAuthContext } from '../../../../Context/Authentification/useAuthContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import LikeButton from '../LikeButton';
 
 interface ICommentCardProps {
     comment: ICommentCard;
 }
 
 function CommentCard({ comment }: ICommentCardProps) {
-    console.log(comment);
+    // console.log(comment);
     const { userAuth, isAuth } = useAuthContext();
     const [isCommentOwner, setIsCommentOwner] = useState<boolean>(false);
 
@@ -21,7 +20,7 @@ function CommentCard({ comment }: ICommentCardProps) {
             const recipeId = comment.user_id;
             setIsCommentOwner(userId === recipeId);
         }
-    }, []);
+    }, [isAuth, userAuth, comment.user_id]);
 
     return (
         <div className="border border-dark border-solid text-skin rounded-2xl mb-1em card-shadow">
@@ -36,22 +35,7 @@ function CommentCard({ comment }: ICommentCardProps) {
                         starSpacing="2px" // Espacement entre les étoiles
                     />
                 </div>
-                <div className="flex">
-                    <div className="flex items-center gap-1">
-                        <button className="like-button font-body text-base mr-0.5em">
-                            <FontAwesomeIcon
-                                icon={faThumbsUp}
-                                style={{
-                                    color: '#bb7133',
-                                    marginRight: '0.5em',
-                                }}
-                            />
-                            J'aime
-                        </button>
-
-                        <p className="text-ld">45</p>
-                    </div>
-                </div>
+                {/* <LikeButton></LikeButton> */}
             </header>
             <main className="mb-2em text-xl">
                 <div>

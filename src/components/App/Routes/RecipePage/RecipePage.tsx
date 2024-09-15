@@ -2,14 +2,20 @@ import { Link, useParams } from 'react-router-dom';
 import './RecipePage.scss';
 import { useEffect, useState } from 'react';
 import { IIngredientsList, IRecipe } from './models';
-import { fetchRecipe } from './services';
+import {
+    checkUserLikedIt,
+    deleteOneLike,
+    fetchLikesNumber,
+    fetchRecipe,
+    putOneLike,
+} from './services/APICall';
 import { extractNumber } from './services/numberExtraction';
 import UpdateRecipeModal from './components/UpdateRecipeModal';
 import { useAuthContext } from '../../Context/Authentification/useAuthContext';
 import CommentComponent from './components/CommentPart/CommentComponent';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+
+import LikeButton from './components/LikeButton';
+import { useLikesContext } from '../../Context/Likes/useLikesContext';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -22,9 +28,21 @@ function RecipePage() {
         IIngredientsList[] | null
     >(null);
     const [isRecipeOwner, setIsRecipeOwner] = useState<boolean>(false);
+    // const [userLikedIt, setUserLikedIt] = useState<boolean>(false);
+    // const [likesNumber, setLikesNumber] = useState<number>(0);
+
+    // use the authentification context
     const { isAuth, userAuth } = useAuthContext();
-    const [recipeLiked, setRecipeLiked] = useState<boolean>(false);
-    const [likesNumber, setLikesNumber] = useState<number>(0);
+    // use the likes context
+    const {
+        userLikedIt,
+        setUserLikedIt,
+        handleLikeRecipeButton,
+        likesNumber,
+        setLikesNumber,
+        recipeId,
+        setRecipeId,
+    } = useLikesContext();
 
     //déclenchement de la fonction au chargement de la page et pour toute modification de l'id
     useEffect(() => {
@@ -35,6 +53,7 @@ function RecipePage() {
                     setErrorMessage(data.error);
                 } else {
                     setDataFetch(data);
+                    setRecipeId(data.id);
                 }
             })
             .catch((error) => {
@@ -44,7 +63,7 @@ function RecipePage() {
                         'Une erreur est survenue lors du chargement de la recette',
                 };
             });
-    }, [id]);
+    }, [id, setRecipeId]);
     console.log(dataFetch);
     useEffect(() => {
         if (dataFetch && dataFetch.Ingredient) {
@@ -60,15 +79,6 @@ function RecipePage() {
                 setIngredientsList(result);
             }
         }
-
-        // Load the number of likes for this recipe after data fetched
-        if (dataFetch && dataFetch.id) {
-            axios
-                .get(`http://localhost:3000/likes/${dataFetch.id}`)
-                .then((result) => {
-                    setLikesNumber(result.data);
-                });
-        }
     }, [dataFetch]);
 
     useEffect(() => {
@@ -77,7 +87,13 @@ function RecipePage() {
             const recipeId = dataFetch.id;
 
             setIsRecipeOwner(userId === recipeId);
-            // si le user a déjà liké la recette, setRecipeLiked sur true
+
+            // // si le user a déjà liké la recette, setUserLikedIt sur true
+            // checkUserLikedIt(recipeId, userId).then((result) => {
+            //     console.log(result.userLikedIt);
+
+            //     setUserLikedIt(result.userLikedIt);
+            // });
         }
     }, [isAuth, userAuth, dataFetch]);
 
@@ -89,17 +105,60 @@ function RecipePage() {
             setCount(count - 1);
         }
     };
+    // useEffect(() => {
+    //     console.log(userLikedIt);
+    //     // Load the number of likes for this recipe after data fetched
+    //     if (dataFetch && dataFetch.id) {
+    //         fetchLikesNumber(dataFetch.id)
+    //             .then((result) => {
+    //                 setLikesNumber(result);
+    //             })
+    //             .catch((error) => {
+    //                 console.log(error);
+    //             });
+    //     }
+    // }, [dataFetch, userLikedIt]);
 
-    function handleLikeRecipeButton() {
-        if (!recipeLiked) {
-            // décencher la fonction d'ajout de like
-        }
-        if (recipeLiked) {
-            // déclencher la fonction pour enlever le like
-        }
-    }
+    // function handleLikeRecipeButton() {
+    //     console.log(!userLikedIt);
 
-    console.log(isRecipeOwner);
+    //     if (!userLikedIt) {
+    //         // décencher la fonction d'ajout de like
+    //         console.log('action de like déclenchée');
+    //         console.log(userLikedIt);
+
+    //         if (isAuth && userAuth?.id && dataFetch?.id) {
+    //             putOneLike(dataFetch.id, userAuth.id).then((result) => {
+    //                 console.log(result);
+
+    //                 if (result === 201) {
+    //                     setUserLikedIt(true);
+    //                     console.log(result);
+    //                 }
+    //                 return;
+    //             });
+    //         } else {
+    //             console.log('il faut se connecter pour pouvoir liker!');
+    //         }
+    //     } else if (userLikedIt) {
+    //         // déclencher la fonction pour enlever le like
+    //         if (isAuth && userAuth?.id && dataFetch?.id) {
+    //             deleteOneLike(dataFetch?.id, userAuth?.id).then((result) => {
+    //                 console.log(result);
+
+    //                 if (result === 204) {
+    //                     setUserLikedIt(false);
+    //                     console.log(userLikedIt);
+    //                 }
+    //                 return;
+    //             });
+    //         }
+    //     } else {
+    //         return;
+    //     }
+    // }
+
+    // console.log(isRecipeOwner);
 
     //S'il y a une erreur, j'affiche un message dans le navigateur
     if (errorMessage) return <div>{errorMessage}</div>;
@@ -220,28 +279,13 @@ function RecipePage() {
             </main>
 
             <footer className="m-1.5em text-center italic flex flex-col items-center">
-                {isAuth /*&& isRecipeOwner*/ && (
+                {isAuth && isRecipeOwner && (
                     <UpdateRecipeModal
                         recipeData={dataFetch}
                     ></UpdateRecipeModal>
                 )}
-                <div className="flex items-center gap-1 my-1em">
-                    Vous aimez cette recette?
-                    <button
-                        onClick={handleLikeRecipeButton}
-                        className="like-button font-body text-base mx-0.5em"
-                    >
-                        <FontAwesomeIcon
-                            icon={faThumbsUp}
-                            style={{
-                                color: '#bb7133',
-                                marginRight: '0.5em',
-                            }}
-                        />
-                        J'aime
-                    </button>
-                    <p className="text-ld">{likesNumber}</p>
-                </div>
+                {/* button like here */}
+                <LikeButton></LikeButton>
                 <p>Une recette à proposer?</p>
                 <Link to="/connexion" className="my-1em">
                     Connectez vous!

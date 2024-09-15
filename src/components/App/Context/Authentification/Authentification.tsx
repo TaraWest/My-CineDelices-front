@@ -9,7 +9,7 @@ import {
     IUserAuth,
 } from '../../@types/authenticate';
 import { useNavigate } from 'react-router-dom';
-import { getUserData } from '../services';
+import { getUserData } from '../services/AuthAPI';
 
 const defaultAuth: IUserAuth = {
     first_name: null,

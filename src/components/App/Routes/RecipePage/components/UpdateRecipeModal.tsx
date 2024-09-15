@@ -23,8 +23,6 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
         setIsOpen(!isOpen);
     }
 
-    console.log(recipeData);
-
     function toggleRecipeOrFilmPart(
         event: React.MouseEvent<HTMLButtonElement>,
     ) {
@@ -41,15 +39,15 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
             HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
         >,
     ) {
-        console.log(event);
+        // console.log(event);
 
         const { name, value, id, dataset } = event.target;
-        console.log(name);
-        console.log(value);
-        console.log(id);
-        console.log(id.toUpperCase());
+        // console.log(name);
+        // console.log(value);
+        // console.log(id);
+        // console.log(id.toUpperCase());
 
-        console.log(dataset.index);
+        // console.log(dataset.index);
         const index = dataset.index ? Number(dataset.index) : undefined;
         const field = name;
 
@@ -66,8 +64,6 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
         } else if (id === 'preparation') {
             const index = Number(name.split(' ')[1]);
             const field = name.split(' ')[0];
-            console.log(index);
-            console.log(field);
 
             dispatch({
                 type: 'UPDATE_PREPARATION',
@@ -94,9 +90,7 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
         }
     }
 
-    console.log(state);
-
-   
+    // console.log(state);
 
     if (!recipeData) return <div>Chargement en cours ^^</div>;
 
