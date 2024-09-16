@@ -135,13 +135,13 @@ export const Catalog = () => {
                                     <img
                                         src={`http://localhost:3000/recipes/${recipe.picture}`}
                                         alt={recipe.name}
-                                        className="h-50 w-full object-cover object-center"
+                                        className="h-full w-full object-cover object-center border-none"
                                     />
                                     {movie && (
                                         <img
                                             src={`http://localhost:3000/movies/${movie.picture}`}
                                             alt={movie.name}
-                                            className="h-50 w-full object-cover object-center mt-1"
+                                            className="h-full w-full object-cover object-center border-none  mt-1"
                                         />
                                     )}
                                     <div className="p-4">
@@ -152,7 +152,7 @@ export const Catalog = () => {
                                         )}
                                         <div className="flex justify-center">
                                             <Link to={`/recette/${recipe.id}`}>
-                                                <button className="text-sm font-medium text-blue-600 ">
+                                                <button className="text-sm font-medium text-[#0d0d0d] ">
                                                     {recipe.name}
                                                 </button>
                                             </Link>
@@ -170,7 +170,7 @@ export const Catalog = () => {
                     <button
                         onClick={() => paginate(currentPage - 1)}
                         disabled={currentPage === 1} // Désactiver si on est sur la première page
-                        className={`px-4 py-2 text-sm ${currentPage === 1 ? 'bg-gray-300' : 'bg-blue-600'} text-white rounded-lg`}
+                        className={`px-4 py-2 text-sm ${currentPage === 1 ? 'bg-[#d9c7b8]' : 'bg-[#d9c7b8]'} text-[#0d0d0d] rounded-lg`}
                     >
                         Précédent
                     </button>
@@ -179,7 +179,7 @@ export const Catalog = () => {
                     <button
                         onClick={() => paginate(currentPage + 1)}
                         disabled={indexOfLastRecipe >= recipes.length} // Désactiver si on est à la dernière page
-                        className={`px-4 py-2 text-sm ${indexOfLastRecipe >= recipes.length ? 'bg-gray-300' : 'bg-blue-600'} text-white rounded-lg`}
+                        className={`px-4 py-2 text-sm ${indexOfLastRecipe >= recipes.length ? 'bg-[#d9c7b8]' : 'bg-[#d9c7b8]'} text-[#0d0d0d] rounded-lg`}
                     >
                         Suivant
                     </button>

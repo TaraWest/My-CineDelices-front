@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import './header.scss';
-import { Recipe } from '../Routes/CatalogPage/models';
+import { Recipe, Movie } from '../Routes/CatalogPage/models';
 import { useNavigate } from 'react-router-dom';
 import Autosuggest, { SuggestionSelectedEventData } from 'react-autosuggest';
+
+// function fetch recipes
 
 const fetchRecipes = async () => {
     try {
@@ -11,32 +13,49 @@ const fetchRecipes = async () => {
         return data.map((item: { id: string; name: string }) => ({
             id: item.id,
             name: item.name,
+            type: 'recipe',
         }));
     } catch (error) {
         console.error('Error fetching recipes:', error);
         return [];
     }
 };
+
+const fetchMovies = async () => {
+    try {
+        const response = await fetch('http://localhost:3000/movies');
+        const data = await response.json();
+        return data.map((item: { id: string; name: string }) => ({
+            id: item.id,
+            name: item.name,
+            type: 'movie',
+        }));
+    } catch (error) {
+        console.error('Error fetching movies:', error);
+        return [];
+    }
+};
 // component SearchBar
 const SearchBar: React.FC = () => {
     const [value, setValue] = useState('');
-    const [suggestions, setSuggestions] = useState<Recipe[]>([]);
-    const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
+    const [suggestions, setSuggestions] = useState<Recipe | Movie[]>([]);
+    const [allItems, setAllItems] = useState<Recipe | Movie[]>([]);
     //Permet de naviguer vers d'autres pages
     const navigate = useNavigate();
     // Récupération des recettes
     useEffect(() => {
-        const fetchAndSetRecipes = async () => {
+        const fetchData = async () => {
             const recipes = await fetchRecipes();
-            setAllRecipes(recipes);
+            const movies = await fetchMovies();
+            setAllItems([...recipes, ...movies]);
         };
 
-        fetchAndSetRecipes();
+        fetchData();
     }, []);
     // Gestion de la récupération des suggestions basées sur la valeur entrée
     const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
-        const filteredSuggestions = allRecipes.filter((recipe) =>
-            recipe.name.toLowerCase().startsWith(value.toLowerCase()),
+        const filteredSuggestions = allItems.filter((item) =>
+            item.name.toLowerCase().startsWith(value.toLowerCase()),
         );
         setSuggestions(filteredSuggestions);
     };
@@ -44,26 +63,34 @@ const SearchBar: React.FC = () => {
     // Gestion de la sélection d'une suggestion
     const onSuggestionSelected = (
         _: React.FormEvent<HTMLInputElement>,
-        data: SuggestionSelectedEventData<Recipe>,
+        data: SuggestionSelectedEventData<Recipe | Movie>,
     ) => {
         setValue(data.suggestion.name);
-        navigate(`/recette/${data.suggestion.id}`);
+        if (data.suggestion.type === 'recipe') {
+            navigate(`/recette/${data.suggestion.id}`);
+        } else if (data.suggestion.type === 'movie') {
+            navigate(`/recette/${data.suggestion.id}`);
+        }
     };
 
     // Gestion de l'event pour aller sur la page de la recette
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-            const selectedRecipe = allRecipes.find(
-                (recipe) => recipe.name.toLowerCase() === value.toLowerCase(),
+            const selectedItem = allItems.find(
+                (item) => item.name.toLowerCase() === value.toLowerCase(),
             );
-            if (selectedRecipe) {
-                navigate(`/recipes/${selectedRecipe.id}`);
+            if (selectedItem) {
+                if (selectedItem.type === 'recipe') {
+                    navigate(`/recette/${selectedItem.id}`);
+                } else if (selectedItem.type === 'movie') {
+                    navigate(`/recette/${selectedItem.id}`);
+                }
             }
         }
     };
     // Propriétés pour l'input de la barre de recherche
-    const inputProps: Autosuggest.InputProps<Recipe> = {
-        placeholder: 'Ratatouille',
+    const inputProps: Autosuggest.InputProps<Recipe | Movie> = {
+        placeholder: 'Je recherche',
         value,
         onChange: (
             _: React.FormEvent<HTMLElement>,
@@ -76,16 +103,14 @@ const SearchBar: React.FC = () => {
 
     return (
         <Autosuggest
-            //Un tableau d'objets Recipe qui représente les suggestions à afficher
             suggestions={suggestions}
-            // Fonction appelée lorsque Autosuggest demande des suggestions
             onSuggestionsFetchRequested={onSuggestionsFetchRequested}
             onSuggestionSelected={onSuggestionSelected}
-            //Fonction qui retourne la valeur de la suggestion. Ici, elle retourne le nom de la recette pour qu'il soit utilisé comme texte dans l'input.
             getSuggestionValue={(suggestion) => suggestion.name}
             renderSuggestion={(suggestion) => (
                 <div className="md:cursor-pointer hover:bg-dark-red transition-all duration-200">
-                    {suggestion.name}
+                    {suggestion.name} (
+                    {suggestion.type === 'recipe' ? 'Recette' : 'Film'})
                 </div>
             )}
             inputProps={inputProps}

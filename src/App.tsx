@@ -9,9 +9,9 @@ import RegistrationPage from './components/App/Routes/RegistrationPage/Registrat
 import LoginPage from './components/App/Routes/LoginPage/LoginPage';
 import ProfilePage from './components/App/Routes/ProfilePage/ProfilePage';
 import { CatalogPage } from './components/App/Routes/CatalogPage/CatalogPage';
+import PageNotFound from './components/App/Routes/404NotFound/PageNotFound';
 
 function App() {
-    //si besoin d'écrire ici, communiquer avant pour évitr des doublons dans les noms des variables, toujours mettre un commentaire pour expliquer ce qu'on fait
     return (
         <div className="app">
             <Header />
@@ -23,6 +23,7 @@ function App() {
                 <Route path="/inscription" element={<RegistrationPage />} />
                 <Route path="/connexion" element={<LoginPage />} />
                 <Route path="/profil/me" element={<ProfilePage />} />
+                <Route path="*" element={<PageNotFound />} />
             </Routes>
 
             <Footer />

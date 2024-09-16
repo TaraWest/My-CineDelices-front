@@ -3,12 +3,14 @@ export interface Recipe {
     name: string;
     picture: string;
     movie_id: number | null;
+    type: string;
 }
 
 export interface Movie {
     id: number;
     name: string;
     picture: string;
+    type: string;
 }
 
 export interface AddRecipeModalProps {
