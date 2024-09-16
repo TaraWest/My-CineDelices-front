@@ -7,6 +7,7 @@ import SearchBar from './SearchBar';
 import './header.scss';
 import { useAuthContext } from '../Context/Authentification/useAuthContext';
 import AddRecipeModal from '../Routes/CatalogPage/components/modal';
+import { Recipes } from '../Routes/CatalogPage/models';
 
 function Header() {
     // If the burger menu is open or closed
@@ -22,9 +23,6 @@ function Header() {
 
     // menu closed
     const closeMenu = () => setIsMenuOpen(false);
-
-    // modal is open or closed
-    //const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Function to toggle the search bar state
     const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
@@ -48,9 +46,8 @@ function Header() {
         closeMenu();
     };
 
-    // Fonction pour gérer l'ajout d'une recette
-    const handleAddRecipe = (newRecipe: any) => {
-        // Logique pour ajouter la recette, par exemple mettre à jour l'état ou faire une action spécifique
+    // modal add recipes
+    const handleAddRecipe = (newRecipe: Recipes) => {
         console.log('Nouvelle recette ajoutée :', newRecipe);
     };
 
@@ -88,8 +85,7 @@ function Header() {
                 )}
                 {/* add recipes icon */}
                 {(!isSearchOpen || isDesktop) && (
-                    <Link
-                        to={userAuth?.username ? '/catalogue' : '/connexion'}
+                    <div
                         className=" user-icon presentation-list-item"
                         onClick={closeMenu}
                     >
@@ -99,7 +95,7 @@ function Header() {
                             icon={faPlus}
                             className="block sm:hidden"
                         />
-                    </Link>
+                    </div>
                 )}
                 {/* text visible on screens larger than 500px */}
                 <Link
@@ -113,7 +109,7 @@ function Header() {
                 {/* Search Bar */}
                 {isSearchOpen && (
                     <div
-                        className={`search-bar top-16 right-0 bg-white text-gray-700 w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto md:bg-transparent md:text-skin`}
+                        className={`search-bar top-20 right-0 bg-white text-gray-700 w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto md:bg-transparent md:text-skin`}
                     >
                         {/*Search Bar component*/}
                         <SearchBar />
