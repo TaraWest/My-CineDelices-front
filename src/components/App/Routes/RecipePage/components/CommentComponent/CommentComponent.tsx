@@ -1,9 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import CommentCard from './CommentCard';
-import axios from 'axios';
+import CommentCard from '../CommentPart/CommentCard';
 import { useAuthContext } from '../../../../Context/Authentification/useAuthContext';
 import { ICommentCard } from './Model/type';
-import { fetchComments } from './services/APIcall';
+import { fetchComments, postNewComment } from './services/APIcall';
 import StarRatings from 'react-star-ratings';
 
 interface CommentComponentProps {
@@ -21,6 +20,9 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
 
     function handleSubmitForm(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        if (!userAuth || !userAuth.id) {
+            return;
+        }
 
         if (commentNote === 0 || commentContent === '') {
             setError('Attribuez une note et écrivez votre commentaire');
@@ -32,26 +34,19 @@ function CommentComponent({ recipeId }: CommentComponentProps) {
         const dataToSend = {
             content: commentContent,
             note: commentNote,
-            user_id: userAuth?.id,
+            user_id: userAuth.id,
             recipe_id: recipeId,
         };
         // console.log(dataToSend);
         if (dataToSend) {
-            axios
-                .post('http://localhost:3000/comment', dataToSend, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    withCredentials: true,
-                })
-                .then((response) => {
-                    console.log(response);
+            postNewComment(dataToSend).then((response) => {
+                console.log(response);
 
-                    setCommentContent('');
-                    fetchComments(recipeId).then((data) => {
-                        setCommentData(data);
-                    });
+                setCommentContent('');
+                fetchComments(recipeId).then((data) => {
+                    setCommentData(data);
                 });
+            });
         }
     }
 

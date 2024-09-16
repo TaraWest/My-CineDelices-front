@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
     axiosGetInstance,
     axiosLoggedGetInstance,
@@ -50,10 +49,8 @@ export function putOneLike(recipeId: number, userId: number) {
 export function deleteOneLike(recipeId: number, userId: number) {
     console.log('deleteOneLike déclenchée');
 
-    return axios
-        .delete(`http://localhost:3000/likes/${recipeId}/${userId}`, {
-            withCredentials: true,
-        })
+    return axiosLoggedGetInstance
+        .delete(`likes/${recipeId}/${userId}`)
         .then((response) => {
             // console.log(response.status);
 
