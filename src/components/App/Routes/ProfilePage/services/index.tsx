@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IUser } from '../models';
+import { IRecipe, IUser } from '../models';
 
 export async function fetchUser() {
     try {
@@ -49,11 +49,22 @@ export async function getUserRecipes() {
         const response = await axios.get('http://localhost:3000/user/recipes', {
             withCredentials: true,
         });
-        return response;
+        return response.data;
     } catch (error) {
         console.error(
             'Erreur lors de la récupération des données utilisateur',
             error,
         );
+    }
+}
+
+export async function fetchDeleteRecipe(id) {
+    try {
+        const response = await axios.delete(
+            `http://localhost:3000/recipes/${id}`,
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Erreur lors de la suppression de la recette', error);
     }
 }
