@@ -176,6 +176,16 @@ function Header() {
                         >
                             Proposer une recette
                         </Link>
+                        {/* Link to admin page */}
+                        {userAuth?.role_id === 1 && (
+                            <Link
+                                to="http://localhost:3000/admin"
+                                className="block py-2"
+                                onClick={closeMenu}
+                            >
+                                Admin
+                            </Link>
+                        )}
                         {/* logout */}
                         {userAuth?.username && (
                             <button

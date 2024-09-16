@@ -19,6 +19,7 @@ const defaultAuth: IUserAuth = {
     username: null,
     email_address: null,
     id: null,
+    role_id: 3,
 };
 
 const defaultContext: IAuthenticateContext = {
