@@ -6,7 +6,7 @@ import { faUser, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
 import './header.scss';
 import { useAuthContext } from '../Context/Authentification/useAuthContext';
-import AddRecipeModal from '../Routes/CatalogPage/components/modal';
+//import AddRecipeModal from '../Routes/CatalogPage/components/modal';
 
 function Header() {
     // If the burger menu is open or closed
@@ -24,14 +24,14 @@ function Header() {
     const closeMenu = () => setIsMenuOpen(false);
 
     // modal is open or closed
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    //const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Function to toggle the search bar state
     const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
 
-    const { userAuth } = useAuthContext();
+    const { userAuth, handleLogout } = useAuthContext();
 
     // redirection link if user is authentificated
     const handleInscriptionClick = () => {
@@ -40,6 +40,11 @@ function Header() {
         } else {
             navigate('/inscription');
         }
+    };
+
+    const logout = () => {
+        handleLogout();
+        closeMenu();
     };
 
     return (
@@ -171,6 +176,15 @@ function Header() {
                         >
                             Proposer une recette
                         </Link>
+                        {/* logout */}
+                        {userAuth?.username && (
+                            <button
+                                className="block py-2 text-left text-skin w-full"
+                                onClick={logout}
+                            >
+                                Déconnexion
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
