@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import StarRatings from 'react-star-ratings';
-import { ICommentCard } from './Model/type';
-import './CommentComponent.scss';
+import { ICommentCard } from '../CommentComponent/Model/type';
+import '../CommentComponent/CommentComponent.scss';
 import { useAuthContext } from '../../../../Context/Authentification/useAuthContext';
 
 interface ICommentCardProps {

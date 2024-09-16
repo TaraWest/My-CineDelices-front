@@ -1,12 +1,11 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import './RecipePage.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IIngredientsList, IRecipe } from './models';
 
 import { extractNumber } from './services/numberExtraction';
 import UpdateRecipeModal from './components/UpdateRecipeModal';
 import { useAuthContext } from '../../Context/Authentification/useAuthContext';
-import CommentComponent from './components/CommentPart/CommentComponent';
 
 import LikeButton from './components/LikeButton';
 import {
@@ -19,6 +18,7 @@ import {
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import CommentComponent from './components/CommentComponent/CommentComponent';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue

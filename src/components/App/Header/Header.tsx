@@ -24,14 +24,14 @@ function Header() {
     const closeMenu = () => setIsMenuOpen(false);
 
     // modal is open or closed
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    //const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Function to toggle the search bar state
     const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
 
-    const { userAuth } = useAuthContext();
+    const { userAuth, handleLogout } = useAuthContext();
 
     // redirection link if user is authentificated
     const handleInscriptionClick = () => {
@@ -40,6 +40,18 @@ function Header() {
         } else {
             navigate('/inscription');
         }
+    };
+
+    // function to close burger menu after logout
+    const logout = () => {
+        handleLogout();
+        closeMenu();
+    };
+
+    // Fonction pour gérer l'ajout d'une recette
+    const handleAddRecipe = (newRecipe: any) => {
+        // Logique pour ajouter la recette, par exemple mettre à jour l'état ou faire une action spécifique
+        console.log('Nouvelle recette ajoutée :', newRecipe);
     };
 
     return (
@@ -77,8 +89,8 @@ function Header() {
                 {/* add recipes icon */}
                 {(!isSearchOpen || isDesktop) && (
                     <Link
-                        to="/catalogue"
-                        className=" presentation-list-item"
+                        to={userAuth?.username ? '/catalogue' : '/connexion'}
+                        className=" user-icon presentation-list-item"
                         onClick={closeMenu}
                     >
                         {/* Display icon on small screens */}
@@ -87,22 +99,21 @@ function Header() {
                             icon={faPlus}
                             className="block sm:hidden"
                         />
-
-                        {/* text visible on screens larger than 500px */}
-                        <Link
-                            to="/connexion"
-                            className="hidden sm:block cursor-pointer"
-                            onClick={closeMenu}
-                        >
-                            <button>Ajoute ta recette</button>
-                        </Link>
                     </Link>
                 )}
+                {/* text visible on screens larger than 500px */}
+                <Link
+                    to={userAuth?.username ? '/catalogue' : '/connexion'}
+                    className="hidden sm:block cursor-pointer"
+                    onClick={closeMenu}
+                >
+                    <AddRecipeModal onAddRecipe={handleAddRecipe} />
+                </Link>
+
                 {/* Search Bar */}
                 {isSearchOpen && (
                     <div
                         className={`search-bar top-16 right-0 bg-white text-gray-700 w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto md:bg-transparent md:text-skin`}
-                        onClick={closeMenu}
                     >
                         {/*Search Bar component*/}
                         <SearchBar />
@@ -113,6 +124,7 @@ function Header() {
                     <FontAwesomeIcon
                         icon={faSearch}
                         className="cursor-pointer"
+                        onClick={closeMenu}
                     />
                 </div>
 
@@ -171,6 +183,15 @@ function Header() {
                         >
                             Proposer une recette
                         </Link>
+                        {/* logout */}
+                        {userAuth?.username && (
+                            <button
+                                className="block py-2 text-left text-skin w-full"
+                                onClick={logout}
+                            >
+                                Déconnexion
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
