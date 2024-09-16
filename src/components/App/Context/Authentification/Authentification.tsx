@@ -10,6 +10,8 @@ import {
 } from '../../@types/authenticate';
 import { useNavigate } from 'react-router-dom';
 import { getUserData } from '../services/AuthAPI';
+import { toast } from 'react-toastify';
+import { axiosLoggedPostInstance } from '../../services/generalAxiosInstance';
 
 const defaultAuth: IUserAuth = {
     first_name: null,
@@ -60,18 +62,11 @@ export const AuthProvider = ({
     console.log(userAuth);
 
     async function handleLogin(data: ILogin) {
-        return axios
-            .post('http://localhost:3000/login', data, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            })
+        return axiosLoggedPostInstance
+            .post('/login', data)
             .then((response) => {
-                if (response.status !== 200) {
-                    return response.data;
-                }
+                console.log(response);
+
                 setIsAuth(true);
                 sessionStorage.setItem('isAuth', 'true');
                 return getUserData();
@@ -79,13 +74,23 @@ export const AuthProvider = ({
             .then((data) => {
                 if (data) {
                     setUserAuth(data);
+                    toast.success(`Connexion réussie, bienvenue!`);
+                    navigate('/catalogue');
                 }
             })
             .catch((error) => {
                 console.log(error);
-            })
-            .finally(() => {
-                navigate('/catalogue');
+                console.log('dans le catch');
+
+                console.log(error.response.data.message);
+                if (error.status === 401) {
+                    toast.error(error.response.data.message);
+                }
+                if (error.status === 500) {
+                    console.log('500 ici');
+
+                    toast.error(error.response.data.message);
+                }
             });
 
         //End of handeLogin
@@ -117,6 +122,7 @@ export const AuthProvider = ({
                 console.log(error);
             })
             .finally(() => {
+                toast.success(`Vous êtes déconnecté!`);
                 navigate('/');
             });
     }

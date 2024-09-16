@@ -9,6 +9,7 @@ import { formReducer, initialState } from './services/FormReducer';
 import InputComponent from './component/InputComponent';
 import { IInputsForm } from './models';
 import { getInputsForm } from './services/formFieldsConfig';
+import { toast } from 'react-toastify';
 function RegistrationPage() {
     //Mise en place d'un reducer pour gérer l'ensemble des états liés au formulaire
 
@@ -31,6 +32,9 @@ function RegistrationPage() {
         event.preventDefault();
 
         if (!formOnSubmitValidation(state, dispatch)) {
+            toast.error(
+                "Problème dans l'inscription, vérifiez les informations fournies ",
+            );
             return;
         }
 
@@ -46,28 +50,11 @@ function RegistrationPage() {
         console.log(dataToSend);
 
         try {
-            const response = await handleRegistration(dataToSend);
-            console.log(response.status);
-            if (response.status === 201) {
-                dispatch({
-                    type: 'SET_FIELD',
-                    field: 'message',
-                    value: 'Inscription réussie, connectez vous!',
-                });
-                navigate('/connexion');
-            } else if (response.status === 400) {
-                dispatch({
-                    type: 'SET_ERROR',
-                    field: 'errorOnSubmit',
-                    error: "Problème lors de la soumission du formulaire, vérifiez que les données entrée respectent les conditions. L'adresse mail est peut être déjà utilisée",
-                });
-            } else if (response.status === 500) {
-                dispatch({
-                    type: 'SET_FIELD',
-                    field: 'errorOnSubmit',
-                    value: 'Problème dans le traitement du formulaire, rééssayez un peu plus tard.',
-                });
-            }
+            handleRegistration(dataToSend).then((response) => {
+                if (response.status === 201) {
+                    navigate('/connexion');
+                }
+            });
         } catch (error) {
             console.log('Erreur lors de la soumission du formulaire', error);
             dispatch({
@@ -110,7 +97,6 @@ function RegistrationPage() {
                         ></InputComponent>
                     );
                 })}
-
                 {state.errorOnSubmit && (
                     <div className="w-4/5 text-center">
                         {state.errorOnSubmit}
