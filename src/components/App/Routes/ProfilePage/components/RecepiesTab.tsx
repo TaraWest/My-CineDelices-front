@@ -1,10 +1,12 @@
 // RecepiesTab.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { IRecipe } from '../models';
 import AddRecipeModal from '../../CatalogPage/components/modal';
+import { fetchDeleteRecipe } from '../services';
 
 interface RecepiesTabProps {
     recipies: IRecipe[];
+    getUserRecipes: () => void; // Function passed from parent to refresh recipes
 }
 
 // I'm using here a reusable modale (AddRecipeModal) from cataloguePage and this need a function
@@ -12,19 +14,34 @@ const handleAddRecipe = (newRecipe: any) => {
     console.log('Nouvelle recette ajoutée :', newRecipe);
 };
 
-const RecepiesTab: React.FC<RecepiesTabProps> = ({ recipies }) => {
+const RecepiesTab: React.FC<RecepiesTabProps> = ({
+    recipies,
+    getUserRecipes,
+}) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    function handleValidateModal() {
+        setIsOpen(!isOpen);
+    }
+
+    async function handleDeleteRecipe(recipeId: number) {
+        await fetchDeleteRecipe(recipeId);
+        getUserRecipes(); // Fetch updated list after deletion
+        handleValidateModal(); // Close modal
+    }
+
     if (recipies.length === 0) {
         return (
-            <div className="justify-center flex h-160">
+            <div className="justify-center flex-col h-160">
                 <p>Vous n'avez pas encore créé de recettes</p>
-                <AddRecipeModal onAddRecipe={handleAddRecipe} />{' '}
+                <AddRecipeModal onAddRecipe={handleAddRecipe} />
             </div>
         );
     }
 
     return (
-        <div>
-            <AddRecipeModal onAddRecipe={handleAddRecipe} />{' '}
+        <div className="justify-center flex-col h-160">
+            <AddRecipeModal onAddRecipe={handleAddRecipe} />
             {recipies.map((recipe) => (
                 <div className="img-container" key={recipe.id}>
                     <div className="img-left">
@@ -42,9 +59,35 @@ const RecepiesTab: React.FC<RecepiesTabProps> = ({ recipies }) => {
                             className="random-img random-img-right"
                         />
                         <p className="inspiration-subtitle">
-                            {recipe.Movie?.name}
+                            {recipe.Movie.name}
                         </p>
                     </div>
+                    <button
+                        onClick={handleValidateModal}
+                        className="button-link"
+                    >
+                        Supprimer
+                    </button>
+                    {isOpen && (
+                        <div className="modal">
+                            <p>
+                                Êtes-vous sûr de vouloir supprimer
+                                définitivement votre recette ?
+                            </p>
+                            <button
+                                onClick={() => handleDeleteRecipe(recipe.id)}
+                                className="button"
+                            >
+                                Oui
+                            </button>
+                            <button
+                                onClick={handleValidateModal}
+                                className="button"
+                            >
+                                Non
+                            </button>
+                        </div>
+                    )}
                 </div>
             ))}
         </div>

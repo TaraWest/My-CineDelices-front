@@ -1,10 +1,10 @@
 export interface IUser {
-    id: string;
+    id: number;
     first_name: string;
     last_name: string;
     username: string;
     email_address: string;
-    password: string;
+    // password: string;
 }
 
 export interface IRecipe {
@@ -17,6 +17,7 @@ export interface IRecipe {
     is_checked: boolean;
     Movie: IMovie;
     User: IUser;
+    getUserRecipes: () => void;
 }
 
 export interface IMovie {

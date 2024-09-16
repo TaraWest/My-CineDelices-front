@@ -57,3 +57,14 @@ export async function getUserRecipes() {
         );
     }
 }
+
+export async function fetchDeleteRecipe(id) {
+    try {
+        const response = await axios.delete(
+            `http://localhost:3000/recipes/${id}`,
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Erreur lors de la suppression de la recette', error);
+    }
+}
