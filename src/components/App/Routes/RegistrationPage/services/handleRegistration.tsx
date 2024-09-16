@@ -1,8 +1,8 @@
-import axiosPostInstance from './axiosInstance';
+import { axiosLoggedPostInstance } from '../../../services/generalAxiosInstance';
 import { IDataForm } from '../models';
 
 export function handleRegistration(data: IDataForm) {
-    return axiosPostInstance
+    return axiosLoggedPostInstance
         .post('/register', data)
         .then((response) => {
             console.log(response);

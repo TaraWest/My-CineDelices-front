@@ -12,3 +12,10 @@ export interface IUserComment {
     id: number;
     username: string;
 }
+
+export interface ICommentData {
+    content: string;
+    note: number;
+    user_id: number;
+    recipe_id: number;
+}
