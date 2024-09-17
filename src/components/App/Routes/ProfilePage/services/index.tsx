@@ -58,7 +58,7 @@ export async function getUserRecipes() {
     }
 }
 
-export async function fetchDeleteRecipe(id) {
+export async function fetchDeleteRecipe(id: number): Promise<any> {
     try {
         const response = await axios.delete(
             `http://localhost:3000/recipes/${id}`,
