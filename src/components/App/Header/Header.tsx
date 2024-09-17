@@ -94,15 +94,13 @@ function Header() {
                         className=" user-icon presentation-list-item"
                         onClick={toggleModal}
                     >
-                        {/* Display icon on small screens */}
-
                         <FontAwesomeIcon
                             icon={faPlus}
                             className="block sm:hidden"
                         />
                     </div>
                 )}
-                {/* Utiliser React Portal pour rendre le modal en dehors du Header */}
+                {/* modal with React Portal */}
                 {isModalOpen &&
                     ReactDOM.createPortal(
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
