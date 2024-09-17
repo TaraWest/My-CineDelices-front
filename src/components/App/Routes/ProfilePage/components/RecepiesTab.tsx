@@ -6,18 +6,20 @@ import AddRecipeModal from '../../CatalogPage/components/modal';
 interface RecepiesTabProps {
     recipies: IRecipe[];
     handleDeleteRecipe: (id: number) => void; // Function passed from parent to refresh recipes
+    setRecipies: React.Dispatch<React.SetStateAction<IRecipe[]>>;
 }
-
-// I'm using here a reusable modale (AddRecipeModal) from cataloguePage and this need a function
-const handleAddRecipe = (newRecipe: any) => {
-    console.log('Nouvelle recette ajoutée :', newRecipe);
-};
 
 const RecepiesTab: React.FC<RecepiesTabProps> = ({
     recipies,
     handleDeleteRecipe,
+    setRecipies,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    // Add the new recipe in the interface
+    const handleAddRecipe = (newRecipe: any) => {
+        setRecipies((prevRecipies) => [...prevRecipies, newRecipe]);
+    };
 
     function handleValidateModal() {
         setIsOpen(!isOpen);
@@ -51,14 +53,18 @@ const RecepiesTab: React.FC<RecepiesTabProps> = ({
                         <p className="inspiration-subtitle">{recipe.name}</p>
                     </div>
                     <div className="img-right">
-                        <img
-                            src={`http://localhost:3000/movies/${recipe.Movie.picture}`}
-                            alt={`image illustrant le film : ${recipe.Movie.name}`}
-                            className="random-img random-img-right"
-                        />
-                        <p className="inspiration-subtitle">
-                            {recipe.Movie.name}
-                        </p>
+                        {recipe.movie?.picture && recipe.movie?.name && (
+                            <img
+                                src={`http://localhost:3000/movies/${recipe.movie.picture}`}
+                                alt={`image illustrant le film : ${recipe.movie.name}`}
+                                className="random-img random-img-right"
+                            />
+                        )}
+                        {recipe.movie?.name && (
+                            <p className="inspiration-subtitle">
+                                {recipe.movie.name}
+                            </p>
+                        )}
                     </div>
                     <button
                         onClick={handleValidateModal}

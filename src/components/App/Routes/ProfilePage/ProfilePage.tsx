@@ -184,6 +184,7 @@ function ProfilePage() {
                 <RecepiesTab
                     recipies={recipies}
                     handleDeleteRecipe={handleDeleteRecipe}
+                    setRecipies={setRecipies}
                 />
             </div>
         </div>

@@ -15,7 +15,7 @@ export interface IRecipe {
     anecdote: string | null;
     difficulty: string;
     is_checked: boolean;
-    Movie: IMovie;
+    movie: IMovie;
     User: IUser;
     getUserRecipes: () => void;
 }

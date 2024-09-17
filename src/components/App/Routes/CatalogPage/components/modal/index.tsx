@@ -43,18 +43,39 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
             callback(null);
         };
     };
-
-    // Gestion de l'image de la recette
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) convertToBase64(file, setSelectedImageBase64);
-    };
+    //UX on picture's input
+    // États pour gérer la sélection de fichiers
+    const [isFileMovieSelected, setIsFileMovieSelected] = useState<
+        boolean | null
+    >(null);
+    const [isFileRecipeSelected, setIsFileRecipeSelected] = useState<
+        boolean | null
+    >(null);
 
     // Gestion de l'image du film
     const handleMovieFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
+        setIsFileMovieSelected(!!file); // Met à jour l'état selon la sélection
         if (file) convertToBase64(file, setSelectedMovieImageBase64);
     };
+
+    // Fonction pour gérer le changement d'image pour la recette
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        setIsFileRecipeSelected(!!file); // Met à jour l'état selon la sélection
+        if (file) {
+            convertToBase64(file, setSelectedImageBase64); // Convertir l'image si un fichier est sélectionné
+        }
+    };
+
+    // // Fonction pour gérer le changement d'image pour le film
+    // const handleMovieFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const file = e.target.files?.[0];
+    //     setIsFileMovieSelected(!!file); // Met à jour l'état selon la sélection
+    //     if (file) {
+    //         convertToBase64(file, setSelectedImageBase64); // Convertir l'image si un fichier est sélectionné
+    //     }
+    // };
 
     const addIngredient = () =>
         setIngredients([...ingredients, { name: '', quantity: '' }]);
@@ -171,13 +192,32 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
                                 {/* Image de la recette */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Image de la recette
+                                    <label
+                                        className={`block text-sm font-medium ${
+                                            isFileRecipeSelected === null
+                                                ? 'text-gray-700' // Couleur normale quand aucun fichier n'est sélectionné
+                                                : isFileRecipeSelected
+                                                  ? 'text-green-600' // Texte vert si un fichier est sélectionné
+                                                  : 'text-red-600' // Texte rouge si aucun fichier n'est sélectionné
+                                        }`}
+                                    >
+                                        {isFileRecipeSelected === null
+                                            ? "Sélectionnez l'image de la recette" // Message initial
+                                            : isFileRecipeSelected
+                                              ? 'Image de recette sélectionnée' // Message quand un fichier est sélectionné
+                                              : 'Aucune image sélectionnée, veuillez en choisir une'}{' '}
+                                        {/* Message d'erreur */}
                                     </label>
                                     <input
                                         type="file"
                                         accept="image/*"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        className={`mt-1 block w-full p-2 border rounded ${
+                                            isFileRecipeSelected === null
+                                                ? 'border-gray-300' // Initial state (no file selected yet)
+                                                : isFileRecipeSelected
+                                                  ? 'border-green-500' // Green border if a file is selected
+                                                  : 'border-red-500' // Red border if no file is selected
+                                        }`}
                                         onChange={handleFileChange}
                                     />
                                 </div>
@@ -197,13 +237,32 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
                                 {/* Image du film */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Image du film associé
+                                    <label
+                                        className={`block text-sm font-medium ${
+                                            isFileMovieSelected === null
+                                                ? 'text-gray-700' // Couleur normale quand aucun fichier n'est sélectionné
+                                                : isFileMovieSelected
+                                                  ? 'text-green-600' // Texte vert si un fichier est sélectionné
+                                                  : 'text-red-600' // Texte rouge si aucun fichier n'est sélectionné
+                                        }`}
+                                    >
+                                        {isFileMovieSelected === null
+                                            ? "Sélectionnez l'image associée au film" // Message initial
+                                            : isFileMovieSelected
+                                              ? 'Image de film sélectionnée' // Message quand un fichier est sélectionné
+                                              : 'Aucune image sélectionnée, veuillez en choisir une'}{' '}
+                                        {/* Message d'erreur */}
                                     </label>
                                     <input
                                         type="file"
                                         accept="image/*"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        className={`mt-1 block w-full p-2 border rounded ${
+                                            isFileMovieSelected === null
+                                                ? 'border-gray-300' // Initial state (no file selected yet)
+                                                : isFileMovieSelected
+                                                  ? 'border-green-500' // Green border if a file is selected
+                                                  : 'border-red-500' // Red border if no file is selected
+                                        }`}
                                         onChange={handleMovieFileChange}
                                     />
                                 </div>
