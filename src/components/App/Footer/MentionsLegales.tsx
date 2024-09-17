@@ -3,13 +3,12 @@ export const LegalNotice = () => {
         <section className="p-6 max-w-4xl mx-auto">
             <h1 className="text-3xl font-bold mb-6">Mentions Légales</h1>
             <p className="mb-4">
-                © 2024 [Nom de Votre Projet]. Tous droits réservés. Le site et
-                son contenu, y compris tous les éléments graphiques, sont
-                protégés par les lois sur la propriété intellectuelle. Toute
-                reproduction, distribution, modification ou utilisation de tout
-                ou partie du site sans autorisation préalable est strictement
-                interdite. Pour toute demande, veuillez nous contacter via la
-                page dédiée.
+                Le site CinéDélices© et son contenu, y compris tous les
+                éléments graphiques, sont protégés par les lois sur la propriété
+                intellectuelle. Toute reproduction, distribution, modification
+                ou utilisation de tout ou partie du site sans autorisation
+                préalable est strictement interdite. Pour toute demande,
+                veuillez nous contacter via la page dédiée.
             </p>
             <h2 className="text-2xl font-semibold mb-4">
                 Informations sur l’Entreprise
