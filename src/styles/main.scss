@@ -39,13 +39,17 @@ a,
     font-family: 'Cinzel', serif;
     background-color: var.$color-skin;
     color: var.$color-dark;
-    padding: 0.5em 1em;
+    padding: 0.2em;
     border: none;
     border-radius: 10px;
     margin-top: 1rem;
     margin-bottom: 1rem;
     font-size: 1.1rem;
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 
     &:hover {
         background-color: var.$color-dark-red;
@@ -53,6 +57,7 @@ a,
         transition-duration: 200ms;
         font-weight: 600;
     }
+
     &:visited {
         color: var.$color-dark;
         &:hover {

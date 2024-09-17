@@ -1,6 +1,8 @@
 // RecepiesTab.tsx
 import React, { useState } from 'react';
 import { IRecipe } from '../models';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import AddRecipeModal from '../../CatalogPage/components/modal';
 
 interface RecepiesTabProps {
@@ -43,7 +45,7 @@ const RecepiesTab: React.FC<RecepiesTabProps> = ({
         <div className="justify-center flex-col h-160">
             <AddRecipeModal onAddRecipe={handleAddRecipe} />
             {recipies.map((recipe) => (
-                <div className="img-container" key={recipe.id}>
+                <div className="img-container flex-col" key={recipe.id}>
                     <div className="img-left">
                         <img
                             src={`http://localhost:3000/recipes/${recipe.picture}`}
@@ -66,11 +68,12 @@ const RecepiesTab: React.FC<RecepiesTabProps> = ({
                             </p>
                         )}
                     </div>
+
                     <button
                         onClick={handleValidateModal}
                         className="button-link"
                     >
-                        Supprimer
+                        <FontAwesomeIcon icon={faTrash} />
                     </button>
                     {isOpen && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

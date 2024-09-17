@@ -8,12 +8,11 @@ import RecepiesTab from './components/RecepiesTab';
 import UserInfoForm from './components/UserInfoForm';
 import { useAuthContext } from '../../Context/Authentification/useAuthContext';
 import { fetchDeleteRecipe } from './services';
+import './ProfilPage.css';
 
 function ProfilePage() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
     const navigate = useNavigate();
-    // State for user's personnel data
-    // const [userData, setUserData] = useState<IUser | null>(null);
 
     //States from context authentification
     const { userAuth } = useAuthContext();
