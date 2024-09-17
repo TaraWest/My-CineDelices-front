@@ -11,6 +11,7 @@ import LikeButton from './components/LikeButton';
 import {
     checkUserLikedIt,
     deleteOneLike,
+    deleteRecipe,
     fetchLikesNumber,
     fetchRecipe,
     putOneLike,
@@ -19,6 +20,8 @@ import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import CommentComponent from './components/CommentComponent/CommentComponent';
+import DeleteModal from './components/DeleteModal';
+import { toast } from 'react-toastify';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -34,6 +37,7 @@ function RecipePage() {
     const [userLikedIt, setUserLikedIt] = useState<boolean>(false);
     const [likesNumber, setLikesNumber] = useState<number>(0);
     const [plusClicked, setPlusClicked] = useState<boolean>(false);
+    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
     // use the authentification context
     const { isAuth, userAuth } = useAuthContext();
@@ -78,13 +82,14 @@ function RecipePage() {
     }, [dataFetch]);
 
     useEffect(() => {
-        if (isAuth && userAuth?.id && dataFetch?.id) {
+        if (isAuth && userAuth?.id && dataFetch) {
             const userId = userAuth.id;
+            const recipeUserId = dataFetch.user_id;
             const recipeId = dataFetch.id;
 
-            setIsRecipeOwner(userId === recipeId);
+            setIsRecipeOwner(userId === recipeUserId);
 
-            // // si le user a déjà liké la recette, setUserLikedIt sur true
+            // si le user a déjà liké la recette, setUserLikedIt sur true
             checkUserLikedIt(recipeId, userId).then((result) => {
                 console.log(result.userLikedIt);
 
@@ -154,6 +159,19 @@ function RecipePage() {
         }
     }
 
+    function handleDeleteRecipe() {
+        if (userAuth && dataFetch && dataFetch.user_id === userAuth.id) {
+            const name = dataFetch.name;
+            deleteRecipe(dataFetch.id).then((response) => {
+                console.log('good!');
+                console.log(response);
+                toast.success(
+                    `Votre recette '${name}' a été supprimée avec succès.`,
+                );
+                navigate('/catalogue');
+            });
+        }
+    }
     // console.log(isRecipeOwner);
 
     //S'il y a une erreur, j'affiche un message dans le navigateur
@@ -165,6 +183,11 @@ function RecipePage() {
 
     return (
         <div className="w-full text-base">
+            <DeleteModal
+                handleDeleteRecipe={handleDeleteRecipe}
+                modalIsOpen={modalIsOpen}
+                setModalIsOpen={setModalIsOpen}
+            ></DeleteModal>
             {!isDesktop && (
                 <button onClick={() => setPlusClicked(!plusClicked)}>
                     <FontAwesomeIcon
@@ -195,17 +218,24 @@ function RecipePage() {
                 <span className="recipe-page-film font-cinzel m-2em text-center">
                     Recette inspirée du film {dataFetch.Movie.name}
                 </span>
-                <div className="flex  items-center my-1em w-4/5 justify-between">
+                <div className="flex  items-center my-1em w-11/12 justify-between gap-3">
                     {likesNumber === 0 && <p></p>}
-                    {likesNumber !== 0 && (
-                        <p>
+                    {likesNumber !== 0 && isDesktop && (
+                        <p className="text-center m-1em">
                             Cette recette a été aimée par{' '}
                             {likesNumber > 1
                                 ? `${likesNumber} personnes`
                                 : `${likesNumber} personne`}
                         </p>
                     )}
-                    <span className="recipe-page-author p-1em m-1em italic">
+                    {likesNumber !== 0 && !isDesktop && (
+                        <p className="text-center">
+                            {likesNumber > 1
+                                ? `${likesNumber} personnes aiment`
+                                : `${likesNumber} personne aime`}
+                        </p>
+                    )}
+                    <span className="recipe-page-author italic">
                         Recette proposée par {dataFetch.User.username}
                     </span>
                 </div>
@@ -298,10 +328,17 @@ function RecipePage() {
 
             <footer className="m-1.5em text-center italic flex flex-col items-center">
                 {isAuth && isRecipeOwner && (
-                    <UpdateRecipeModal
-                        recipeData={dataFetch}
-                    ></UpdateRecipeModal>
+                    <div className="flex items-center gap-5">
+                        <UpdateRecipeModal
+                            recipeData={dataFetch}
+                            setDataFetch={setDataFetch}
+                        ></UpdateRecipeModal>
+                        <button onClick={() => setModalIsOpen(true)}>
+                            Supprimer ma recette
+                        </button>
+                    </div>
                 )}
+
                 {/* button like here */}
                 <LikeButton
                     handleLikeRecipeButton={handleLikeRecipeButton}
