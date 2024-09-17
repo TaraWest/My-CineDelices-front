@@ -7,6 +7,7 @@ import './ProfilPage.css';
 import RecepiesTab from './components/RecepiesTab';
 import UserInfoForm from './components/UserInfoForm';
 import { useAuthContext } from '../../Context/Authentification/useAuthContext';
+import { fetchDeleteRecipe } from './services';
 
 function ProfilePage() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
@@ -55,6 +56,19 @@ function ProfilePage() {
             default:
                 break;
         }
+    }
+
+    function handleDeleteRecipe(recipeId: number) {
+        fetchDeleteRecipe(recipeId).then(() => {
+            getUserRecipes() // Fetch updated list after deletion
+                .then((data) => {
+                    setRecipies(data);
+                    return;
+                })
+                .catch((error) => {
+                    return error;
+                });
+        });
     }
 
     function handleSubmit(event: any) {
@@ -169,7 +183,7 @@ function ProfilePage() {
             >
                 <RecepiesTab
                     recipies={recipies}
-                    getUserRecipes={getUserRecipes}
+                    handleDeleteRecipe={handleDeleteRecipe}
                 />
             </div>
         </div>

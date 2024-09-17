@@ -2,11 +2,10 @@
 import React, { useState } from 'react';
 import { IRecipe } from '../models';
 import AddRecipeModal from '../../CatalogPage/components/modal';
-import { fetchDeleteRecipe } from '../services';
 
 interface RecepiesTabProps {
     recipies: IRecipe[];
-    getUserRecipes: () => void; // Function passed from parent to refresh recipes
+    handleDeleteRecipe: (id: number) => void; // Function passed from parent to refresh recipes
 }
 
 // I'm using here a reusable modale (AddRecipeModal) from cataloguePage and this need a function
@@ -16,7 +15,7 @@ const handleAddRecipe = (newRecipe: any) => {
 
 const RecepiesTab: React.FC<RecepiesTabProps> = ({
     recipies,
-    getUserRecipes,
+    handleDeleteRecipe,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -24,9 +23,8 @@ const RecepiesTab: React.FC<RecepiesTabProps> = ({
         setIsOpen(!isOpen);
     }
 
-    async function handleDeleteRecipe(recipeId: number) {
-        await fetchDeleteRecipe(recipeId);
-        getUserRecipes(); // Fetch updated list after deletion
+    function handleDeleteFunction(id: number) {
+        handleDeleteRecipe(id);
         handleValidateModal(); // Close modal
     }
 
@@ -75,7 +73,7 @@ const RecepiesTab: React.FC<RecepiesTabProps> = ({
                                 définitivement votre recette ?
                             </p>
                             <button
-                                onClick={() => handleDeleteRecipe(recipe.id)}
+                                onClick={() => handleDeleteFunction(recipe.id)}
                                 className="button"
                             >
                                 Oui
