@@ -179,13 +179,7 @@ function Header() {
                                 </Link>
                             </div>
                         )}
-                        <Link
-                            to="/inscription"
-                            className="block py-2 text-visited-link"
-                            onClick={closeMenu}
-                        >
-                            Proposer une recette
-                        </Link>
+
                         {/* Link to admin page */}
                         {userAuth?.role_id === 1 && (
                             <Link
@@ -199,7 +193,7 @@ function Header() {
                         {/* logout */}
                         {userAuth?.username && (
                             <button
-                                className="underline font-body text-visited-link text-center block  w-full mt-0"
+                                className="block py-2 text-left text-skin w-full"
                                 onClick={logout}
                             >
                                 Déconnexion
