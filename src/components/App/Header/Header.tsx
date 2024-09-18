@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,6 +36,9 @@ function Header() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const toggleModal = () => setIsModalOpen(!isModalOpen);
 
+    // Ref for the div to close menu by clicking outside
+    const menuRef = useRef<HTMLDivElement>(null);
+
     // redirection link if user is authentificated
     const handleInscriptionClick = () => {
         if (userAuth?.username) {
@@ -56,8 +59,25 @@ function Header() {
         console.log('Nouvelle recette ajoutée :', newRecipe);
     };
 
+    const handleClickOutOfMenu = (event: MouseEvent) => {
+        if (
+            menuRef.current &&
+            !menuRef.current.contains(event.target as Node)
+        ) {
+            setIsMenuOpen(false); // Ferme le menu
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutOfMenu);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutOfMenu);
+        };
+    }, []);
+
     return (
-        <div className="header flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
+        <div className="header relative flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
             {/* logo Container */}
             <div className="logo-container text-skin">
                 {/* Link to home page */}
@@ -68,7 +88,7 @@ function Header() {
             </div>
             {/*show this message when user is authentificated*/}
             {userAuth?.username && (
-                <div className="userAuth absolute left-1/2 top-16 transform -translate-x-1/2 text-center">
+                <div className="absolute left-1/2 top-16 transform -translate-x-3/4 text-center text-skin">
                     Bienvenue {userAuth.username} !
                 </div>
             )}
@@ -150,6 +170,7 @@ function Header() {
             {/* Mobile menu - shown/hidden based on isMenuOpen state */}
             {isMenuOpen && (
                 <div
+                    ref={menuRef}
                     className={`mobile-menu bg-dark-red ${isDesktop ? 'w-1/2' : 'w-full'} absolute text-align-center`}
                 >
                     {/* burger menu links */}
@@ -164,29 +185,28 @@ function Header() {
                         >
                             Catalogue
                         </Link>
-                        <Link
-                            to={
-                                userAuth?.username ? '/profil/me' : '/connexion'
-                            }
-                            className="block py-2"
-                            onClick={closeMenu}
-                        >
-                            Connexion
-                        </Link>
-                        <Link
-                            to={
-                                userAuth?.username
-                                    ? '/profil/me'
-                                    : '/inscription'
-                            }
-                            className="block py-2"
-                            onClick={handleInscriptionClick}
-                        >
-                            Inscription
-                        </Link>
+
+                        {!userAuth && (
+                            <div>
+                                <Link
+                                    to="/connexion"
+                                    className="block py-2"
+                                    onClick={closeMenu}
+                                >
+                                    Connexion
+                                </Link>
+                                <Link
+                                    to="/inscription"
+                                    className="block py-2"
+                                    onClick={handleInscriptionClick}
+                                >
+                                    Inscription
+                                </Link>
+                            </div>
+                        )}
                         <Link
                             to="/inscription"
-                            className="block py-2"
+                            className="block py-2 text-visited-link"
                             onClick={closeMenu}
                         >
                             Proposer une recette
@@ -195,7 +215,7 @@ function Header() {
                         {userAuth?.role_id === 1 && (
                             <Link
                                 to="http://localhost:3000/admin"
-                                className="block py-2"
+                                className="block py-2 text-visited-link"
                                 onClick={closeMenu}
                             >
                                 Admin
@@ -204,7 +224,7 @@ function Header() {
                         {/* logout */}
                         {userAuth?.username && (
                             <button
-                                className="block py-2 text-left text-skin w-full"
+                                className="underline font-body text-visited-link text-center block text-left w-full mt-0"
                                 onClick={logout}
                             >
                                 Déconnexion

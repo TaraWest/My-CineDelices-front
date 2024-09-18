@@ -17,8 +17,6 @@ import {
     putOneLike,
 } from './services/APICall';
 import { useMediaQuery } from 'react-responsive';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import CommentComponent from './components/CommentComponent/CommentComponent';
 import DeleteModal from './components/DeleteModal';
 import { toast } from 'react-toastify';
@@ -36,7 +34,6 @@ function RecipePage() {
     const [isRecipeOwner, setIsRecipeOwner] = useState<boolean>(false);
     const [userLikedIt, setUserLikedIt] = useState<boolean>(false);
     const [likesNumber, setLikesNumber] = useState<number>(0);
-    const [plusClicked, setPlusClicked] = useState<boolean>(false);
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
     // use the authentification context
@@ -188,28 +185,6 @@ function RecipePage() {
                 modalIsOpen={modalIsOpen}
                 setModalIsOpen={setModalIsOpen}
             ></DeleteModal>
-            {!isDesktop && (
-                <button onClick={() => setPlusClicked(!plusClicked)}>
-                    <FontAwesomeIcon
-                        className="button-plus"
-                        icon={faPlus}
-                        style={{ color: '#bb7133' }}
-                        size="2xl"
-                    />
-                </button>
-            )}
-            {(isDesktop || (!isDesktop && plusClicked)) && (
-                <button
-                    className={
-                        isDesktop
-                            ? 'fixed-button-desktop'
-                            : ' fixed-button-mobile'
-                    }
-                    onClick={() => navigate('/catalogue')}
-                >
-                    Catalogue
-                </button>
-            )}
             <header className="flex flex-col items-center mb-2em">
                 <h1 className="semibold py-1em text-5xl border-b-4 border-solid border-skin recipe-title ">
                     {dataFetch.name}
