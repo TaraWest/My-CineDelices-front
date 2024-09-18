@@ -85,7 +85,7 @@ function Header() {
                 {(!isSearchOpen || isDesktop) && (
                     <Link
                         to={'/catalogue'}
-                        className=" user-icon presentation-list-item"
+                        className=" user-icon"
                         onClick={closeMenu}
                     >
                         <FontAwesomeIcon
@@ -98,7 +98,7 @@ function Header() {
                 {/* text visible on screens larger than 500px */}
                 <Link
                     to={'/catalogue'}
-                    className="button-link"
+                    className=" hidden sm:block button-link"
                     onClick={closeMenu}
                 >
                     RECETTES
