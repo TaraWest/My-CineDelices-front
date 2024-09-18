@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +19,6 @@ function Header() {
 
     const navigate = useNavigate();
 
-    // Function to toggle the burger menu state
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     // menu closed
@@ -35,9 +34,6 @@ function Header() {
     // modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const toggleModal = () => setIsModalOpen(!isModalOpen);
-
-    // Ref for the div to close menu by clicking outside
-    const menuRef = useRef<HTMLDivElement>(null);
 
     // redirection link if user is authentificated
     const handleInscriptionClick = () => {
@@ -59,23 +55,6 @@ function Header() {
         console.log('Nouvelle recette ajoutée :', newRecipe);
     };
 
-    const handleClickOutOfMenu = (event: MouseEvent) => {
-        if (
-            menuRef.current &&
-            !menuRef.current.contains(event.target as Node)
-        ) {
-            setIsMenuOpen(false); // Ferme le menu
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutOfMenu);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutOfMenu);
-        };
-    }, []);
-
     return (
         <div className="header relative flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
             {/* logo Container */}
@@ -87,8 +66,11 @@ function Header() {
                 </Link>
             </div>
             {/*show this message when user is authentificated*/}
-            {userAuth?.username && (
-                <div className="absolute left-1/2 top-16 transform -translate-x-3/4 text-center text-skin">
+            {userAuth?.username && isDesktop && (
+                <div
+                    // className={`absolute left-1/2 top-16 transform -translate-x-3/4 text-center text-skin`}
+                    className="text-center text-skin font-semibold text-xl"
+                >
                     Bienvenue {userAuth.username} !
                 </div>
             )}
@@ -152,12 +134,12 @@ function Header() {
                     <FontAwesomeIcon
                         icon={faSearch}
                         className="cursor-pointer"
-                        onClick={closeMenu}
                     />
                 </div>
 
                 {/* Burger Menu  */}
                 <div
+                    id="toggleMenu"
                     className="burger-menu flex flex-col cursor-pointer"
                     onClick={toggleMenu}
                 >
@@ -170,9 +152,16 @@ function Header() {
             {/* Mobile menu - shown/hidden based on isMenuOpen state */}
             {isMenuOpen && (
                 <div
-                    ref={menuRef}
-                    className={`mobile-menu bg-dark-red ${isDesktop ? 'w-1/2' : 'w-full'} absolute text-align-center`}
+                    id="toggleMenu"
+                    className={`mobile-menu bg-dark-red ${isDesktop ? 'w-1/2' : 'w-full'} absolute text-center`}
                 >
+                    {userAuth?.username && (
+                        <div
+                            className={` text-center text-visited-link text-base w-full mt-1em`}
+                        >
+                            Connecté en tant que {userAuth.username} !
+                        </div>
+                    )}
                     {/* burger menu links */}
                     <div className="p-4" style={{ textAlign: 'center' }}>
                         <Link to="/" className="block py-2" onClick={closeMenu}>
