@@ -46,29 +46,29 @@ const RecepiesTab: React.FC<RecepiesTabProps> = ({
             <AddRecipeModal onAddRecipe={handleAddRecipe} />
             {recipies.map((recipe) => (
                 <div className="img-container flex-col" key={recipe.id}>
-                    <div className="img-left">
-                        <img
-                            src={`http://localhost:3000/recipes/${recipe.picture}`}
-                            alt={`image illustrant la recette : ${recipe.name}`}
-                            className="random-img random-img-left"
-                        />
-                        <p className="inspiration-subtitle">{recipe.name}</p>
-                    </div>
-                    <div className="img-right">
-                        {recipe.movie?.picture && recipe.movie?.name && (
+                    <div className="flex">
+                        <div className="img-left">
                             <img
-                                src={`http://localhost:3000/movies/${recipe.movie.picture}`}
-                                alt={`image illustrant le film : ${recipe.movie.name}`}
-                                className="random-img random-img-right"
+                                src={`http://localhost:3000/recipes/${recipe.picture}`}
+                                alt={`image illustrant la recette : ${recipe.name}`}
+                                className="random-img random-img-left aspect-square "
                             />
-                        )}
-                        {recipe.movie?.name && (
                             <p className="inspiration-subtitle">
-                                {recipe.movie.name}
+                                {recipe.name}
                             </p>
-                        )}
-                    </div>
+                        </div>
+                        <div className="img-right ">
+                            <img
+                                src={`http://localhost:3000/movies/${recipe.Movie.picture}`}
+                                alt={`image illustrant le film : ${recipe.Movie.name}`}
+                                className="random-img random-img-right aspect-square"
+                            />
 
+                            <p className="inspiration-subtitle">
+                                {recipe.Movie.name}
+                            </p>
+                        </div>
+                    </div>
                     <button
                         onClick={handleValidateModal}
                         className="button-link"
@@ -77,22 +77,28 @@ const RecepiesTab: React.FC<RecepiesTabProps> = ({
                     </button>
                     {isOpen && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                            <p>
-                                Êtes-vous sûr de vouloir supprimer
-                                définitivement votre recette ?
-                            </p>
-                            <button
-                                onClick={() => handleDeleteFunction(recipe.id)}
-                                className="button"
-                            >
-                                Oui
-                            </button>
-                            <button
-                                onClick={handleValidateModal}
-                                className="button"
-                            >
-                                Non
-                            </button>
+                            <div className="p-6 rounded-lg shadow-lg text-center">
+                                <p>
+                                    Êtes-vous sûr de vouloir supprimer
+                                    définitivement votre recette ?
+                                </p>
+                                <div className="flex justify-center mt-4">
+                                    <button
+                                        onClick={() =>
+                                            handleDeleteFunction(recipe.id)
+                                        }
+                                        className="button m-2"
+                                    >
+                                        Oui
+                                    </button>
+                                    <button
+                                        onClick={handleValidateModal}
+                                        className="button m-2"
+                                    >
+                                        Non
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>

@@ -68,7 +68,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
         }
     };
 
-    // // Fonction pour gérer le changement d'image pour le film
+    // Fonction pour gérer le changement d'image pour le film
     // const handleMovieFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     //     const file = e.target.files?.[0];
     //     setIsFileMovieSelected(!!file); // Met à jour l'état selon la sélection
