@@ -49,7 +49,7 @@ function Header() {
     };
 
     return (
-        <div className="header relative flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
+        <div className="header relative flex justify-between items-center p-5 bg-dark-red text-white border-b-2">
             {/* logo Container */}
             <div className="logo-container text-skin">
                 {/* Link to home page */}
@@ -199,7 +199,7 @@ function Header() {
                         {/* logout */}
                         {userAuth?.username && (
                             <button
-                                className="underline font-body text-visited-link text-center block text-left w-full mt-0"
+                                className="underline font-body text-visited-link text-center block  w-full mt-0"
                                 onClick={logout}
                             >
                                 Déconnexion
