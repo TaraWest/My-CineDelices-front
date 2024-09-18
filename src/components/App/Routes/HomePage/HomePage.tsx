@@ -6,9 +6,13 @@ import { fetchOneRandom } from './services';
 import './components/slider/slider.scss';
 import './homePage.scss';
 import AddRecipeModal from '../CatalogPage/components/modal';
+import { useAuthContext } from '../../Context/Authentification/useAuthContext';
+import { useMediaQuery } from 'react-responsive';
 
 function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);
+    const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
+    const { userAuth } = useAuthContext();
 
     // Fonction pour gérer l'ajout d'une recette
     const handleAddRecipe = (newRecipe: any) => {
@@ -32,6 +36,11 @@ function HomePage() {
 
     return (
         <div className="homePage">
+            {userAuth?.username && !isDesktop && (
+                <div className={` text-right text-skin text-base w-full mr-10`}>
+                    Bienvenue {userAuth.username} !
+                </div>
+            )}
             <h1 className="homepage-title">
                 Bienvenue dans Ciné Délices !
                 <br />

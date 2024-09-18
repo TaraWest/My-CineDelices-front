@@ -21,7 +21,6 @@ function Header() {
 
     const navigate = useNavigate();
 
-    // Function to toggle the burger menu state
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     // menu closed
@@ -50,7 +49,7 @@ function Header() {
     };
 
     return (
-        <div className="header flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
+        <div className="header relative flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
             {/* logo Container */}
             <div className="logo-container text-skin">
                 {/* Link to home page */}
@@ -60,8 +59,11 @@ function Header() {
                 </Link>
             </div>
             {/*show this message when user is authentificated*/}
-            {userAuth?.username && (
-                <div className="userAuth absolute left-1/2 top-16 transform -translate-x-1/2 text-center">
+            {userAuth?.username && isDesktop && (
+                <div
+                    // className={`absolute left-1/2 top-16 transform -translate-x-3/4 text-center text-skin`}
+                    className="text-center text-skin font-semibold text-xl"
+                >
                     Bienvenue {userAuth.username} !
                 </div>
             )}
@@ -118,12 +120,12 @@ function Header() {
                     <FontAwesomeIcon
                         icon={faSearch}
                         className="cursor-pointer"
-                        onClick={closeMenu}
                     />
                 </div>
 
                 {/* Burger Menu  */}
                 <div
+                    id="toggleMenu"
                     className="burger-menu flex flex-col cursor-pointer"
                     onClick={toggleMenu}
                 >
@@ -136,8 +138,16 @@ function Header() {
             {/* Mobile menu - shown/hidden based on isMenuOpen state */}
             {isMenuOpen && (
                 <div
-                    className={`mobile-menu bg-dark-red ${isDesktop ? 'w-1/2' : 'w-full'} absolute text-align-center`}
+                    id="toggleMenu"
+                    className={`mobile-menu bg-dark-red ${isDesktop ? 'w-1/2' : 'w-full'} absolute text-center`}
                 >
+                    {userAuth?.username && (
+                        <div
+                            className={` text-center text-visited-link text-base w-full mt-1em`}
+                        >
+                            Connecté en tant que {userAuth.username} !
+                        </div>
+                    )}
                     {/* burger menu links */}
                     <div className="p-4" style={{ textAlign: 'center' }}>
                         <Link to="/" className="block py-2" onClick={closeMenu}>
@@ -150,29 +160,28 @@ function Header() {
                         >
                             Catalogue
                         </Link>
-                        <Link
-                            to={
-                                userAuth?.username ? '/profil/me' : '/connexion'
-                            }
-                            className="block py-2"
-                            onClick={closeMenu}
-                        >
-                            Connexion
-                        </Link>
-                        <Link
-                            to={
-                                userAuth?.username
-                                    ? '/profil/me'
-                                    : '/inscription'
-                            }
-                            className="block py-2"
-                            onClick={handleInscriptionClick}
-                        >
-                            Inscription
-                        </Link>
+
+                        {!userAuth && (
+                            <div>
+                                <Link
+                                    to="/connexion"
+                                    className="block py-2"
+                                    onClick={closeMenu}
+                                >
+                                    Connexion
+                                </Link>
+                                <Link
+                                    to="/inscription"
+                                    className="block py-2"
+                                    onClick={handleInscriptionClick}
+                                >
+                                    Inscription
+                                </Link>
+                            </div>
+                        )}
                         <Link
                             to="/inscription"
-                            className="block py-2"
+                            className="block py-2 text-visited-link"
                             onClick={closeMenu}
                         >
                             Proposer une recette
@@ -181,7 +190,7 @@ function Header() {
                         {userAuth?.role_id === 1 && (
                             <Link
                                 to="http://localhost:3000/admin"
-                                className="block py-2"
+                                className="block py-2 text-visited-link"
                                 onClick={closeMenu}
                             >
                                 Admin
@@ -190,7 +199,7 @@ function Header() {
                         {/* logout */}
                         {userAuth?.username && (
                             <button
-                                className="block py-2 text-left text-skin w-full"
+                                className="underline font-body text-visited-link text-center block text-left w-full mt-0"
                                 onClick={logout}
                             >
                                 Déconnexion

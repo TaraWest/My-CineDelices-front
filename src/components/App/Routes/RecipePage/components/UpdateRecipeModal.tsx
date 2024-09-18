@@ -2,22 +2,29 @@ import { useReducer, useState } from 'react';
 import './UpdateRecipeModal.scss';
 import { IInputsModal, IRecipe } from '../models';
 import { getInputsRecipeForm } from '../services/modalUpdateRecipeFormFieldsConfig';
-import ModalComponent from './ModalComponent';
+import UpdateModalComponent from './UpdateModalComponent';
 import { recipeReducer } from '../services/RecipeReducer';
+import { fetchRecipe, updateRecipe } from '../services/APICall';
+import { toast } from 'react-toastify';
 
 interface UpdateRecipeModalProps {
     recipeData: IRecipe;
+    setDataFetch: React.Dispatch<React.SetStateAction<IRecipe | null>>;
 }
 
-function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
+function UpdateRecipeModal({
+    recipeData,
+    setDataFetch,
+}: UpdateRecipeModalProps) {
     const [isUser, setIsUser] = useState(true);
     const [isRecipeOwner, setIsRecipeOwner] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
-    const [recipeOrFilm, setRecipeOrFilm] = useState('recipe');
+    const [recipeOrFilm, setRecipeOrFilm] = useState<string>('');
     const { Ingredient, Preparations, Movie } = recipeData;
 
     const [state, dispatch] = useReducer(recipeReducer, recipeData);
     const InputsModal = getInputsRecipeForm(state);
+    console.log(state);
 
     function toggleModal() {
         setIsOpen(!isOpen);
@@ -34,63 +41,36 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
         }
     }
 
-    function handleChange(
-        event: React.ChangeEvent<
-            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-        >,
-    ) {
-        // console.log(event);
+    const handleChange =
+        (actionType: string, index?: number | null) =>
+        (
+            event: React.ChangeEvent<
+                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+            >,
+        ) => {
+            const { name, value } = event.target;
 
-        const { name, value, id, dataset } = event.target;
-        // console.log(name);
-        // console.log(value);
-        // console.log(id);
-        // console.log(id.toUpperCase());
-
-        // console.log(dataset.index);
-        const index = dataset.index ? Number(dataset.index) : undefined;
-        const field = name;
-
-        // dispatch({
-        //     type:
-        // })
-
-        if (id === 'movie') {
             dispatch({
-                type: 'UPDATE_MOVIE',
+                actionType,
                 field: name,
-                value: value,
-            });
-        } else if (id === 'preparation') {
-            const index = Number(name.split(' ')[1]);
-            const field = name.split(' ')[0];
-
-            dispatch({
-                type: 'UPDATE_PREPARATION',
-                field,
+                value,
                 index,
-                value: value,
             });
-        } else if (id === 'ingredients') {
-            const index = Number(name.split('_')[1]);
-            const field = name.split('_')[0];
+        };
 
-            dispatch({
-                type: 'UPDATE_INGREDIENT',
-                field,
-                index,
-                value: value,
+    function handleSubmit() {
+        console.log(state);
+        updateRecipe(state).then((response) => {
+            console.log(response);
+            fetchRecipe(state.id).then((data) => {
+                console.log(data);
+                // mettre en forme les données à set...
+                setDataFetch(data);
+                setIsOpen(false);
+                toast.success('Recette modifiée avec succès!');
             });
-        } else {
-            dispatch({
-                type: 'SET_FIELD',
-                field: name,
-                value: value,
-            });
-        }
+        });
     }
-
-    // console.log(state);
 
     if (!recipeData) return <div>Chargement en cours ^^</div>;
 
@@ -129,7 +109,7 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                 <div>
                                     {InputsModal.map((item: IInputsModal) => {
                                         return (
-                                            <ModalComponent
+                                            <UpdateModalComponent
                                                 key={item.name}
                                                 item={item}
                                                 handleChange={handleChange}
@@ -149,14 +129,13 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                                     <label className="modal-label">
                                                         Ingrédient {index + 1}
                                                         <input
-                                                            data-index={index}
                                                             className="modal-input"
-                                                            id="update_ingredient"
                                                             name={'name'}
                                                             type="text"
-                                                            onChange={
-                                                                handleChange
-                                                            }
+                                                            onChange={handleChange(
+                                                                'UPDATE_INGREDIENT',
+                                                                index,
+                                                            )}
                                                             value={
                                                                 state
                                                                     .Ingredient[
@@ -170,14 +149,13 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                                         {' '}
                                                         Quantité {index + 1}
                                                         <input
-                                                            data-index={index}
                                                             className="modal-input"
-                                                            id="update_ingredient"
                                                             name={`quantity`}
                                                             type="text"
-                                                            onChange={
-                                                                handleChange
-                                                            }
+                                                            onChange={handleChange(
+                                                                'UPDATE_INGREDIENT',
+                                                                index,
+                                                            )}
                                                             value={
                                                                 state
                                                                     .Ingredient[
@@ -201,13 +179,12 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                                     <label className="modal-label">
                                                         Etape:
                                                         <input
-                                                            data-index={index}
                                                             className="modal-input"
-                                                            id="update_preparation"
                                                             name={`step_position`}
-                                                            onChange={
-                                                                handleChange
-                                                            }
+                                                            onChange={handleChange(
+                                                                'UPDATE_PREPARATION',
+                                                                index,
+                                                            )}
                                                             type="number"
                                                             value={
                                                                 state
@@ -220,13 +197,12 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                                     <label className="modal-label">
                                                         Description:
                                                         <textarea
-                                                            data-index={index}
                                                             className="modal-input text-input"
-                                                            id="update_preparation"
                                                             name={`description`}
-                                                            onChange={
-                                                                handleChange
-                                                            }
+                                                            onChange={handleChange(
+                                                                'UPDATE_PREPARATION',
+                                                                index,
+                                                            )}
                                                             value={
                                                                 state
                                                                     .Preparations[
@@ -247,20 +223,18 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                                     Titre
                                     <textarea
                                         className="modal-input"
-                                        id="update_movie"
                                         name="name"
                                         value={state.Movie.name}
-                                        onChange={handleChange}
+                                        onChange={handleChange('UPDATE_MOVIE')}
                                     ></textarea>
                                 </label>
                                 <label className="modal-label">
                                     Catégorie
                                     <select
                                         className="modal-input"
-                                        id="update_movie"
                                         name="Category"
                                         value={state.Movie.Category.name}
-                                        onChange={handleChange}
+                                        onChange={handleChange('UPDATE_MOVIE')}
                                     >
                                         <option value="Film" id="1">
                                             Film
@@ -284,8 +258,14 @@ function UpdateRecipeModal({ recipeData }: UpdateRecipeModalProps) {
                             </div>
                         )}
 
-                        <button>Soumettre</button>
-                        <button onClick={toggleModal}>Annuler</button>
+                        <div className="flex justify-evenly">
+                            <button onClick={toggleModal}>Annuler</button>
+                            {recipeOrFilm !== '' && (
+                                <button onClick={handleSubmit}>
+                                    Soumettre
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
