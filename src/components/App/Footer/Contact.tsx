@@ -19,7 +19,7 @@ const ContactForm: React.FC = () => {
     // Fonction appelée lors de la soumission du formulaire
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         console.log(data);
-        // Ici, tu pourrais faire une requête HTTP pour envoyer les données du formulaire
+        // faire une requête HTTP pour envoyer les données du formulaire
     };
 
     return (
@@ -37,12 +37,12 @@ const ContactForm: React.FC = () => {
             >
                 <div className="flex flex-col items-start w-full max-w-md">
                     <label htmlFor="name" className="text-lg font-medium mb-1">
-                        Nom
+                        prénom
                     </label>
                     <input
                         id="name"
                         type="text"
-                        placeholder="Votre nom"
+                        placeholder="Votre prénom"
                         {...register('name', { required: 'Nom requis' })}
                         className="bg-gray-100 border border-gray-300 rounded-xl py-2 px-4 w-full"
                     />

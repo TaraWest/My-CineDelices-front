@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUser,
+    faSearch,
+    faUtensils,
+} from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
-import ReactDOM from 'react-dom';
+
 import './header.scss';
 import { useAuthContext } from '../Context/Authentification/useAuthContext';
-import AddRecipeModal from '../Routes/CatalogPage/components/modal';
-import { Recipes } from '../Routes/CatalogPage/models';
 
 function Header() {
     // If the burger menu is open or closed
@@ -32,10 +34,6 @@ function Header() {
 
     const { userAuth, handleLogout } = useAuthContext();
 
-    // modal
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const toggleModal = () => setIsModalOpen(!isModalOpen);
-
     // redirection link if user is authentificated
     const handleInscriptionClick = () => {
         if (userAuth?.username) {
@@ -49,11 +47,6 @@ function Header() {
     const logout = () => {
         handleLogout();
         closeMenu();
-    };
-
-    // modal add recipes
-    const handleAddRecipe = (newRecipe: Recipes) => {
-        console.log('Nouvelle recette ajoutée :', newRecipe);
     };
 
     return (
@@ -88,34 +81,27 @@ function Header() {
                         </div>
                     </Link>
                 )}
-                {/* add recipes icon */}
+                {/* recipes icon */}
                 {(!isSearchOpen || isDesktop) && (
-                    <div
+                    <Link
+                        to={'/catalogue'}
                         className=" user-icon presentation-list-item"
-                        onClick={toggleModal}
+                        onClick={closeMenu}
                     >
                         <FontAwesomeIcon
-                            icon={faPlus}
+                            icon={faUtensils}
                             className="block sm:hidden"
                         />
-                    </div>
+                    </Link>
                 )}
-                {/* modal with React Portal */}
-                {isModalOpen &&
-                    ReactDOM.createPortal(
-                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                            <AddRecipeModal onAddRecipe={handleAddRecipe} />
-                        </div>,
-                        document.getElementById('modal-root')!,
-                    )}
 
                 {/* text visible on screens larger than 500px */}
                 <Link
-                    to={userAuth?.username ? '/catalogue' : '/connexion'}
-                    className="hidden sm:block cursor-pointer"
+                    to={'/catalogue'}
+                    className="button-link"
                     onClick={closeMenu}
                 >
-                    <AddRecipeModal onAddRecipe={handleAddRecipe} />
+                    RECETTES
                 </Link>
 
                 {/* Search Bar */}
