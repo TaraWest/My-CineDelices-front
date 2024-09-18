@@ -4,6 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
+import ReactDOM from 'react-dom';
 import './header.scss';
 import { useAuthContext } from '../Context/Authentification/useAuthContext';
 import AddRecipeModal from '../Routes/CatalogPage/components/modal';
@@ -30,6 +31,10 @@ function Header() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
 
     const { userAuth, handleLogout } = useAuthContext();
+
+    // modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const toggleModal = () => setIsModalOpen(!isModalOpen);
 
     // redirection link if user is authentificated
     const handleInscriptionClick = () => {
@@ -87,16 +92,23 @@ function Header() {
                 {(!isSearchOpen || isDesktop) && (
                     <div
                         className=" user-icon presentation-list-item"
-                        onClick={closeMenu}
+                        onClick={toggleModal}
                     >
-                        {/* Display icon on small screens */}
-
                         <FontAwesomeIcon
                             icon={faPlus}
                             className="block sm:hidden"
                         />
                     </div>
                 )}
+                {/* modal with React Portal */}
+                {isModalOpen &&
+                    ReactDOM.createPortal(
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                            <AddRecipeModal onAddRecipe={handleAddRecipe} />
+                        </div>,
+                        document.getElementById('modal-root')!,
+                    )}
+
                 {/* text visible on screens larger than 500px */}
                 <Link
                     to={userAuth?.username ? '/catalogue' : '/connexion'}
