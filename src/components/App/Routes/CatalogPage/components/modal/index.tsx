@@ -9,7 +9,8 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Stockage des images encodées en base64
+    // Storage of images encoded in base64
+
     const [selectedImageBase64, setSelectedImageBase64] = useState<
         string | null
     >(null);
@@ -17,18 +18,18 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
         string | null
     >(null);
 
-    // Gestion des ingrédients
+    // Management of ingredients
     const [ingredients, setIngredients] = useState([
         { name: '', quantity: '' },
     ]);
-    // Gestion des étapes de préparation
+    // Management of preparation steps
     const [preparationSteps, setPreparationSteps] = useState([
         { step: '', step_position: 1 },
     ]);
 
     const toggleModal = () => setIsOpen(!isOpen);
 
-    // Fonction pour convertir une image en base64
+    // Function to convert an image to base64
     const convertToBase64 = (
         file: File,
         callback: (result: string | null) => void,
@@ -52,7 +53,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
         boolean | null
     >(null);
 
-    // Gestion de l'image du film
+    // Management of the movie image
     const handleMovieFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         setIsFileMovieSelected(!!file); // Met à jour l'état selon la sélection
@@ -120,7 +121,8 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
         const formElements = e.currentTarget.elements as any;
 
-        // Création de l'objet avec les images encodées en base64 et autres champs
+        // Creation of the object with images encoded in base64 and other fields
+
         const formData = {
             name: formElements.name.value,
             movie_name: formElements.movie_name.value,
@@ -129,8 +131,8 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
             difficulty: formElements.difficulty.value,
             total_duration: formElements.total_duration.value,
             anecdote: formElements.anecdote.value,
-            picture: selectedImageBase64, // Image de la recette encodée en base64
-            movie_picture: selectedMovieImageBase64, // Image du film encodée en base64
+            picture: selectedImageBase64,
+            movie_picture: selectedMovieImageBase64,
             ingredients: ingredients
                 .map(
                     (ingredient) =>
@@ -177,7 +179,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
                         <form onSubmit={submitForm}>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {/* Nom de la recette */}
+                                {/* Recipe name */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Nom de la recette
@@ -190,7 +192,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     />
                                 </div>
 
-                                {/* Image de la recette */}
+                                {/* Recipe picture */}
                                 <div>
                                     <label
                                         className={`block text-sm font-medium ${
@@ -222,7 +224,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     />
                                 </div>
 
-                                {/* Nom du film associé */}
+                                {/* Movie name */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Nom du film associé
@@ -235,7 +237,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     />
                                 </div>
 
-                                {/* Image du film */}
+                                {/* Movie picture */}
                                 <div>
                                     <label
                                         className={`block text-sm font-medium ${
@@ -267,7 +269,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     />
                                 </div>
 
-                                {/* Type de catégorie*/}
+                                {/* Category */}
                                 <div className="sm:col-span-2">
                                     <label className="block text-sm font-medium text-gray-700">
                                         Catégorie
@@ -283,7 +285,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     </select>
                                 </div>
 
-                                {/* Type de recette */}
+                                {/* Dishtype */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Type de recette
@@ -299,7 +301,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     </select>
                                 </div>
 
-                                {/* Difficulté */}
+                                {/* Difficulty */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Difficulté
@@ -315,7 +317,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     </select>
                                 </div>
 
-                                {/* Durée totale */}
+                                {/* Total duration */}
                                 <div className="sm:col-span-2">
                                     <label className="block text-sm font-medium text-gray-700">
                                         Durée totale de la recette
@@ -339,7 +341,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     ></textarea>
                                 </div>
 
-                                {/* Ingrédients dynamiques */}
+                                {/* Ingrédients */}
                                 <div className="sm:col-span-2">
                                     <label className="block text-sm font-medium text-gray-700">
                                         Ingrédients de la recette
@@ -397,7 +399,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     </button>
                                 </div>
 
-                                {/* Étapes de préparation dynamiques */}
+                                {/* Preparation steps */}
                                 <div className="sm:col-span-2">
                                     <label className="block text-sm font-medium text-gray-700">
                                         Étapes de préparation
@@ -457,7 +459,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                 </div>
                             </div>
 
-                            {/* Boutons de soumission */}
+                            {/* Submit buttons */}
                             <div className="mt-6 flex justify-end space-x-4">
                                 <button
                                     type="button"

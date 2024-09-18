@@ -40,9 +40,11 @@ const SearchBar: React.FC = () => {
     const [value, setValue] = useState('');
     const [suggestions, setSuggestions] = useState<Recipe | Movie[]>([]);
     const [allItems, setAllItems] = useState<Recipe | Movie[]>([]);
-    //Permet de naviguer vers d'autres pages
+
+    // navigate to another page
     const navigate = useNavigate();
-    // Récupération des recettes
+
+    // get all recipes
     useEffect(() => {
         const fetchData = async () => {
             const recipes = await fetchRecipes();
@@ -90,7 +92,7 @@ const SearchBar: React.FC = () => {
     };
     // Propriétés pour l'input de la barre de recherche
     const inputProps: Autosuggest.InputProps<Recipe | Movie> = {
-        placeholder: 'Je recherche',
+        placeholder: 'Poulet',
         value,
         onChange: (
             _: React.FormEvent<HTMLElement>,
@@ -108,7 +110,7 @@ const SearchBar: React.FC = () => {
             onSuggestionSelected={onSuggestionSelected}
             getSuggestionValue={(suggestion) => suggestion.name}
             renderSuggestion={(suggestion) => (
-                <div className="md:cursor-pointer hover:bg-dark-red transition-all duration-200">
+                <div className="md:cursor-pointer hover:bg-skin transition-all duration-200">
                     {suggestion.name} (
                     {suggestion.type === 'recipe' ? 'Recette' : 'Film'})
                 </div>

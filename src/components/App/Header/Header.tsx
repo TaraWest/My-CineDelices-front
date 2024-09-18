@@ -2,11 +2,15 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUser,
+    faSearch,
+    faUtensils,
+} from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
+
 import './header.scss';
 import { useAuthContext } from '../Context/Authentification/useAuthContext';
-import AddRecipeModal from '../Routes/CatalogPage/components/modal';
 
 function Header() {
     // If the burger menu is open or closed
@@ -22,9 +26,6 @@ function Header() {
 
     // menu closed
     const closeMenu = () => setIsMenuOpen(false);
-
-    // modal is open or closed
-    //const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Function to toggle the search bar state
     const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
@@ -46,12 +47,6 @@ function Header() {
     const logout = () => {
         handleLogout();
         closeMenu();
-    };
-
-    // Fonction pour gérer l'ajout d'une recette
-    const handleAddRecipe = (newRecipe: any) => {
-        // Logique pour ajouter la recette, par exemple mettre à jour l'état ou faire une action spécifique
-        console.log('Nouvelle recette ajoutée :', newRecipe);
     };
 
     return (
@@ -86,34 +81,33 @@ function Header() {
                         </div>
                     </Link>
                 )}
-                {/* add recipes icon */}
+                {/* recipes icon */}
                 {(!isSearchOpen || isDesktop) && (
                     <Link
-                        to={userAuth?.username ? '/catalogue' : '/connexion'}
-                        className=" user-icon presentation-list-item"
+                        to={'/catalogue'}
+                        className=" user-icon"
                         onClick={closeMenu}
                     >
-                        {/* Display icon on small screens */}
-
                         <FontAwesomeIcon
-                            icon={faPlus}
+                            icon={faUtensils}
                             className="block sm:hidden"
                         />
                     </Link>
                 )}
+
                 {/* text visible on screens larger than 500px */}
                 <Link
-                    to={userAuth?.username ? '/catalogue' : '/connexion'}
-                    className="hidden sm:block cursor-pointer"
+                    to={'/catalogue'}
+                    className=" hidden sm:block button-link"
                     onClick={closeMenu}
                 >
-                    <AddRecipeModal onAddRecipe={handleAddRecipe} />
+                    RECETTES
                 </Link>
 
                 {/* Search Bar */}
                 {isSearchOpen && (
                     <div
-                        className={`search-bar top-16 right-0 bg-white text-gray-700 w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto md:bg-transparent md:text-skin`}
+                        className={`search-bar top-20 right-0 bg-white text-gray-700 w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto md:bg-transparent md:text-skin`}
                     >
                         {/*Search Bar component*/}
                         <SearchBar />
