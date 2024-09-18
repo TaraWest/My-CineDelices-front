@@ -16,56 +16,56 @@ export const Catalog = () => {
     );
 
     // Variables d'état pour la pagination
-    const [currentPage, setCurrentPage] = useState(1); // Page actuelle
-    const recipesPerPage = 10; // Nombre de recettes par page
+    const [currentPage, setCurrentPage] = useState(1); // Actual page
+    const recipesPerPage = 10; // number of recipes per page
 
-    // Fonction pour ajouter une nouvelle recette
+    // Function to add a new recipe
     const handleAddRecipe = (newRecipe: any) => {
-        setRecipes((prevRecipes) => [...prevRecipes, newRecipe]); // Ajout de la nouvelle recette dans l'état
+        setRecipes((prevRecipes) => [...prevRecipes, newRecipe]); // Add the new recipe to the state
     };
 
-    // Fonction reset pour retourner sur le catalogue avec toutes les recettes
+    // Function reset to return to the catalogue with all recipes
     const resetFilters = () => {
         setSelectedDifficulty(null);
         setSelectedDishType(null);
     };
 
-    // Fonction sélection de difficulté
+    // Function selection of difficulty
     const handleDifficultyChange = (difficulty: string) => {
-        setSelectedDishType(null); // Réinitialise le type de plat
-        setSelectedDifficulty(difficulty); // Met à jour la difficulté sélectionnée
-        setCurrentPage(1); // Réinitialiser la page actuelle
+        setSelectedDishType(null); // Reset the dish type
+        setSelectedDifficulty(difficulty); // Update the selected difficulty
+        setCurrentPage(1); // Reset the current page
     };
 
-    // Fonction sélection type de plat
+    // Function selection of dish type
     const handleDishTypeChange = (dishTypeId: number) => {
-        setSelectedDifficulty(null); // Réinitialise la difficulté
-        setSelectedDishType(dishTypeId); // Met à jour le type de plat sélectionné
-        setCurrentPage(1); // Réinitialiser la page actuelle
+        setSelectedDifficulty(null); // Reset the difficulty
+        setSelectedDishType(dishTypeId); // Update the selected dish type
+        setCurrentPage(1); // Reset the current page
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // URL initiale pour les recettes
+                // URL initial for recipes
                 let recipesUrl = 'http://localhost:3000/recipes';
 
-                // Si un type de plat est sélectionné, on utilise la route spécifique du backend
+                // If a dish type is selected, use the backend route specific
                 if (selectedDishType) {
                     recipesUrl = `http://localhost:3000/Recipes/DishTypes/${selectedDishType}`;
                 }
 
-                // Si une difficulté est sélectionnée, on l'ajoute en tant que paramètre de requête
+                // If a difficulty is selected, add it as a query parameter
                 if (selectedDifficulty) {
                     const separator = recipesUrl.includes('?') ? '&' : '?';
                     recipesUrl += `${separator}difficulty=${selectedDifficulty}`;
                 }
 
-                // Récupération des recettes avec axios
+                // Retrieval of recipes with axios
                 const recipesResponse = await axios.get(recipesUrl);
                 setRecipes(recipesResponse.data);
 
-                // Récupération des films avec axios
+                // Retrieval of movies with axios
                 const moviesResponse = await axios.get(
                     'http://localhost:3000/movies',
                 );
@@ -83,14 +83,14 @@ export const Catalog = () => {
 
         fetchData();
     }, [selectedDifficulty, selectedDishType]);
-    // Appel à fetchData chaque fois que l'un des filtres change
+    // Call to fetchData each time one of the filters changes
 
-    // Calcul des indices pour afficher les recettes paginées
+    // Calculation of indices to display the paged recipes
     const indexOfLastRecipe = currentPage * recipesPerPage;
     const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
     const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
-    // Fonction pour changer de page
+    // Function to change page
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
     return (
@@ -101,20 +101,20 @@ export const Catalog = () => {
             {/* <div className="w-full max-w-screen-lg"> */}
             <div className="w-full px-6">
                 <h1
-                    onClick={resetFilters} // Réinitialise les filtres au clic sur "Catalogue"
+                    onClick={resetFilters} // Reset filters by clicking on "Catalogue"
                     className="text-5xl font-extrabold mb-8 text-center cursor-pointer text-[#0d0d0d] shadow-lg shadow-black border-2 border-[#0d0d0d] bg-[#d9c7b8] rounded-lg p-4"
                 >
                     Catalogue
                 </h1>
 
-                {/* Intégration de la NavBar avec les filtres */}
+                {/* Integration of the NavBar with the filters */}
                 <NavBarCalogue
                     onDifficultyFilterChange={handleDifficultyChange}
                     onDishTypeFilterChange={handleDishTypeChange}
                     onAddRecipe={handleAddRecipe}
                 />
 
-                {/* Grille des recettes */}
+                {/* Grid of recipes */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                     {currentRecipes.length === 0 ? (
                         <p>Aucune recette trouvée</p>
@@ -135,24 +135,24 @@ export const Catalog = () => {
                                     <img
                                         src={`http://localhost:3000/recipes/${recipe.picture}`}
                                         alt={recipe.name}
-                                        className="h-full w-full object-cover object-center border-none aspect-square"
+                                        className="w-full aspect-square object-cover border-none"
                                     />
                                     {movie && (
                                         <img
                                             src={`http://localhost:3000/movies/${movie.picture}`}
                                             alt={movie.name}
-                                            className="h-full w-full object-cover object-center border-none  mt-1 aspect-square"
+                                            className="w-full aspect-square object-cover border-none mt-1"
                                         />
                                     )}
-                                    <div className="p-4">
+                                    <div className="p-4 flex flex-col items-center justify-between flex-grow">
                                         {movie && (
-                                            <h3 className="text-md font-medium mb-2 text-[#d9c7b8] text-center">
+                                            <h3 className="text-md font-medium mb-2 text-[#d9c7b8] text-center min-h-[3rem] flex items-center">
                                                 {movie.name}
                                             </h3>
                                         )}
-                                        <div className="flex justify-center">
+                                        <div className="flex justify-center mt-auto">
                                             <Link to={`/recette/${recipe.id}`}>
-                                                <button className="text-sm font-medium text-[#0d0d0d] ">
+                                                <button className="text-sm font-medium text-[#0d0d0d]">
                                                     {recipe.name}
                                                 </button>
                                             </Link>
@@ -166,19 +166,19 @@ export const Catalog = () => {
 
                 {/* Pagination */}
                 <div className="flex justify-center space-x-4 mt-6">
-                    {/* Précédent */}
+                    {/* Previous */}
                     <button
                         onClick={() => paginate(currentPage - 1)}
-                        disabled={currentPage === 1} // Désactiver si on est sur la première page
+                        disabled={currentPage === 1} // Disable if on the first page
                         className={`px-4 py-2 text-sm ${currentPage === 1 ? 'bg-[#d9c7b8]' : 'bg-[#d9c7b8]'} text-[#0d0d0d] rounded-lg`}
                     >
                         Précédent
                     </button>
 
-                    {/* Suivant */}
+                    {/* Next */}
                     <button
                         onClick={() => paginate(currentPage + 1)}
-                        disabled={indexOfLastRecipe >= recipes.length} // Désactiver si on est à la dernière page
+                        disabled={indexOfLastRecipe >= recipes.length} // Disable if on the last page
                         className={`px-4 py-2 text-sm ${indexOfLastRecipe >= recipes.length ? 'bg-[#d9c7b8]' : 'bg-[#d9c7b8]'} text-[#0d0d0d] rounded-lg`}
                     >
                         Suivant

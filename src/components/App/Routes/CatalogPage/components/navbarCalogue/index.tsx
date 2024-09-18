@@ -15,13 +15,13 @@ export const NavBarCalogue = (props: NavBarCalogueProps) => {
     return (
         <>
             <div className="flex flex-wrap justify-center space-y-4 md:space-y-0 md:space-x-4 mb-6">
-                {/* Filtres par difficulté */}
+                {/* Filters by difficulty */}
                 <DifficultyFilter onFilterChange={onDifficultyFilterChange} />
-                {/* Modale pour ajouter une recette */}
+                {/* Modal to add a recipe */}
 
                 <AddRecipeModal onAddRecipe={onAddRecipe} />
 
-                {/* Filtres par type de plat */}
+                {/* Filters by dish type */}
                 <DishTypeFilter onFilterChange={onDishTypeFilterChange} />
             </div>
         </>
