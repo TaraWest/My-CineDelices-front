@@ -64,7 +64,7 @@ function UpdateRecipeModal({
             console.log(response);
             fetchRecipe(state.id).then((data) => {
                 console.log(data);
-
+                // mettre en forme les données à set...
                 setDataFetch(data);
                 setIsOpen(false);
                 toast.success('Recette modifiée avec succès!');
