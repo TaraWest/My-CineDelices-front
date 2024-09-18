@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { IUserAuth } from '../../@types/authenticate';
+import { NavigateFunction } from 'react-router-dom';
 
-export function getUserData(): Promise<IUserAuth | null> {
+export function getUserData(
+    navigate: NavigateFunction,
+): Promise<IUserAuth | null> {
     return axios
         .get('http://localhost:3000/me', {
             withCredentials: true,
@@ -12,6 +15,7 @@ export function getUserData(): Promise<IUserAuth | null> {
             }
         })
         .catch((error) => {
+            navigate('/login');
             return error;
         });
     //End of checkAuth
