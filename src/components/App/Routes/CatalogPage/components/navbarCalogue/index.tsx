@@ -14,7 +14,7 @@ export const NavBarCalogue = (props: NavBarCalogueProps) => {
 
     return (
         <>
-            <div className="flex flex-wrap justify-center space-y-4 md:space-y-0 md:space-x-4 mb-6">
+            <div className="flex flex-wrap justify-center space-y-4 md:flex-col md:items-center mb-6">
                 {/* Filters by difficulty */}
                 <DifficultyFilter onFilterChange={onDifficultyFilterChange} />
                 {/* Modal to add a recipe */}

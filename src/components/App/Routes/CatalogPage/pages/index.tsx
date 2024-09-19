@@ -75,9 +75,6 @@ export const Catalog = () => {
                     'Erreur lors de la récupération des données :',
                     error,
                 );
-                setError(
-                    'Une erreur est survenue lors de la récupération des données.',
-                );
             }
         };
 
@@ -102,7 +99,7 @@ export const Catalog = () => {
             <div className="w-full px-6">
                 <h1
                     onClick={resetFilters} // Reset filters by clicking on "Catalogue"
-                    className="text-5xl font-extrabold mb-8 text-center cursor-pointer text-[#0d0d0d] shadow-lg shadow-black border-2 border-[#0d0d0d] bg-[#d9c7b8] rounded-lg p-4"
+                    className="catalog-title"
                 >
                     Catalogue
                 </h1>
