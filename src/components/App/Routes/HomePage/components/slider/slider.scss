@@ -16,6 +16,9 @@ img {
     border-top-right-radius: 10%;
     border-bottom-left-radius: 10%;
     padding: 2.5em;
+    @media (max-width: 768px) {
+        padding: 0.5em;
+    }
 }
 
 // .slider-container {

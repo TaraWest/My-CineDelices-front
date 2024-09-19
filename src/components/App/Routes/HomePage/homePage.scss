@@ -152,9 +152,28 @@ h4 {
     font-size: 1.8rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .img_presentation {
         display: none;
+    }
+    .presentation {
+        font-size: 0.8rem;
+    }
+    .homepage-title {
+        font-size: 0.8rem;
+    }
+    .homepage-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .slider {
+        width: 130%;
+    }
+
+    .presentation-list-item {
+        font-size: 0.7rem;
+        margin: 0.5em;
+        margin-top: 10px;
     }
 }
 
