@@ -4,6 +4,9 @@ import './UpdateRecipeModal.scss';
 interface ModalComponentProps {
     item: IInputsModal;
     handleChange: (
+        actionType: string,
+        index: number | null,
+    ) => (
         e: React.ChangeEvent<
             HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
         >,
@@ -12,6 +15,7 @@ interface ModalComponentProps {
 
 function ModalComponent({ item, handleChange }: ModalComponentProps) {
     // const errorMessage = validateForm(input, password, passwordConfirm);
+
     if (item.tag === 'input') {
         return (
             <div className="flex flex-col items-center gap-2 w-full">
@@ -24,10 +28,9 @@ function ModalComponent({ item, handleChange }: ModalComponentProps) {
                         type={item.type}
                         name={item.name}
                         accept={item.accept ? item.accept : ''}
-                        onChange={handleChange}
+                        onChange={handleChange('SET_FIELD', null)}
                         value={item.value ? item.value : undefined}
                         required
-                        id="set_field"
                     />
                 </label>
                 {/* {errorMessage && (
@@ -45,13 +48,12 @@ function ModalComponent({ item, handleChange }: ModalComponentProps) {
                         // className={errorMessage ? 'form-input-error' : 'form-input'}
                         className="modal-input"
                         name={item.name}
-                        onChange={handleChange}
+                        onChange={handleChange('SET_FIELD', null)}
                         value={item.value ?? ''}
-                        id="set_field"
                     >
                         {item.option?.map((option: IOption) => {
                             return (
-                                <option key={option.name} value={option.name}>
+                                <option key={option.name} value={option.id}>
                                     {option.name}
                                 </option>
                             );
@@ -70,10 +72,9 @@ function ModalComponent({ item, handleChange }: ModalComponentProps) {
                     {item.label}
 
                     <textarea
-                        id="set_field"
                         name="anecdote"
                         value={item.value ?? ''}
-                        onChange={handleChange}
+                        onChange={handleChange('SET_FIELD', null)}
                         className="modal-input text-input"
                     ></textarea>
                 </label>

@@ -1,0 +1,26 @@
+@use '../../../../../../styles/variables' as var;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card-shadow {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.219);
+    background-color: #ffffff15;
+}
+
+.text-label {
+    width: 90%;
+}
+.text-area {
+    padding: 2em;
+}
+textarea::placeholder {
+    text-align: center;
+    padding: 2em;
+    color: var.$color-dark;
+}
+
+.error-message-stars {
+    @apply absolute top-12 text-dark bg-skin p-2 rounded-2xl;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.479);
+}

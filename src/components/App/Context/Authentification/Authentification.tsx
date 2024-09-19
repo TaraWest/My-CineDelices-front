@@ -9,7 +9,9 @@ import {
     IUserAuth,
 } from '../../@types/authenticate';
 import { useNavigate } from 'react-router-dom';
-import { getUserData } from '../services';
+import { getUserData } from '../services/AuthAPI';
+import { toast } from 'react-toastify';
+import { axiosLoggedPostInstance } from '../../services/generalAxiosInstance';
 
 const defaultAuth: IUserAuth = {
     first_name: null,
@@ -17,6 +19,7 @@ const defaultAuth: IUserAuth = {
     username: null,
     email_address: null,
     id: null,
+    role_id: 3,
 };
 
 const defaultContext: IAuthenticateContext = {
@@ -37,14 +40,13 @@ export const AuthProvider = ({
 }: IAuthenticateContextProviderType) => {
     const [userAuth, setUserAuth] = useState<IUserAuth | null>(null);
     const [isAuth, setIsAuth] = useState<boolean>(false);
-    const [getData, setGetData] = useState<boolean>(false);
 
     const navigate = useNavigate();
     //  Check if user is authitified in a loading or reloading of a page
     useEffect(() => {
         const storedIsAuth = sessionStorage.getItem('isAuth');
         if (storedIsAuth === 'true') {
-            getUserData()
+            getUserData(navigate)
                 .then((data) => {
                     setUserAuth(data);
                     setIsAuth(true);
@@ -52,6 +54,8 @@ export const AuthProvider = ({
                 .catch((error) => {
                     setIsAuth(false);
                     setUserAuth(null);
+                    sessionStorage.removeItem('isAuth');
+                    navigate('/login');
                     return error;
                 });
         }
@@ -61,32 +65,35 @@ export const AuthProvider = ({
     console.log(userAuth);
 
     async function handleLogin(data: ILogin) {
-        return axios
-            .post('http://localhost:3000/login', data, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            })
+        return axiosLoggedPostInstance
+            .post('/login', data)
             .then((response) => {
-                if (response.status !== 200) {
-                    return response.data;
-                }
+                console.log(response);
+
                 setIsAuth(true);
                 sessionStorage.setItem('isAuth', 'true');
-                return getUserData();
+                return getUserData(navigate);
             })
             .then((data) => {
                 if (data) {
                     setUserAuth(data);
+                    toast.success(`Connexion réussie, bienvenue!`);
+                    navigate('/catalogue');
                 }
             })
             .catch((error) => {
                 console.log(error);
-            })
-            .finally(() => {
-                navigate('/catalogue');
+                console.log('dans le catch');
+
+                console.log(error.response.data.message);
+                if (error.status === 401) {
+                    toast.error(error.response.data.message);
+                }
+                if (error.status === 500) {
+                    console.log('500 ici');
+
+                    toast.error(error.response.data.message);
+                }
             });
 
         //End of handeLogin
@@ -109,6 +116,8 @@ export const AuthProvider = ({
             .then((response) => {
                 if (response.status === 200) {
                     setUserAuth(null);
+                    setIsAuth(false);
+                    sessionStorage.removeItem('isAuth');
                     return response.data;
                 }
             })
@@ -116,6 +125,7 @@ export const AuthProvider = ({
                 console.log(error);
             })
             .finally(() => {
+                toast.success(`Vous êtes déconnecté!`);
                 navigate('/');
             });
     }

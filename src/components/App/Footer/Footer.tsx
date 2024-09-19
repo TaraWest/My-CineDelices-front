@@ -31,9 +31,8 @@ function Footer() {
                 <Link className="no-underline" to="/mentions-legales">
                     Mentions légales
                 </Link>
-                <Link className="no-underline" to="/copyrigth">
-                    Copyright
-                </Link>
+                <div> © 2024 CinéDélices. Tous droits réservés. </div>
+
                 <Link className="no-underline" to="/contact">
                     Contact
                 </Link>

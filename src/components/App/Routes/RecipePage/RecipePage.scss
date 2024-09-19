@@ -6,6 +6,22 @@ ul {
     padding: 0;
 }
 
+.fixed-button-desktop {
+    @apply fixed bottom-0 right-2;
+    background-color: #d9c7b8c0;
+    z-index: 1;
+}
+
+.fixed-button-mobile {
+    @apply fixed bottom-0 right-16;
+    background-color: #d9c7b8;
+}
+
+.button-plus {
+    @apply fixed bottom-3 right-3 rounded-full p-1 cursor-pointer;
+    background-color: #d9c7b8a4;
+}
+
 .recipe-part {
     padding-bottom: 1em;
     @apply text-left border-b border-dashed w-1/5;
@@ -48,6 +64,10 @@ ul {
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10%;
     border-bottom-left-radius: 10%;
+    & img {
+        aspect-ratio: 1/1;
+        object-fit: cover;
+    }
 
     @media (min-width: var.$breakpoint-s) {
         flex-direction: row;
@@ -88,4 +108,11 @@ ul {
 
 .counter-button {
     @apply text-center w-6 h-6 bg-skin text-dark cursor-pointer rounded-lg;
+}
+
+.delete-modal {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    background-color: black;
 }

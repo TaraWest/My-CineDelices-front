@@ -21,6 +21,7 @@ function InputComponent({
                     name={input.name}
                     onChange={handleChangeInput}
                     value={input.value}
+                    // required={input.required ? true : false}
                 />
             </label>
             {errorMessage && (

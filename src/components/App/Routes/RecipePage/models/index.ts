@@ -45,6 +45,7 @@ export interface IRecipe {
     Preparations: IPreparation[];
     Ingredient: IIngredients[];
     User: IUser;
+    user_id: number;
 }
 
 export interface Iquantity {
@@ -63,7 +64,7 @@ export interface IInputsModal {
     label: string;
     name: string;
     type?: string;
-    value?: string | number | null;
+    value?: string | number | undefined | null;
     option?: IOption[];
     accept?: string;
 }
@@ -71,4 +72,20 @@ export interface IInputsModal {
 export interface IOption {
     id?: string;
     name: string;
+}
+
+export interface IState {
+    id: number;
+    name: string;
+    picture: string | undefined;
+    total_duration: number;
+    anecdote: string | null;
+    difficulty: string;
+    is_checked: boolean;
+    Movie: IMovie;
+    DishType: string;
+    Preparations: IPreparation[];
+    Ingredient: IIngredients[];
+    User: IUser;
+    user_id: number;
 }

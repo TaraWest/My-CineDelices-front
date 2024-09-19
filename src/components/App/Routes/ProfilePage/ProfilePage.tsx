@@ -1,21 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
-import { fetchUser, updateUser } from './services';
-import { IUser } from './models';
+import { getUserRecipes, updateUser } from './services';
+import { IRecipe, IUser } from './models';
 import './ProfilPage.css';
-// import RecepiesTab from './RecepiesTab';
+import RecepiesTab from './components/RecepiesTab';
+import UserInfoForm from './components/UserInfoForm';
+import { useAuthContext } from '../../Context/Authentification/useAuthContext';
+import { fetchDeleteRecipe } from './services';
+import './ProfilPage.css';
 
 function ProfilePage() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
     const navigate = useNavigate();
-    // State de données de notre utilisateur
-    const [userData, setUserData] = useState<IUser | null>(null);
+
+    //States from context authentification
+    const { userAuth } = useAuthContext();
+
+    //State for user's recipies
+    const [recipies, setRecipies] = useState<IRecipe[]>([]);
 
     //State for the tab
-    // false : "mes recettes"
-    // true : "informations personnelles"
-    const [switchTab, setSwitchTab] = useState(true);
+    // 1 : "mes recettes"
+    // 2 : "informations personnelles"
+    const [switchTab, setSwitchTab] = useState('1');
 
     // The form is not editable by default
     const [editForm, setEditForm] = useState(false);
@@ -49,66 +57,88 @@ function ProfilePage() {
         }
     }
 
+    function handleDeleteRecipe(recipeId: number) {
+        fetchDeleteRecipe(recipeId).then(() => {
+            getUserRecipes() // Fetch updated list after deletion
+                .then((data) => {
+                    setRecipies(data);
+                    return;
+                })
+                .catch((error) => {
+                    return error;
+                });
+        });
+    }
+
     function handleSubmit(event: any) {
         event.preventDefault();
         if (editForm === false) {
-            // On rend les inputs éditables
+            // set inputs editables
             setEditForm(true);
         } else {
-            // au submitForm si editForm=true
-            const dataToSend: IUser = {
-                id: userData?.id,
-                first_name: firstName,
-                last_name: lastName,
-                username: userName,
-                email_address: email,
-            };
-            console.log('log de data to send', dataToSend);
-            // On mettra la bdd a jour
-            updateUser(dataToSend);
-            // Les inputs sont désactivés
-            setEditForm(false);
+            if (userAuth && userAuth.id) {
+                // on submitForm if editForm=true
+                const dataToSend: IUser = {
+                    id: userAuth.id,
+                    first_name: firstName,
+                    last_name: lastName,
+                    username: userName,
+                    email_address: email,
+                };
+                console.log('log de data to send', dataToSend);
+                // fetch and update user info
+                updateUser(dataToSend);
+                // set input disable
+                setEditForm(false);
+            }
         }
     }
 
-    // On déclanche la fonction au chargement de la page
+    // is user is connected, put his datas into states to be able to update them
     useEffect(() => {
-        fetchUser()
-            .then((data) => {
-                setUserData(data);
-                setFirstName(data.first_name);
-                setLastName(data.last_name);
-                setUserName(data.username);
-                setEmail(data.email_address);
-                return;
-            })
+        if (
+            userAuth &&
+            userAuth.first_name &&
+            userAuth.last_name &&
+            userAuth.username &&
+            userAuth.email_address
+        ) {
+            setFirstName(userAuth.first_name);
+            setLastName(userAuth.last_name);
+            setUserName(userAuth.username);
+            setEmail(userAuth.email_address);
 
-            .catch((error) => {
-                return error;
-            });
-    }, []);
+            getUserRecipes()
+                .then((data) => {
+                    setRecipies(data);
+                    return;
+                })
 
-    // On gère le cas où il n'y a pas d'utilisateur trouvé
-    if (!userData)
+                .catch((error) => {
+                    return error;
+                });
+        }
+    }, [userAuth]);
+
+    if (!userAuth) {
         return (
             <div className="justify-center flex h-160">
                 <div className="flex flex-col max-w-xs m-6 items-center ">
-                    <p>Merci de vous connecter pour accéder à cette page</p>
-                    <button onClick={handleNavigate} className="mt-30">
+                    <h4>Merci de vous connecter pour accéder à cette page</h4>
+                    <button onClick={handleNavigate} className="button-link">
                         Connectez vous!
                     </button>
                 </div>
             </div>
         );
-
-    console.log(userData);
-    console.log(firstName);
+    }
+    // console.log('recettes enregistrés en state:', recipies);
 
     return (
         <div className={`flex m-2 ${isDesktop ? 'flex-row' : 'flex-col'}`}>
             <div className="flex m-4 flex-col">
                 <button
-                    onClick={() => setSwitchTab(!switchTab)}
+                    onClick={() => setSwitchTab('1')}
                     className={`px-4 py-2 rounded ${
                         switchTab
                             ? 'bg-transparent text-white'
@@ -118,7 +148,7 @@ function ProfilePage() {
                     Mes Recettes
                 </button>
                 <button
-                    onClick={() => setSwitchTab(!switchTab)}
+                    onClick={() => setSwitchTab('2')}
                     className={`px-4 py-2 rounded ${
                         switchTab
                             ? 'bg-dark-red text-skin'
@@ -128,96 +158,33 @@ function ProfilePage() {
                     Mes Informations personnelles
                 </button>
             </div>
+
             {/* here the tab "Mes Informations personnelles" */}
             <div
-                className={`${switchTab ? 'hidden' : 'flex m-4 flex-col sm:flex-row'}`}
+                className={`${switchTab === '2' ? 'flex justify-center items-center m-4 flex-col sm:flex-row' : 'hidden'}`}
             >
-                <form className="flex m-4 flex-col" onSubmit={handleSubmit}>
-                    <label htmlFor="prenom">Prénom</label>
-                    <input
-                        className={
-                            editForm
-                                ? 'form-input m-4 text-center'
-                                : 'm-4 text-center bg-transparent'
-                        }
-                        type="text"
-                        id="prenom"
-                        name="first_name"
-                        value={
-                            firstName === userData.first_name
-                                ? userData.first_name
-                                : firstName
-                        }
-                        onChange={handleInputChange}
-                        disabled={!editForm}
-                    />
-                    <label htmlFor="nom">Nom</label>
-                    <input
-                        className={
-                            editForm
-                                ? 'form-input m-4 text-center'
-                                : 'm-4 text-center bg-transparent'
-                        }
-                        type="text"
-                        id="nom"
-                        name="last_name"
-                        value={
-                            firstName === userData.last_name
-                                ? userData.last_name
-                                : lastName
-                        }
-                        onChange={handleInputChange}
-                        disabled={!editForm}
-                    />
-                    <label htmlFor="pseudo">Pseudo</label>
-                    <input
-                        className={
-                            editForm
-                                ? 'form-input m-4 text-center'
-                                : 'm-4 text-center bg-transparent'
-                        }
-                        type="text"
-                        id="pseudo"
-                        name="username"
-                        value={
-                            firstName === userData.username
-                                ? userData.username
-                                : userName
-                        }
-                        onChange={handleInputChange}
-                        disabled={!editForm}
-                    />
-                    <label htmlFor="email">Email</label>
-                    <input
-                        className={
-                            editForm
-                                ? 'form-input m-4 text-center'
-                                : 'm-4 text-center bg-transparent'
-                        }
-                        type="email"
-                        id="email"
-                        name="email_adress"
-                        value={
-                            firstName === userData.email_address
-                                ? userData.email_address
-                                : email
-                        }
-                        onChange={handleInputChange}
-                        disabled={!editForm}
-                    />
-
-                    <button type="submit" onClick={handleSubmit}>
-                        {editForm
-                            ? 'Enregistrer les modifications'
-                            : 'Modifier'}
-                    </button>
-                </form>
+                <UserInfoForm
+                    firstName={firstName}
+                    lastName={lastName}
+                    userName={userName}
+                    email={email}
+                    // password={password}
+                    editForm={editForm}
+                    onChange={handleInputChange}
+                    onSubmit={handleSubmit}
+                    setEditForm={setEditForm}
+                />
             </div>
+
             {/* here the tab "mes recettes" */}
             <div
-                className={`${switchTab ? 'flex m-4 flex-col sm:flex-row' : 'hidden'}`}
+                className={`${switchTab === '1' ? 'flex m-4 flex-col sm:flex-row' : 'hidden'}`}
             >
-                {/* <RecepiesTab></RecepiesTab> */}
+                <RecepiesTab
+                    recipies={recipies}
+                    handleDeleteRecipe={handleDeleteRecipe}
+                    setRecipies={setRecipies}
+                />
             </div>
         </div>
     );
