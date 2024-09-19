@@ -49,7 +49,7 @@ function Header() {
     };
 
     return (
-        <div className="header relative flex justify-between items-center p-5 bg-dark-red text-white border-b-2">
+        <div className="header relative flex justify-between items-center p-5 bg-dark-red  border-b-2">
             {/* logo Container */}
             <div className="logo-container text-skin">
                 {/* Link to home page */}
@@ -70,46 +70,47 @@ function Header() {
             {/* Icons and links container */}
             <div className="link-container flex items-center space-x-4 relative ml-2 text-skin ">
                 {/* User Icon*/}
-                {(!isSearchOpen || isDesktop) && (
-                    <Link
-                        to={userAuth?.username ? '/profil/me' : '/connexion'}
-                        className="user-icon block py-2"
+
+                <Link
+                    to={userAuth?.username ? '/profil/me' : '/connexion'}
+                    className="user-icon block py-2"
+                >
+                    <div
+                        className="text-xl cursor-pointer "
+                        onClick={closeMenu}
                     >
-                        <div
-                            className="icon cursor-pointer "
-                            onClick={closeMenu}
-                        >
-                            <FontAwesomeIcon icon={faUser} />
-                        </div>
-                    </Link>
-                )}
+                        <FontAwesomeIcon icon={faUser} />
+                    </div>
+                </Link>
+
                 {/* recipes icon */}
-                {(!isSearchOpen || isDesktop) && (
+                {!isDesktop && (
                     <Link
                         to={'/catalogue'}
                         className=" user-icon"
                         onClick={closeMenu}
                     >
-                        <FontAwesomeIcon
-                            icon={faUtensils}
-                            className="block sm:hidden"
-                        />
+                        <FontAwesomeIcon icon={faUtensils} className="block" />
                     </Link>
                 )}
 
                 {/* text visible on screens larger than 500px */}
-                <Link
-                    to={'/catalogue'}
-                    className=" hidden sm:block button-link"
-                    onClick={closeMenu}
-                >
-                    RECETTES
-                </Link>
+                {isDesktop && (
+                    <Link
+                        to={'/catalogue'}
+                        className="sm:block button-link"
+                        onClick={closeMenu}
+                    >
+                        Recettes
+                    </Link>
+                )}
 
                 {/* Search Bar */}
                 {isSearchOpen && (
                     <div
-                        className={`search-bar top-20 right-0 bg-white text-gray-700 w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto md:bg-transparent md:text-skin`}
+                        className={
+                            isDesktop ? 'search-bar' : 'search-bar-mobile'
+                        }
                     >
                         {/*Search Bar component*/}
                         <SearchBar />
@@ -139,13 +140,13 @@ function Header() {
             {isMenuOpen && (
                 <div
                     id="toggleMenu"
-                    className={`mobile-menu bg-dark-red ${isDesktop ? 'w-1/2' : 'w-full'} absolute text-center`}
+                    className={`mobile-menu bg-dark-red absolute right-0 top-24 ${isDesktop ? 'w-1/3' : 'w-full'}   h-screen transition-transform duration-300 ease-in-out`}
                 >
                     {userAuth?.username && (
                         <div
-                            className={` text-center text-visited-link text-base w-full mt-1em`}
+                            className={` text-center text-visited-link text-base w-full mt-1em m-0.5 px-0.5`}
                         >
-                            Connecté en tant que {userAuth.username} !
+                            Connecté en tant que <br /> {userAuth.username} !
                         </div>
                     )}
                     {/* burger menu links */}
@@ -193,7 +194,7 @@ function Header() {
                         {/* logout */}
                         {userAuth?.username && (
                             <button
-                                className="block py-2 text-left text-skin w-full"
+                                className="block text-center font-body underline text-visited-link w-full mt-0 "
                                 onClick={logout}
                             >
                                 Déconnexion
