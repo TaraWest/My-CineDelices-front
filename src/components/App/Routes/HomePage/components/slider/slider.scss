@@ -4,7 +4,6 @@ img {
 }
 
 .main_slider {
-    width: 90%;
     overflow: hidden;
     position: relative;
     display: flex;
@@ -16,7 +15,10 @@ img {
     border-top-right-radius: 10%;
     border-bottom-left-radius: 10%;
     padding: 0.5em;
+    width: 100%;
     @media (min-width: var.$breakpoint-m) {
+        width: 90%;
+
         padding: 2.5em;
     }
 }
@@ -31,9 +33,7 @@ img {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    @media (min-width: var.$breakpoint-m) {
-        width: 100%;
-    }
+    width: 100%;
 }
 
 .icon-arrow {
