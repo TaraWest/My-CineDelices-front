@@ -36,11 +36,6 @@ function HomePage() {
 
     return (
         <div className="homePage">
-            {userAuth?.username && !isDesktop && (
-                <div className={` text-right text-skin text-base w-full mr-10`}>
-                    Bienvenue {userAuth.username} !
-                </div>
-            )}
             <h1 className="homepage-title">
                 Bienvenue dans Ciné Délices !
                 <br />

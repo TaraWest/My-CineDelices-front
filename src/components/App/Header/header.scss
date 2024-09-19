@@ -41,7 +41,7 @@
     }
 
     .search-bar {
-        @apply absolute top-20 right-0 rounded-2xl text-dark w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto transition-transform duration-300 ease-in-out;
+        @apply absolute top-16 right-0 rounded-2xl text-dark w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto transition-transform duration-300 ease-in-out;
         & input {
             @apply bg-skin rounded-xl pl-2;
             &::placeholder {
@@ -50,7 +50,7 @@
         }
     }
     .search-bar-mobile {
-        @apply absolute top-20 right-0 rounded-2xl text-dark p-2 shadow-md  flex items-center transition-transform duration-300 ease-in-out;
+        @apply absolute top-10 right-0 rounded-2xl text-dark p-2 shadow-md  flex items-center transition-transform duration-300 ease-in-out;
         & input {
             @apply bg-skin rounded-xl pl-2;
             &::placeholder {

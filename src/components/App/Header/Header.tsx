@@ -191,6 +191,16 @@ function Header() {
                                 Admin
                             </Link>
                         )}
+                        {/* profile page */}
+                        {userAuth?.username && (
+                            <Link
+                                to="/profil/me"
+                                className="block py-2"
+                                onClick={closeMenu}
+                            >
+                                Mon profil
+                            </Link>
+                        )}
                         {/* logout */}
                         {userAuth?.username && (
                             <button
