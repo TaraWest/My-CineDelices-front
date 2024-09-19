@@ -1,0 +1,59 @@
+@use '../../../../../styles/variables' as var;
+
+// .form-label {
+//     @apply flex flex-col items-start w-80;
+
+//     @media (min-width: var.$breakpoint-m) {
+//         width: calc(0.55 * #{var.$breakpoint-m});
+//     }
+// }
+.input-pro-container {
+    margin: 5%;
+}
+.input-pro {
+    padding: 0.5em 1em;
+    @apply bg-skin m-4 text-black
+    rounded-2xl 
+    text-dark
+    self-center;
+    @media (min-width: var.$breakpoint-m) {
+        width: calc(0.5 * #{var.$breakpoint-m});
+    }
+}
+.input-pro-error {
+    padding: 0.5em 1em;
+    @apply bg-skin 
+    rounded-2xl 
+    text-dark
+    w-72
+    mt-2
+    self-center;
+    outline: 3px solid gold;
+    @media (min-width: var.$breakpoint-m) {
+        width: calc(0.5 * #{var.$breakpoint-m});
+    }
+}
+
+.button-password {
+    font-family: 'Cinzel', serif;
+    background-color: var.$color-light-red;
+    color: var.$color-skin;
+    padding: 0.2em;
+    border: none;
+    border-radius: 10px;
+    margin-top: 6rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    text-decoration: none;
+
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var.$color-dark-red;
+        color: var.$color-skin;
+        transition-duration: 200ms;
+        font-weight: 600;
+    }
+}

@@ -1,5 +1,5 @@
-import { toast } from 'react-toastify';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { IUser } from '../models';
 
 export async function fetchUser() {
@@ -28,14 +28,11 @@ export async function fetchUser() {
 }
 
 export async function updateUser(userUpdateData: IUser) {
-    console.log('log dans la fonction update', userUpdateData);
-
     try {
         const response = await axios.put(
             'http://localhost:3000/me',
             {
                 // User data to update
-                id: userUpdateData.id,
                 last_name: userUpdateData.last_name,
                 first_name: userUpdateData.first_name,
                 username: userUpdateData.username,
@@ -46,8 +43,8 @@ export async function updateUser(userUpdateData: IUser) {
                 withCredentials: true,
             },
         );
-        if (response.status === 200) {
-            toast.success(response.data.message);
+        if (response.status === 204) {
+            toast.success('Vos informations ont été mises à jour avec succès.');
         }
         // handle error with a toast
         else if (response.status === 404) {
@@ -74,6 +71,9 @@ export async function getUserRecipes() {
         });
         return response.data;
     } catch (error) {
+        toast.error(
+            'Une erreur est survenue lors de la récupération de vos données, veuillez revenir plus tard',
+        );
         console.error(
             'Erreur lors de la récupération des données utilisateur',
             error,
@@ -89,6 +89,53 @@ export async function fetchDeleteRecipe(id: number): Promise<any> {
         toast.success(response.data.message);
         return response.data;
     } catch (error) {
+        toast.error(
+            'Une erreur est survenue lors de la suppression de votre recette',
+        );
         console.error('Erreur lors de la suppression de la recette', error);
+    }
+}
+
+export async function updatePassword(
+    oldPassword: string,
+    newPassword: string,
+    confirmPassword: string,
+): Promise<{ status: number; message: string } | undefined> {
+    try {
+        const response = await axios.put(
+            'http://localhost:3000/update-password',
+            {
+                oldPassword,
+                newPassword,
+                confirmPassword,
+            },
+            {
+                withCredentials: true, // Include cookies for authentication
+            },
+        );
+
+        // Debug server response
+        console.log('Réponse du serveur:', response);
+
+        // Return the status and message in the response
+        return { status: response.status, message: response.data.message };
+    } catch (error) {
+        // Type assertion to handle unknown error type
+        if (axios.isAxiosError(error)) {
+            // Handle Axios-specific errors
+            const status = error.response?.status || 500;
+            const message =
+                error.response?.data.message ||
+                'Erreur lors de la mise à jour du mot de passe';
+            toast.error(message);
+            return { status, message };
+        } else {
+            // Handle other errors
+            toast.error('Erreur lors de la mise à jour du mot de passe');
+            return {
+                status: 500,
+                message: 'Erreur lors de la mise à jour du mot de passe',
+            };
+        }
     }
 }

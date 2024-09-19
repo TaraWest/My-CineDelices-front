@@ -4,7 +4,9 @@ export interface IUser {
     last_name: string;
     username: string;
     email_address: string;
-    // password: string;
+}
+export interface IPassword {
+    password: string;
 }
 
 export interface IRecipe {
