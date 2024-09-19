@@ -4,7 +4,7 @@ export interface IUser {
     last_name: string;
     username: string;
     email_address: string;
-    // password: string;
+    password: string;
 }
 
 export interface IRecipe {

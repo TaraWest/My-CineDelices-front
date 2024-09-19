@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { UserInfoFormProps } from '../models';
 import InputField from './InputField';
+import UpdatePassword from './UpdatePassword';
 
 const UserInfoForm: React.FC<UserInfoFormProps> = ({
     firstName,
     lastName,
     userName,
     email,
-    // password,
     editForm,
     onChange,
     onSubmit,
@@ -22,6 +22,11 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({
             onSubmit(e as any); // Simule un événement de soumission
         }
     };
+    const [seeUpdatePassword, setSeeUpdatePassword] = useState(false);
+
+    function seeModal() {
+        setSeeUpdatePassword(!seeUpdatePassword);
+    }
 
     return (
         <form className="flex m-4 flex-col" onSubmit={onSubmit}>
@@ -57,19 +62,13 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({
                 onChange={onChange}
                 disabled={!editForm}
             />
-            {/* <InputField
-                label="Mot de passe"
-                type="password"
-                name="password"
-                value={password}
-                onChange={onChange}
-     
-                disabled={!editForm}
-            /> */}
-
             <button className="button-link" type="button" onClick={handleClick}>
                 {editForm ? 'Enregistrer les modifications' : 'Modifier'}
             </button>
+            <button className="button-link" type="button" onClick={seeModal}>
+                Modifier mon mot de passe
+            </button>
+            {seeUpdatePassword && <UpdatePassword />}
         </form>
     );
 };

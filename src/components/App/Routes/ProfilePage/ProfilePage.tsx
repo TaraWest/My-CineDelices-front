@@ -3,12 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { getUserRecipes, updateUser } from './services';
 import { IRecipe, IUser } from './models';
-import './ProfilPage.css';
 import RecepiesTab from './components/RecepiesTab';
 import UserInfoForm from './components/UserInfoForm';
 import { useAuthContext } from '../../Context/Authentification/useAuthContext';
 import { fetchDeleteRecipe } from './services';
-import './ProfilPage.css';
 
 function ProfilePage() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
