@@ -50,6 +50,7 @@ function HomePage() {
                 Pas d'idée pour ce soir ? Trouve l'inspiration avec des recettes
                 tirées de tes films et séries préférés !
             </h2>
+
             <ul className="presentation-list">
                 <li className="presentation-list-item">
                     <Link to="/catalogue" className="button-link">

@@ -8,8 +8,6 @@
 
 .header {
     // Base style for the header
-    @apply flex justify-between items-center p-4 bg-dark-red  border-b-2 relative;
-    border-bottom: solid 1px var.$color-skin;
 
     .logo-link {
         @apply no-underline text-xl font-semibold text-skin;
@@ -28,16 +26,6 @@
         @apply text-4xl;
     }
 
-    .link-container {
-        // alignment and spacing
-        @apply flex items-center space-x-2 relative;
-    }
-
-    .icon {
-        // text size
-        @apply text-xl cursor-pointer;
-    }
-
     .user-icon {
         &:visited {
             color: var.$color-skin;
@@ -52,15 +40,28 @@
         margin: 4px 0;
     }
 
-    // Search bar styles
     .search-bar {
-        @apply absolute top-20  text-gray-700 bg-white w-64 transition-transform duration-300 ease-in-out;
+        @apply absolute top-16 right-0 rounded-2xl text-dark w-full max-w-md mx-auto p-2 shadow-md  flex items-center md:w-auto transition-transform duration-300 ease-in-out;
+        & input {
+            @apply bg-skin rounded-xl pl-2;
+            &::placeholder {
+                @apply text-gray-400 italic;
+            }
+        }
     }
-    .mobile-menu {
-        @apply absolute right-0 top-24  w-full h-screen transition-transform duration-300 ease-in-out;
+    .search-bar-mobile {
+        @apply absolute top-10 right-0 rounded-2xl text-dark p-2 shadow-md  flex items-center transition-transform duration-300 ease-in-out;
+        & input {
+            @apply bg-skin rounded-xl pl-2;
+            &::placeholder {
+                @apply text-gray-400 italic;
+            }
+        }
+    }
 
+    .mobile-menu {
         @media (min-width: 768px) {
-            @apply w-1/6; // Apply w-1/2 only on desktop
+            // @apply w-1/6; // Apply w-1/2 only on desktop
         }
 
         .block {
