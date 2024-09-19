@@ -45,7 +45,7 @@
         & input {
             @apply bg-skin rounded-xl pl-2;
             &::placeholder {
-                @apply text-gray-700;
+                @apply text-gray-400 italic;
             }
         }
     }
@@ -54,7 +54,7 @@
         & input {
             @apply bg-skin rounded-xl pl-2;
             &::placeholder {
-                @apply text-gray-700;
+                @apply text-gray-400 italic;
             }
         }
     }

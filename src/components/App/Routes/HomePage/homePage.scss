@@ -31,14 +31,12 @@ li {
 // }
 
 .img_presentation {
-    width: 80%;
-    margin-right: 10%;
+    width: 70%;
     object-fit: cover;
-    width: 150%;
     border-radius: 10%;
-    @media (min-width: var.$breakpoint-m) {
-        max-width: 700px;
-    }
+    // @media (max-width: var.$breakpoint-m) {
+    //     max-width: 80%;
+    // }
 }
 
 .recipe-movie {
@@ -51,22 +49,74 @@ li {
 }
 .homepage-image {
     border-radius: 10%;
+
+    width: 100%;
+    margin: auto;
+    @media (min-width: var.$breakpoint-m) {
+        display: none;
+    }
+    @media (min-width: var.$breakpoint-desktop-s) {
+        display: block;
+        width: 420px;
+    }
+    @media (min-width: var.$breakpoint-desktop-l) {
+        transform: translateX(-10%);
+    }
+}
+
+.homepage-image-desktop {
+    display: none;
+    border-radius: 10%;
+    @media (min-width: var.$breakpoint-m) {
+        display: block;
+        float: right;
+        margin: 2em 0 1em 1em;
+        width: 40%;
+    }
+    @media (min-width: var.$breakpoint-l) {
+        margin: 0.5em 0 0 1em;
+    }
+    @media (min-width: var.$breakpoint-desktop-s) {
+        display: none;
+    }
 }
 
 .presentation {
     text-align: center;
-    margin: auto;
-    /* padding: 10%; */
-    padding-right: 10%;
-    padding-left: 10%;
-    font-size: 1.3rem;
     line-height: 1.6;
+    font-size: 1rem;
+    width: 80%;
+    @media (min-width: var.$breakpoint-m) {
+        width: auto;
+        padding: 0 2em;
+        font-size: 1.3rem;
+        text-align: justify;
+    }
+    @media (min-width: var.$breakpoint-desktop-s) {
+        width: 70%;
+        margin-left: 2em;
+    }
 }
 
 .container {
     display: flex;
-    margin-top: 5%;
-    margin-bottom: 5%;
+    justify-content: space-between;
+    gap: 2em;
+    align-items: center;
+    font-size: 1rem;
+    flex-direction: column-reverse;
+    border: 10px double var.$color-skin;
+    padding: 1em 0;
+    border-radius: 15%;
+    margin: auto;
+    @media (min-width: var.$breakpoint-m) {
+        display: block;
+        padding: 2em;
+    }
+    @media (min-width: var.$breakpoint-desktop-s) {
+        display: flex;
+        flex-direction: row;
+    }
 }
 
 .img-left,
@@ -129,12 +179,28 @@ h4 {
     font-size: 0.9rem;
 }
 
-.presentation-list {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    margin: 1.4em 0;
+.homepage-button {
+    @apply flex w-full justify-around my-2em;
+
+    & button,
+    .homepage-link-button {
+        @apply text-center p-1em text-sm h-16 font-medium;
+        width: 35%;
+    }
+
+    @media (min-width: var.$breakpoint-m) {
+        @apply gap-52 justify-center;
+
+        & button,
+        .homepage-link-button {
+            height: auto;
+            width: 30%;
+            text-align: center;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+    }
 }
 
 .presentation-list-item {
@@ -153,32 +219,9 @@ h4 {
 }
 
 @media (max-width: 768px) {
-    .img_presentation {
-        display: none;
-    }
-    .presentation {
-        font-size: 0.8rem;
-    }
-    .homepage-title {
-        font-size: 0.8rem;
-    }
-    .homepage-subtitle {
-        font-size: 0.8rem;
-    }
-
-    .slider {
-        width: 130%;
-    }
-
     .presentation-list-item {
         font-size: 0.7rem;
         margin: 0.5em;
         margin-top: 10px;
-    }
-}
-
-@media (max-width: 900px) {
-    .img_presentation {
-        display: none;
     }
 }
