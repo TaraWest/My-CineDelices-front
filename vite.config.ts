@@ -1,11 +1,14 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  // test: {
-  //   globals: true,
-  //   environment: 'jsdom',
-  // },
-})
+    plugins: [react()],
+    server: {
+        watch: {
+            usePolling: true, // Utilisation du polling pour détecter les changements de fichiers
+        },
+        hmr: {
+            overlay: false, // Désactivation de l'overlay HMR en cas de problème avec le hot-reloading
+        },
+    },
+});

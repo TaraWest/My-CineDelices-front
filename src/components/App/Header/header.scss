@@ -9,6 +9,7 @@
 .header {
     // Base style for the header
     @apply flex justify-between items-center p-4 bg-dark-red  border-b-2 relative;
+    border-bottom: solid 1px var.$color-skin;
 
     .logo-link {
         @apply no-underline text-xl font-semibold text-skin;
@@ -82,13 +83,7 @@
         }
     }
 
-    @media (max-width: 500px) {
-        .icon .faPlus {
-            @apply inline-block; // Afficher l'icône faPlus sur les petits écrans
-        }
-
-        .icon span {
-            @apply hidden;
-        }
+    .icon span {
+        @apply hidden;
     }
 }
