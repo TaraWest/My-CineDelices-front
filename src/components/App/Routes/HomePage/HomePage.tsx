@@ -47,6 +47,7 @@ function HomePage() {
             <div className="w-11/12 ">
                 <div className="container">
                     <div className="presentation">
+                        {/* for middle devices */}
                         <img
                             className="homepage-image-desktop"
                             src="http://localhost:3000/movies/Cinédelices.webp"
