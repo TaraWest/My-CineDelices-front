@@ -96,8 +96,46 @@ export async function fetchDeleteRecipe(id: number): Promise<any> {
     }
 }
 
-export async function UpdatePassword(): Promise<any> {
+export async function updatePassword(
+    oldPassword: string,
+    newPassword: string,
+    confirmPassword: string,
+): Promise<{ status: number; message: string } | undefined> {
     try {
-        const response = await axios.put('');
-    } catch (error) {}
+        const response = await axios.put(
+            'http://localhost:3000/update-password',
+            {
+                oldPassword,
+                newPassword,
+                confirmPassword,
+            },
+            {
+                withCredentials: true, // Include cookies for authentication
+            },
+        );
+
+        // Debug server response
+        console.log('Réponse du serveur:', response);
+
+        // Return the status and message in the response
+        return { status: response.status, message: response.data.message };
+    } catch (error) {
+        // Type assertion to handle unknown error type
+        if (axios.isAxiosError(error)) {
+            // Handle Axios-specific errors
+            const status = error.response?.status || 500;
+            const message =
+                error.response?.data.message ||
+                'Erreur lors de la mise à jour du mot de passe';
+            toast.error(message);
+            return { status, message };
+        } else {
+            // Handle other errors
+            toast.error('Erreur lors de la mise à jour du mot de passe');
+            return {
+                status: 500,
+                message: 'Erreur lors de la mise à jour du mot de passe',
+            };
+        }
+    }
 }

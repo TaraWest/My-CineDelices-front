@@ -1,39 +1,60 @@
 import { useState } from 'react';
-import { updateUser } from '../services';
+import { updatePassword } from '../services';
 import InputField from './InputField';
+import { toast } from 'react-toastify';
 
-function UpdatePassword() {
+interface UpdatePasswordProps {
+    seeModal: () => void;
+}
+
+const UpdatePassword: React.FC<UpdatePasswordProps> = ({ seeModal }) => {
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
 
-    // Fonction pour mettre à jour les mots de passe
-    const updatePassword = async () => {
-        // Vérifie si les deux nouveaux mots de passe sont identiques
+    const handlePasswordUpdate = async () => {
+        seeModal();
+        console.log('first step');
+
         if (newPassword !== confirmPassword) {
             setError('Les mots de passe ne correspondent pas');
+            console.log('password not the same');
+            toast.error('Les mots de passe ne correspondent pas');
             return;
         }
 
-        // Si les mots de passe correspondent, lance la mise à jour
         try {
-            const response = await updateUser({
-                password: newPassword,
-            });
+            const response = await updatePassword(
+                oldPassword,
+                newPassword,
+                confirmPassword,
+            );
 
-            if (response.status === 204) {
-                setError(''); // Réinitialiser l'erreur
-                // Gérer la réussite de la mise à jour, par ex. afficher un toast
+            if (response && response.status === 204) {
+                setError(''); // Clear error
+                toast.success(
+                    'Votre mot de passe a été mis à jour avec succès.',
+                );
+                console.log('user updated');
+            } else if (response && response.status === 400) {
+                toast.error('Mot de passe incorrect');
+            } else if (response && response.status === 404) {
+                toast.error('Utilisateur non trouvé.');
+            } else {
+                toast.error('Une erreur est survenue. Veuillez réessayer.');
             }
         } catch (err) {
             console.error('Erreur lors de la mise à jour du mot de passe', err);
-            setError('Erreur lors de la mise à jour du mot de passe');
+            toast.error('Erreur lors de la mise à jour du mot de passe');
+            seeModal(); // Close the modal
+            console.log('error');
         }
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 p-8 flex-col bg-black  items-center justify-center z-50">
+            <p>Modification du mot de passe</p>
             <InputField
                 label="Ancien mot de passe"
                 type="password"
@@ -59,17 +80,23 @@ function UpdatePassword() {
                 disabled={false}
             />
 
-            {/* Affiche le message d'erreur si nécessaire */}
             {error && <p className="text-red-500">{error}</p>}
-
-            <button
-                onClick={updatePassword}
-                className="text-sm font-medium text-[#0d0d0d] bg-[#d9c7b8] rounded-lg w-full md:w-32 h-12 flex items-center justify-center hover:bg-[#59041b]"
-            >
-                Modifier
-            </button>
+            <div className="flex space-x-4">
+                <button
+                    onClick={handlePasswordUpdate}
+                    className="text-sm font-medium text-[#0d0d0d] bg-[#d9c7b8] rounded-lg w-full md:w-32 h-12 flex items-center justify-center hover:bg-[#59041b]"
+                >
+                    Modifier
+                </button>
+                <button
+                    onClick={seeModal}
+                    className="text-sm font-medium text-[#0d0d0d] bg-[#d9c7b8] rounded-lg w-full md:w-32 h-12 flex items-center justify-center hover:bg-[#59041b]"
+                >
+                    Annuler
+                </button>
+            </div>
         </div>
     );
-}
+};
 
 export default UpdatePassword;

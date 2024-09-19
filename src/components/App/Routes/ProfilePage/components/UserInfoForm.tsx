@@ -31,7 +31,7 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({
     return (
         <form className="flex m-4 flex-col" onSubmit={onSubmit}>
             <InputField
-                label="Prénom"
+                label="Prénom :"
                 type="text"
                 name="first_name"
                 value={firstName}
@@ -39,7 +39,7 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({
                 disabled={!editForm}
             />
             <InputField
-                label="Nom"
+                label="Nom :"
                 type="text"
                 name="last_name"
                 value={lastName}
@@ -47,7 +47,7 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({
                 disabled={!editForm}
             />
             <InputField
-                label="Pseudo"
+                label="Pseudo :"
                 type="text"
                 name="username"
                 value={userName}
@@ -55,7 +55,7 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({
                 disabled={!editForm}
             />
             <InputField
-                label="Email"
+                label="Email :"
                 type="email"
                 name="email_adress"
                 value={email}
@@ -65,10 +65,14 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({
             <button className="button-link" type="button" onClick={handleClick}>
                 {editForm ? 'Enregistrer les modifications' : 'Modifier'}
             </button>
-            <button className="button-link" type="button" onClick={seeModal}>
+            <button
+                className="button-password"
+                type="button"
+                onClick={seeModal}
+            >
                 Modifier mon mot de passe
             </button>
-            {seeUpdatePassword && <UpdatePassword />}
+            {seeUpdatePassword && <UpdatePassword seeModal={seeModal} />}
         </form>
     );
 };

@@ -4,6 +4,8 @@ export interface IUser {
     last_name: string;
     username: string;
     email_address: string;
+}
+export interface IPassword {
     password: string;
 }
 

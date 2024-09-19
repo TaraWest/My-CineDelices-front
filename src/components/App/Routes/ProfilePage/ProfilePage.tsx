@@ -138,9 +138,9 @@ function ProfilePage() {
                 <button
                     onClick={() => setSwitchTab('1')}
                     className={`px-4 py-2 rounded ${
-                        switchTab
-                            ? 'bg-transparent text-white'
-                            : 'bg-dark-red text-skin'
+                        switchTab === '1'
+                            ? 'bg-dark-red text-skin'
+                            : 'bg-transparent text-skin'
                     }`}
                 >
                     Mes Recettes
@@ -148,9 +148,9 @@ function ProfilePage() {
                 <button
                     onClick={() => setSwitchTab('2')}
                     className={`px-4 py-2 rounded ${
-                        switchTab
+                        switchTab === '2'
                             ? 'bg-dark-red text-skin'
-                            : 'bg-transparent text-white'
+                            : 'bg-transparent text-skin'
                     }`}
                 >
                     Mes Informations personnelles

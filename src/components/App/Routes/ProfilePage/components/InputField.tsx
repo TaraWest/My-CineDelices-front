@@ -1,4 +1,5 @@
 import { InputFieldProps } from '../models';
+import './InputField.scss';
 
 const InputField: React.FC<InputFieldProps> = ({
     label,
@@ -9,10 +10,12 @@ const InputField: React.FC<InputFieldProps> = ({
     disabled,
     error,
 }) => (
-    <div className="input-field-container">
-        <label htmlFor={name}>{label}</label>
+    <div className="input-pro-container">
+        <label className="w-[100px] inline-block" htmlFor={name}>
+            {label}
+        </label>
         <input
-            className={`form-input m-4 text-center text-white ${disabled ? 'bg-transparent' : ''} ${error ? 'border-red-500' : ''}`}
+            className={`input-pro  ${disabled ? 'bg-transparent text-skin' : ''} ${error ? 'input-pro-error' : ''}`}
             type={type}
             id={name}
             name={name}
@@ -21,7 +24,7 @@ const InputField: React.FC<InputFieldProps> = ({
             disabled={disabled}
         />
         {error && <p className="text-white-500">{error}</p>}{' '}
-        {/* Affiche l'erreur si elle existe */}
+        {/* if there is a error */}
     </div>
 );
 
