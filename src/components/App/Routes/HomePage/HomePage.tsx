@@ -54,6 +54,11 @@ function HomePage() {
 
             <div className="container">
                 <div className="presentation">
+                    <img
+                        className="homepage-image-desktop"
+                        src="http://localhost:3000/movies/Cinédelices.webp"
+                        alt=""
+                    />
                     <p>
                         Bienvenue sur CinéDélices, votre destination
                         incontournable pour découvrir des recettes inspirées des
