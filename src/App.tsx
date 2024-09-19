@@ -12,7 +12,7 @@ import { CatalogPage } from './components/App/Routes/CatalogPage/CatalogPage';
 import PageNotFound from './components/App/Routes/404NotFound/PageNotFound';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ContactForm, { Contact } from './components/App/Footer/Contact';
+import ContactForm from './components/App/Footer/Contact';
 import { LegalNotice } from './components/App/Footer/MentionsLegales';
 
 function App() {

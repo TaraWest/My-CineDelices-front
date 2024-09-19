@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUser,
+    faSearch,
+    faUtensils,
+} from '@fortawesome/free-solid-svg-icons';
 import SearchBar from './SearchBar';
-import ReactDOM from 'react-dom';
+
 import './header.scss';
 import { useAuthContext } from '../Context/Authentification/useAuthContext';
-import AddRecipeModal from '../Routes/CatalogPage/components/modal';
-import { Recipes } from '../Routes/CatalogPage/models';
 
 function Header() {
     // If the burger menu is open or closed
@@ -19,7 +21,6 @@ function Header() {
 
     const navigate = useNavigate();
 
-    // Function to toggle the burger menu state
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     // menu closed
@@ -31,10 +32,6 @@ function Header() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
 
     const { userAuth, handleLogout } = useAuthContext();
-
-    // modal
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const toggleModal = () => setIsModalOpen(!isModalOpen);
 
     // redirection link if user is authentificated
     const handleInscriptionClick = () => {
@@ -51,13 +48,8 @@ function Header() {
         closeMenu();
     };
 
-    // modal add recipes
-    const handleAddRecipe = (newRecipe: Recipes) => {
-        console.log('Nouvelle recette ajoutée :', newRecipe);
-    };
-
     return (
-        <div className="header flex justify-between items-center p-5 bg-dark-red text-white border-b-2 relative">
+        <div className="header relative flex justify-between items-center p-5 bg-dark-red text-white border-b-2">
             {/* logo Container */}
             <div className="logo-container text-skin">
                 {/* Link to home page */}
@@ -67,8 +59,11 @@ function Header() {
                 </Link>
             </div>
             {/*show this message when user is authentificated*/}
-            {userAuth?.username && (
-                <div className="userAuth absolute left-1/2 top-16 transform -translate-x-1/2 text-center">
+            {userAuth?.username && isDesktop && (
+                <div
+                    // className={`absolute left-1/2 top-16 transform -translate-x-3/4 text-center text-skin`}
+                    className="text-center text-skin font-semibold text-xl"
+                >
                     Bienvenue {userAuth.username} !
                 </div>
             )}
@@ -88,34 +83,27 @@ function Header() {
                         </div>
                     </Link>
                 )}
-                {/* add recipes icon */}
+                {/* recipes icon */}
                 {(!isSearchOpen || isDesktop) && (
-                    <div
-                        className=" user-icon presentation-list-item"
-                        onClick={toggleModal}
+                    <Link
+                        to={'/catalogue'}
+                        className=" user-icon"
+                        onClick={closeMenu}
                     >
                         <FontAwesomeIcon
-                            icon={faPlus}
+                            icon={faUtensils}
                             className="block sm:hidden"
                         />
-                    </div>
+                    </Link>
                 )}
-                {/* modal with React Portal */}
-                {isModalOpen &&
-                    ReactDOM.createPortal(
-                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                            <AddRecipeModal onAddRecipe={handleAddRecipe} />
-                        </div>,
-                        document.getElementById('modal-root')!,
-                    )}
 
                 {/* text visible on screens larger than 500px */}
                 <Link
-                    to={userAuth?.username ? '/catalogue' : '/connexion'}
-                    className="hidden sm:block cursor-pointer"
+                    to={'/catalogue'}
+                    className=" hidden sm:block button-link"
                     onClick={closeMenu}
                 >
-                    <AddRecipeModal onAddRecipe={handleAddRecipe} />
+                    RECETTES
                 </Link>
 
                 {/* Search Bar */}
@@ -132,12 +120,12 @@ function Header() {
                     <FontAwesomeIcon
                         icon={faSearch}
                         className="cursor-pointer"
-                        onClick={closeMenu}
                     />
                 </div>
 
                 {/* Burger Menu  */}
                 <div
+                    id="toggleMenu"
                     className="burger-menu flex flex-col cursor-pointer"
                     onClick={toggleMenu}
                 >
@@ -150,8 +138,16 @@ function Header() {
             {/* Mobile menu - shown/hidden based on isMenuOpen state */}
             {isMenuOpen && (
                 <div
-                    className={`mobile-menu bg-dark-red ${isDesktop ? 'w-1/2' : 'w-full'} absolute text-align-center`}
+                    id="toggleMenu"
+                    className={`mobile-menu bg-dark-red ${isDesktop ? 'w-1/2' : 'w-full'} absolute text-center`}
                 >
+                    {userAuth?.username && (
+                        <div
+                            className={` text-center text-visited-link text-base w-full mt-1em`}
+                        >
+                            Connecté en tant que {userAuth.username} !
+                        </div>
+                    )}
                     {/* burger menu links */}
                     <div className="p-4" style={{ textAlign: 'center' }}>
                         <Link to="/" className="block py-2" onClick={closeMenu}>
@@ -164,38 +160,31 @@ function Header() {
                         >
                             Catalogue
                         </Link>
-                        <Link
-                            to={
-                                userAuth?.username ? '/profil/me' : '/connexion'
-                            }
-                            className="block py-2"
-                            onClick={closeMenu}
-                        >
-                            Connexion
-                        </Link>
-                        <Link
-                            to={
-                                userAuth?.username
-                                    ? '/profil/me'
-                                    : '/inscription'
-                            }
-                            className="block py-2"
-                            onClick={handleInscriptionClick}
-                        >
-                            Inscription
-                        </Link>
-                        <Link
-                            to="/inscription"
-                            className="block py-2"
-                            onClick={closeMenu}
-                        >
-                            Proposer une recette
-                        </Link>
+
+                        {!userAuth && (
+                            <div>
+                                <Link
+                                    to="/connexion"
+                                    className="block py-2"
+                                    onClick={closeMenu}
+                                >
+                                    Connexion
+                                </Link>
+                                <Link
+                                    to="/inscription"
+                                    className="block py-2"
+                                    onClick={handleInscriptionClick}
+                                >
+                                    Inscription
+                                </Link>
+                            </div>
+                        )}
+
                         {/* Link to admin page */}
                         {userAuth?.role_id === 1 && (
                             <Link
                                 to="http://localhost:3000/admin"
-                                className="block py-2"
+                                className="block py-2 text-visited-link"
                                 onClick={closeMenu}
                             >
                                 Admin

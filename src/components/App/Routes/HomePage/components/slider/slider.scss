@@ -1,13 +1,21 @@
+@use '../../../../../../styles/variables' as var;
 img {
     width: 100%;
 }
 
 .main_slider {
-    width: 90%;
+    width: 70%;
     overflow: hidden;
     position: relative;
     display: flex;
     margin: 1em 0;
+    border-radius: 5%;
+    border-right: 10px double var.$color-skin;
+    border-bottom: 10px double var.$color-skin;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10%;
+    border-bottom-left-radius: 10%;
+    padding: 2.5em;
 }
 
 // .slider-container {
@@ -54,7 +62,7 @@ img {
 .img-left,
 .img-right {
     position: relative;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 3s ease-in-out;
 }
 
 .img-img-left {
@@ -65,8 +73,20 @@ img {
     border-top-right-radius: 15px;
 }
 
-@media (min-width: 600px) {
+@media (max-width: 900px) {
     .icon-arrow {
-        padding: 15px;
+        display: none;
+    }
+    .inspiration-subtitle {
+        display: none;
+    }
+}
+
+@media (max-width: 375px) {
+    .inspiration-subtitle {
+        display: none;
+    }
+    .icon-arrow {
+        display: none;
     }
 }

@@ -6,9 +6,13 @@ import { fetchOneRandom } from './services';
 import './components/slider/slider.scss';
 import './homePage.scss';
 import AddRecipeModal from '../CatalogPage/components/modal';
+import { useAuthContext } from '../../Context/Authentification/useAuthContext';
+import { useMediaQuery } from 'react-responsive';
 
 function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);
+    const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
+    const { userAuth } = useAuthContext();
 
     // Fonction pour gérer l'ajout d'une recette
     const handleAddRecipe = (newRecipe: any) => {
@@ -32,6 +36,11 @@ function HomePage() {
 
     return (
         <div className="homePage">
+            {userAuth?.username && !isDesktop && (
+                <div className={` text-right text-skin text-base w-full mr-10`}>
+                    Bienvenue {userAuth.username} !
+                </div>
+            )}
             <h1 className="homepage-title">
                 Bienvenue dans Ciné Délices !
                 <br />
@@ -51,45 +60,34 @@ function HomePage() {
                     <AddRecipeModal onAddRecipe={handleAddRecipe} />{' '}
                 </li>
             </ul>
-            <p>Bon appétit et bon visionnage !</p>
-            <div className="img_presentation">
-                <img
-                    className="homepage-image"
-                    src="http://localhost:3000/movies/Jack-small.webp"
-                    alt=""
-                />
-            </div>
-            <div className="inspiration">
-                <h3>Envie d'un dîner original ?</h3>
-                <div className="img-container">
-                    <div className="img-left">
-                        <img
-                            src={`http://localhost:3000/recipes/${data?.picture}`}
-                            alt={`image illustrant la recette : ${data?.name}`}
-                            className="random-img random-img-left"
-                        />
-                        <p className="inspiration-subtitle">
-                            Ce soir c'est "{data.name}"
-                        </p>
-                    </div>
-                    <div className="img-right">
-                        <img
-                            src={`http://localhost:3000/movies/${data?.Movie?.picture}`}
-                            alt={`image illustrant le film  : ${data?.Movie?.name}`}
-                            className="random-img random-img-right"
-                        />
-                        <p className="inspiration-subtitle">
-                            En regardant : {data.Movie?.name}
-                        </p>
-                    </div>
+
+            <div className="container">
+                <div className="presentation">
+                    <p>
+                        Bienvenue sur CinéDélices, votre destination
+                        incontournable pour découvrir des recettes inspirées des
+                        films cultes ! Plongez dans l'univers cinématographique
+                        à travers les plats emblématiques qui ont marqué
+                        l'histoire du grand écran. Chaque recette est
+                        soigneusement recréée pour vous permettre de goûter à la
+                        magie des scènes les plus gourmandes. Que vous soyez fan
+                        de banquets fantastiques, de festins royaux ou de petits
+                        plats simples mais mémorables, nous vous invitons à
+                        cuisiner comme vos personnages préférés. Préparez-vous à
+                        allier passion du cinéma et plaisir de la table ! Bon
+                        appétit et bon film !
+                    </p>
                 </div>
-                <Link
-                    to={`/recette/${data.id}`}
-                    className="button-link discover-recipe-button"
-                >
-                    Découvre la recette
-                </Link>
+
+                <div className="img_presentation">
+                    <img
+                        className="homepage-image"
+                        src="http://localhost:3000/movies/Cinédelices.webp"
+                        alt=""
+                    />
+                </div>
             </div>
+
             <h4>
                 Met ton plus beau tablier et prépare ta soirée avec notre
                 proposition !

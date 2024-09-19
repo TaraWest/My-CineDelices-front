@@ -46,7 +46,7 @@ export const AuthProvider = ({
     useEffect(() => {
         const storedIsAuth = sessionStorage.getItem('isAuth');
         if (storedIsAuth === 'true') {
-            getUserData()
+            getUserData(navigate)
                 .then((data) => {
                     setUserAuth(data);
                     setIsAuth(true);
@@ -54,6 +54,8 @@ export const AuthProvider = ({
                 .catch((error) => {
                     setIsAuth(false);
                     setUserAuth(null);
+                    sessionStorage.removeItem('isAuth');
+                    navigate('/login');
                     return error;
                 });
         }
@@ -70,7 +72,7 @@ export const AuthProvider = ({
 
                 setIsAuth(true);
                 sessionStorage.setItem('isAuth', 'true');
-                return getUserData();
+                return getUserData(navigate);
             })
             .then((data) => {
                 if (data) {

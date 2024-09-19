@@ -1,5 +1,5 @@
 export const recipeReducer = (state, action) => {
-    switch (action.type) {
+    switch (action.actionType) {
         case 'SET_FIELD':
             return {
                 ...state,

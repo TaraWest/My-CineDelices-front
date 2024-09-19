@@ -1,6 +1,6 @@
-import { IRecipe } from '../models';
+import { IState } from '../models';
 
-export const getInputsRecipeForm = (data: IRecipe) => [
+export const getInputsRecipeForm = (data: IState) => [
     {
         tag: 'input',
         label: 'Nom de la recette',
@@ -28,7 +28,11 @@ export const getInputsRecipeForm = (data: IRecipe) => [
         tag: 'select',
         label: 'Difficulté',
         name: 'difficulty',
-        option: [{ name: 'Facile' }, { name: 'Moyen' }, { name: 'Difficile' }],
+        option: [
+            { id: 'Facile', name: 'Facile' },
+            { id: 'Moyen', name: 'Moyen' },
+            { id: 'Difficile', name: 'Difficile' },
+        ],
         value: data.difficulty,
     },
     {

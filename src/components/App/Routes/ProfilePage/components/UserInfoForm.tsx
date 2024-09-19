@@ -63,6 +63,7 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({
                 name="password"
                 value={password}
                 onChange={onChange}
+     
                 disabled={!editForm}
             /> */}
 

@@ -33,7 +33,7 @@ export interface InputFieldProps {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     disabled: boolean;
-    error?: string; // message d'erreur optionnel
+    error?: string;
 }
 
 export interface UserInfoFormProps {

@@ -127,7 +127,7 @@ export const Catalog = () => {
                             return (
                                 <div
                                     key={recipe.id}
-                                    className="bg-[#59041b] shadow rounded-lg overflow-hidden h-full flex flex-col"
+                                    className="bg-[#59041b] shadow rounded-lg overflow-hidden h-full flex flex-col justify-stretch"
                                     style={{
                                         boxShadow: '0px 0px 15px #d9c7b8',
                                     }}
