@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { IRecipe } from './models';
 import Slider from './components/slider/slider';
@@ -13,6 +13,7 @@ function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
     const { userAuth } = useAuthContext();
+    const navigate = useNavigate();
 
     // Fonction pour gérer l'ajout d'une recette
     const handleAddRecipe = (newRecipe: any) => {
@@ -41,29 +42,23 @@ function HomePage() {
                     Bienvenue {userAuth.username} !
                 </div>
             )}
-            <h1 className="homepage-title">
+            <h1 className="homepage-title mb-2em">
                 Bienvenue dans Ciné Délices !
                 <br />
                 Plongez dans un univers où la cuisine rencontre le cinéma...
             </h1>
-            <h2 className="homepage-subtitle">
+            <h2 className="homepage-subtitle mb-2em">
                 Pas d'idée pour ce soir ? Trouve l'inspiration avec des recettes
                 tirées de tes films et séries préférés !
             </h2>
 
-            <ul className="presentation-list">
-                <li className="presentation-list-item">
-                    <Link to="/catalogue" className="button-link">
-                        Nos recettes
-                    </Link>
-                </li>
-                <li className="presentation-list-item">
-                    <AddRecipeModal onAddRecipe={handleAddRecipe} />{' '}
-                </li>
-            </ul>
-
             <div className="container">
                 <div className="presentation">
+                    <img
+                        className="homepage-image-desktop"
+                        src="http://localhost:3000/movies/Cinédelices.webp"
+                        alt=""
+                    />
                     <p>
                         Bienvenue sur CinéDélices, votre destination
                         incontournable pour découvrir des recettes inspirées des
@@ -87,6 +82,18 @@ function HomePage() {
                         alt=""
                     />
                 </div>
+            </div>
+
+            <div className="homepage-button">
+                <button
+                    className="button-link homepage-link-button"
+                    onClick={() => {
+                        navigate('/catalogue');
+                    }}
+                >
+                    Nos recettes
+                </button>
+                <AddRecipeModal onAddRecipe={handleAddRecipe} />{' '}
             </div>
 
             <h4>

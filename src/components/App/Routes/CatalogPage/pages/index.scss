@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.dish-filter {
+    @apply flex justify-center items-center gap-4;
+}
+
+.catalog-title {
+    @apply text-4xl font-extrabold mb-8 text-center cursor-pointer text-[#0d0d0d] shadow-lg shadow-black border-2 border-[#0d0d0d] bg-[#d9c7b8] rounded-lg p-4;
+
+    @media (min-width: 370px) {
+        @apply text-5xl;
+    }
+}
+
+.button-group {
+    @apply flex flex-col;
+    @media (min-width: 400px) {
+        @apply flex-row gap-4;
+    }
+}
+
+// .filter-button {
+//     @apply text-sm font-medium text-[#0d0d0d] bg-[#d9c7b8] border border-gray-300 rounded-lg px-4 py-2 hover:bg-[#59041b] w-full md:w-32;
+// }

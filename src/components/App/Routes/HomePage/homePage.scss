@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px;
 }
 
 .homepage-title {
@@ -71,7 +72,7 @@ li {
         display: block;
         float: right;
         margin: 2em 0 1em 1em;
-        width: 40%;
+        width: 50%;
     }
     @media (min-width: var.$breakpoint-l) {
         margin: 0.5em 0 0 1em;
@@ -107,7 +108,10 @@ li {
     flex-direction: column-reverse;
     border: 10px double var.$color-skin;
     padding: 1em 0;
-    border-radius: 15%;
+    border-top-left-radius: 15%;
+    border-top-right-radius: 15%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     margin: auto;
     @media (min-width: var.$breakpoint-m) {
         display: block;
