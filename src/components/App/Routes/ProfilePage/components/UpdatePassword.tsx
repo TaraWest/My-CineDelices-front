@@ -53,7 +53,7 @@ const UpdatePassword: React.FC<UpdatePasswordProps> = ({ seeModal }) => {
     };
 
     return (
-        <div className="fixed inset-0 p-8 flex-col bg-black  items-center justify-center z-50">
+        <div className="fixed inset-0 p-8 flex flex-col bg-dark-red  items-center justify-center items-center z-50">
             <p>Modification du mot de passe</p>
             <InputField
                 label="Ancien mot de passe"
