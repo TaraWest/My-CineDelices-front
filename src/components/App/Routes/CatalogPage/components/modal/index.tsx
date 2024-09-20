@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import './index.scss';
 
 interface AddRecipeModalProps {
     onAddRecipe: (newRecipe: any) => void;
@@ -168,26 +169,27 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
             {isOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg w-full max-w-2xl p-6 max-h-screen overflow-y-auto">
-                        <h2 className="text-2xl font-bold mb-4 text-center">
+                    <div className="modal-body">
+                        <h2 className="text-2xl font-bold text-gold font-cinzel mb-4 text-center">
                             Ajouter une recette
                         </h2>
 
                         {error && (
-                            <div className="text-red-500 mb-4">{error}</div>
+                            <div className="text-light-red mb-4">{error}</div>
                         )}
 
                         <form onSubmit={submitForm}>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {/* Recipe name */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label className="recipe-modal-label">
                                         Nom de la recette
                                     </label>
                                     <input
                                         name="name"
                                         type="text"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        className="recipe-modal-input"
+                                        placeholder="Nom de la recette"
                                         required
                                     />
                                 </div>
@@ -195,12 +197,12 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                 {/* Recipe picture */}
                                 <div>
                                     <label
-                                        className={`block text-sm font-medium ${
+                                        className={`recipe-modal-label ${
                                             isFileRecipeSelected === null
-                                                ? 'text-gray-700' // Couleur normale quand aucun fichier n'est sélectionné
+                                                ? 'text-gold' // Couleur normale quand aucun fichier n'est sélectionné
                                                 : isFileRecipeSelected
-                                                  ? 'text-green-600' // Texte vert si un fichier est sélectionné
-                                                  : 'text-red-600' // Texte rouge si aucun fichier n'est sélectionné
+                                                  ? 'text-skin' // Texte vert si un fichier est sélectionné
+                                                  : 'text-light-red' // Texte rouge si aucun fichier n'est sélectionné
                                         }`}
                                     >
                                         {isFileRecipeSelected === null
@@ -218,7 +220,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                                 ? 'border-gray-300' // Initial state (no file selected yet)
                                                 : isFileRecipeSelected
                                                   ? 'border-green-500' // Green border if a file is selected
-                                                  : 'border-red-500' // Red border if no file is selected
+                                                  : 'border-light-red' // Red border if no file is selected
                                         }`}
                                         onChange={handleFileChange}
                                     />
@@ -226,13 +228,14 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
                                 {/* Movie name */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label className="recipe-modal-label">
                                         Nom du film associé
                                     </label>
                                     <input
                                         name="movie_name"
                                         type="text"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        className="recipe-modal-input"
+                                        placeholder="Nom du film"
                                         required
                                     />
                                 </div>
@@ -240,12 +243,12 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                 {/* Movie picture */}
                                 <div>
                                     <label
-                                        className={`block text-sm font-medium ${
+                                        className={`recipe-modal-label ${
                                             isFileMovieSelected === null
-                                                ? 'text-gray-700' // Couleur normale quand aucun fichier n'est sélectionné
+                                                ? 'text-gold' // Couleur normale quand aucun fichier n'est sélectionné
                                                 : isFileMovieSelected
-                                                  ? 'text-green-600' // Texte vert si un fichier est sélectionné
-                                                  : 'text-red-600' // Texte rouge si aucun fichier n'est sélectionné
+                                                  ? 'text-skin' // Texte vert si un fichier est sélectionné
+                                                  : 'text-light-red' // Texte rouge si aucun fichier n'est sélectionné
                                         }`}
                                     >
                                         {isFileMovieSelected === null
@@ -263,7 +266,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                                 ? 'border-gray-300' // Initial state (no file selected yet)
                                                 : isFileMovieSelected
                                                   ? 'border-green-500' // Green border if a file is selected
-                                                  : 'border-red-500' // Red border if no file is selected
+                                                  : 'border-light-red' // Red border if no file is selected
                                         }`}
                                         onChange={handleMovieFileChange}
                                     />
@@ -271,12 +274,12 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
                                 {/* Category */}
                                 <div className="sm:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label className="recipe-modal-label">
                                         Catégorie
                                     </label>
                                     <select
                                         name="category_id"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        className="recipe-modal-input"
                                         required
                                     >
                                         <option value="1">Film</option>
@@ -287,12 +290,12 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
                                 {/* Dishtype */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label className="recipe-modal-label">
                                         Type de recette
                                     </label>
                                     <select
                                         name="dish_types_id"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        className="recipe-modal-input"
                                         required
                                     >
                                         <option value="1">Boisson</option>
@@ -303,12 +306,12 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
                                 {/* Difficulty */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label className="recipe-modal-label">
                                         Difficulté
                                     </label>
                                     <select
                                         name="difficulty"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        className="recipe-modal-input"
                                         required
                                     >
                                         <option>Facile</option>
@@ -319,31 +322,32 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
                                 {/* Total duration */}
                                 <div className="sm:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label className="recipe-modal-label">
                                         Durée totale de la recette
                                     </label>
                                     <input
                                         name="total_duration"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        className="recipe-modal-input"
                                         placeholder="En minutes"
                                     />
                                 </div>
 
                                 {/* Anecdote */}
                                 <div className="sm:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label className="recipe-modal-label">
                                         Anecdote
                                     </label>
                                     <textarea
                                         name="anecdote"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                                        className="recipe-modal-input"
+                                        placeholder="Entrez une anecdote au sujet de la recette ou du film"
                                         rows={2}
                                     ></textarea>
                                 </div>
 
                                 {/* Ingrédients */}
                                 <div className="sm:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label className="recipe-modal-label">
                                         Ingrédients de la recette
                                     </label>
                                     {ingredients.map((ingredient, index) => (
@@ -361,7 +365,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                                         e.target.value,
                                                     )
                                                 }
-                                                className="block w-full p-2 border border-gray-300 rounded"
+                                                className="recipe-modal-input"
                                                 placeholder="Nom de l'ingrédient"
                                                 required
                                             />
@@ -375,7 +379,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                                         e.target.value,
                                                     )
                                                 }
-                                                className="block w-full p-2 border border-gray-300 rounded"
+                                                className="recipe-modal-input"
                                                 placeholder="Quantité"
                                                 required
                                             />
@@ -384,7 +388,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                                 onClick={() =>
                                                     removeIngredient(index)
                                                 }
-                                                className="bg-red-500 text-white rounded px-4"
+                                                className="bg-light-red text-white rounded-xl px-4"
                                             >
                                                 Supprimer
                                             </button>
@@ -393,7 +397,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     <button
                                         type="button"
                                         onClick={addIngredient}
-                                        className="bg-blue-600 text-white rounded px-4 py-2 mt-2"
+                                        className="bg-dark text-skin rounded-xl px-4 py-2 mt-2"
                                     >
                                         Ajouter un ingrédient
                                     </button>
@@ -401,7 +405,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
 
                                 {/* Preparation steps */}
                                 <div className="sm:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label className="recipe-modal-label">
                                         Étapes de préparation
                                     </label>
                                     {preparationSteps.map((step, index) => (
@@ -419,7 +423,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                                         e.target.value,
                                                     )
                                                 }
-                                                className="block w-full p-2 border border-gray-300 rounded"
+                                                className="recipe-modal-input"
                                                 placeholder="Détail de l'étape"
                                                 required
                                             />
@@ -433,7 +437,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                                         e.target.value,
                                                     )
                                                 }
-                                                className="block w-full p-2 border border-gray-300 rounded"
+                                                className="recipe-modal-input"
                                                 placeholder="Position"
                                                 min={1}
                                                 required
@@ -443,7 +447,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                                 onClick={() =>
                                                     removePreparationStep(index)
                                                 }
-                                                className="bg-red-500 text-white rounded px-4"
+                                                className="bg-light-red text-white rounded-xl px-4"
                                             >
                                                 Supprimer
                                             </button>
@@ -452,7 +456,7 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                     <button
                                         type="button"
                                         onClick={addPreparationStep}
-                                        className="bg-blue-600 text-white rounded px-4 py-2 mt-2"
+                                        className="bg-dark text-skin rounded-xl px-4 py-2 mt-2"
                                     >
                                         Ajouter une étape
                                     </button>
@@ -464,13 +468,13 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                                 <button
                                     type="button"
                                     onClick={toggleModal}
-                                    className="bg-gray-500 text-white font-medium py-2 px-4 rounded"
+                                    className="bg-light-red text-white rounded-xl px-4"
                                 >
                                     Annuler
                                 </button>
                                 <button
                                     type="submit"
-                                    className="bg-blue-600 text-white font-medium py-2 px-4 rounded"
+                                    className="bg-skin text-dark font-medium py-2 px-4 rounded-xl"
                                 >
                                     Valider
                                 </button>

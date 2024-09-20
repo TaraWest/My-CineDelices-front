@@ -33,15 +33,6 @@ function Header() {
 
     const { userAuth, handleLogout } = useAuthContext();
 
-    // redirection link if user is authentificated
-    const handleInscriptionClick = () => {
-        if (userAuth?.username) {
-            navigate('/profil/me');
-        } else {
-            navigate('/inscription');
-        }
-    };
-
     // function to close burger menu after logout
     const logout = () => {
         handleLogout();
@@ -174,7 +165,7 @@ function Header() {
                                 <Link
                                     to="/inscription"
                                     className="block py-2"
-                                    onClick={handleInscriptionClick}
+                                    onClick={closeMenu}
                                 >
                                     Inscription
                                 </Link>

@@ -1,0 +1,60 @@
+@use '../../../../../../styles/variables' as var;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.modal-body {
+    @apply bg-light-grey rounded-2xl border-8 border-double border-skin w-full max-w-2xl p-6 max-h-screen overflow-y-auto;
+    scrollbar-color: var.$color-dark;
+    &::-webkit-scrollbar {
+        width: 12px; /* Largeur de la barre de défilement */
+    }
+    &::-webkit-scrollbar-track {
+        background-color: #80808034;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var.$color-dark;
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: var.$color-skin; /* Couleur de la barre au survol */
+    }
+    & button:hover {
+        background-color: var.$color-light-grey;
+        color: var.$color-gold;
+    }
+    & textarea::placeholder {
+        position: absolute;
+        top: -25px;
+        @media (min-width: 680px) {
+            top: -15px;
+            left: 60px;
+        }
+    }
+}
+
+.recipe-modal-label {
+    @apply block text-base font-medium text-gold;
+}
+
+.recipe-modal-input {
+    @apply mt-1 block w-full p-2 border border-gray-300 rounded-xl text-dark;
+    background-color: #d9c7b8ab;
+    &::placeholder {
+        @apply text-gray-400 italic;
+    }
+}
+
+.modal-body select {
+    @apply text-dark;
+}
+
+.modal-body input[type='number'] {
+    @apply text-dark;
+}
+
+.modal-body input[type='file'] {
+    @apply text-skin;
+}

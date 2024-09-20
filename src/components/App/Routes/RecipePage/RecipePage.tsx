@@ -20,6 +20,7 @@ import { useMediaQuery } from 'react-responsive';
 import CommentComponent from './components/CommentComponent/CommentComponent';
 import DeleteModal from './components/DeleteModal';
 import { toast } from 'react-toastify';
+import AddRecipeModal from '../CatalogPage/components/modal';
 
 function RecipePage() {
     // récupération de l'id fourni par l'url de la page catalogue
@@ -116,6 +117,9 @@ function RecipePage() {
                 });
         }
     }, [dataFetch, userLikedIt]);
+    function onAddRecipe() {
+        console.log('modale ok');
+    }
 
     function handleLikeRecipeButton() {
         console.log(!userLikedIt);
@@ -304,10 +308,10 @@ function RecipePage() {
             <footer className="m-1.5em text-center italic flex flex-col items-center">
                 {isAuth && isRecipeOwner && (
                     <div className="flex items-center gap-5">
-                        <UpdateRecipeModal
+                        {/* <UpdateRecipeModal
                             recipeData={dataFetch}
                             setDataFetch={setDataFetch}
-                        ></UpdateRecipeModal>
+                        ></UpdateRecipeModal> */}
                         <button onClick={() => setModalIsOpen(true)}>
                             Supprimer ma recette
                         </button>
@@ -327,9 +331,10 @@ function RecipePage() {
                     </Link>
                 )}
                 {isAuth && (
-                    <Link to="/catalogue" className="my-1em">
-                        C'est par ici!{' '}
-                    </Link>
+                    // <Link to="/profil/me" className="my-1em">
+                    //     C'est par ici!{' '}
+                    // </Link>
+                    <AddRecipeModal onAddRecipe={onAddRecipe}></AddRecipeModal>
                 )}
 
                 <div className="w-full">
