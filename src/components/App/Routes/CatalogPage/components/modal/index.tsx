@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useState } from 'react';
 import './index.scss';
+import { useAuthContext } from '../../../../Context/Authentification/useAuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface AddRecipeModalProps {
     onAddRecipe: (newRecipe: any) => void;
@@ -28,7 +30,12 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
         { step: '', step_position: 1 },
     ]);
 
-    const toggleModal = () => setIsOpen(!isOpen);
+    const { isAuth } = useAuthContext();
+    const navigate = useNavigate();
+
+    const toggleModal = () => {
+        setIsOpen(!isOpen);
+    };
 
     // Function to convert an image to base64
     const convertToBase64 = (
@@ -167,7 +174,29 @@ const AddRecipeModal = ({ onAddRecipe }: AddRecipeModalProps) => {
                 Ajouter une recette
             </button>
 
-            {isOpen && (
+            {isOpen && !isAuth && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="modal-body">
+                        <h2 className="text-2xl font-bold text-gold font-cinzel mb-4 text-center">
+                            Il faut d'abord s'inscrire et se connecter avant de
+                            pouvoir ajouter une recette
+                        </h2>
+                        <div className="flex gap-4">
+                            <button onClick={() => setIsOpen(false)}>
+                                Retour au site
+                            </button>
+                            <button onClick={() => navigate('/inscription')}>
+                                S'inscrire
+                            </button>
+                            <button onClick={() => navigate('/connexion')}>
+                                Se connecter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isOpen && isAuth && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="modal-body">
                         <h2 className="text-2xl font-bold text-gold font-cinzel mb-4 text-center">

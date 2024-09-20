@@ -325,17 +325,8 @@ function RecipePage() {
                     likesNumber={likesNumber}
                 ></LikeButton>
                 <p className="mt-0.5em">Une recette à proposer?</p>
-                {!isAuth && (
-                    <Link to="/connexion" className="my-1em">
-                        Connectez vous!
-                    </Link>
-                )}
-                {isAuth && (
-                    // <Link to="/profil/me" className="my-1em">
-                    //     C'est par ici!{' '}
-                    // </Link>
-                    <AddRecipeModal onAddRecipe={onAddRecipe}></AddRecipeModal>
-                )}
+
+                <AddRecipeModal onAddRecipe={onAddRecipe}></AddRecipeModal>
 
                 <div className="w-full">
                     <CommentComponent
