@@ -23,17 +23,13 @@ img {
     }
 }
 
-// .slider-container {
-//     display: flex;
-//     width: 100%;
-// }
-
 .slider {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
+    animation: ease-in-out;
 }
 
 .icon-arrow {
@@ -69,6 +65,13 @@ img {
 .img-right {
     position: relative;
     transition: transform 3s ease-in-out;
+}
+
+.img-img-left:hover,
+.img-img-right:hover {
+    transform: scale(1.1);
+    transition: 1s;
+    cursor: pointer;
 }
 
 .img-img-left {

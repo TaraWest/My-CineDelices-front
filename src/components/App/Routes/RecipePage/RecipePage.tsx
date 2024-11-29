@@ -1,10 +1,9 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './RecipePage.scss';
 import { useEffect, useState } from 'react';
 import { IIngredientsList, IRecipe } from './models';
 
 import { extractNumber } from './services/numberExtraction';
-import UpdateRecipeModal from './components/UpdateRecipeModal';
 import { useAuthContext } from '../../Context/Authentification/useAuthContext';
 
 import LikeButton from './components/LikeButton';

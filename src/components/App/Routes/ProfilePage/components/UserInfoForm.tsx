@@ -23,6 +23,7 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({
         }
     };
     const [seeUpdatePassword, setSeeUpdatePassword] = useState(false);
+    const [nouveauEmail, setNouveauEmail] = useState({ email });
 
     function seeModal() {
         setSeeUpdatePassword(!seeUpdatePassword);
@@ -65,11 +66,11 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({
             <button className="button-link" type="button" onClick={handleClick}>
                 {editForm ? 'Enregistrer les modifications' : 'Modifier'}
             </button>
-            <button
-                className="button-password"
-                type="button"
-                onClick={seeModal}
-            >
+            <div className=""></div>
+            <h3 className="mt-100 border-b-10 border-t-10 border-white-500 text-white-500">
+                Danger Zone
+            </h3>
+            <button className="" type="button" onClick={seeModal}>
                 Modifier mon mot de passe
             </button>
             {seeUpdatePassword && <UpdatePassword seeModal={seeModal} />}

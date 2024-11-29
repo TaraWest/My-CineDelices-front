@@ -72,8 +72,12 @@ function LoginPage() {
                 <button className="form-button">Se connecter</button>
             </form>
             <div className="flex flex-col items-center">
-                <p>Pas encore inscrit?</p>
-                <Link to="/inscription" className="my-1em">
+                <p>Pas encore inscrit ?</p>
+                <Link
+                    to="/inscription"
+                    className="my-1em text-skin "
+                    style={{ color: 'var(--color-skin)' }}
+                >
                     Inscrivez vous!
                 </Link>
             </div>

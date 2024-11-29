@@ -28,12 +28,20 @@ function Footer() {
                 />
             </svg>
             <div className="grid gap-4 grid-cols-3 justify-center items-center text-center">
-                <Link className="no-underline" to="/mentions-legales">
+                <Link
+                    className="no-underline text-skin"
+                    style={{ color: 'var(--color-skin)' }}
+                    to="/mentions-legales"
+                >
                     Mentions légales
                 </Link>
                 <div> © 2024 CinéDélices. Tous droits réservés. </div>
 
-                <Link className="no-underline" to="/contact">
+                <Link
+                    className="no-underline text-skin"
+                    style={{ color: 'var(--color-skin)' }}
+                    to="/contact"
+                >
                     Contact
                 </Link>
             </div>

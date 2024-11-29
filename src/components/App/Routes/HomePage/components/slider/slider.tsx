@@ -1,36 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { IRecipe } from '../../models';
-import './slider.scss'; // Assure-toi que le style est bien géré
+import './slider.scss';
 
 function RecipeSlider() {
     const [tenRecipes, setTenRecipes] = useState<IRecipe[]>([]);
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [transitionState, setTransitionState] = useState<string>('active');
 
-    // Fonction pour passer à la slide suivante
+    // Function for next slide
     function nextSlide() {
-        setTransitionState('exit'); // Démarre la transition de sortie
+        setTransitionState('exit'); // Begins the exit transition
         setTimeout(() => {
             setCurrentIndex((currentIndex + 1) % tenRecipes.length);
-            setTransitionState('enter'); // Démarre la transition d'entrée
-        }, 500); // Attendre que l'animation de sortie soit terminée
+            setTransitionState('enter'); // Begins the enter transition
+        }, 500); // Wait that the exit transition is complete
     }
 
-    // Fonction pour revenir à la slide précédente
+    // Function for previous slide
     function previousSlide() {
-        setTransitionState('exit'); // Démarre la transition de sortie
+        setTransitionState('exit');
         setTimeout(() => {
             setCurrentIndex(
                 (currentIndex - 1 + tenRecipes.length) % tenRecipes.length,
             );
-            setTransitionState('enter'); // Démarre la transition d'entrée
-        }, 500); // Attendre que l'animation de sortie soit terminée
+            setTransitionState('enter');
+        }, 500);
     }
 
-    // Fonction pour récupérer les 10 recettes de l'API
+    // Function for fetching 10 recipies random
     async function fetchTenRecipes() {
         try {
             const response = await fetch(
@@ -46,21 +46,26 @@ function RecipeSlider() {
         }
     }
 
-    // Effet pour récupérer les recettes à l'initialisation du composant
+    // When the composant is loaded, fetch 10 random recipes
     useEffect(() => {
         fetchTenRecipes();
     }, []);
 
-    // Autoplay pour faire défiler automatiquement les slides
+    // Callback for next slide
+    const nextSlideCallback = useCallback(nextSlide, [
+        currentIndex,
+        tenRecipes.length,
+    ]);
+    // Autoplay of the slider
     useEffect(() => {
         const interval = setInterval(() => {
-            nextSlide();
-        }, 3000); // Change toutes les 3 secondes
+            nextSlideCallback();
+        }, 5000); // Change the slide every 5 seconds
 
-        return () => clearInterval(interval); // Nettoie l'intervalle à la fin du cycle
-    }, [currentIndex, tenRecipes.length]);
+        return () => clearInterval(interval); // Clean up the interval on component
+    }, [currentIndex, tenRecipes.length, nextSlideCallback]);
 
-    // Effet pour gérer les transitions d'entrée et de sortie
+    // When the currentIndex or transitionState change, start the enter transition
     useEffect(() => {
         if (transitionState === 'enter') {
             setTimeout(() => setTransitionState('active'), 10);

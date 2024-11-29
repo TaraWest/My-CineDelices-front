@@ -10,21 +10,27 @@ const InputField: React.FC<InputFieldProps> = ({
     disabled,
     error,
 }) => (
-    <div className="input-pro-container">
-        <label className="w-[100px] inline-block" htmlFor={name}>
+    <div className="input-pro-container justify-center">
+        <label
+            className="w-[100px] text-center inline-block"
+            htmlFor={name}
+            aria-label={label}
+        >
             {label}
         </label>
         <input
-            className={`input-pro  ${disabled ? 'bg-transparent text-skin' : ''} ${error ? 'input-pro-error' : ''}`}
+            className={`input-pro text-center ${disabled ? 'bg-transparent text-skin' : ''} ${error ? 'input-pro-error' : ''}`}
             type={type}
+            {...(type === 'email'
+                ? { required: true, pattern: '\\S+@\\S+' }
+                : {})}
             id={name}
             name={name}
             value={value}
             onChange={onChange}
             disabled={disabled}
         />
-        {error && <p className="text-white-500">{error}</p>}{' '}
-        {/* if there is a error */}
+        {error && <p className="text-white-500">{error}</p>}
     </div>
 );
 

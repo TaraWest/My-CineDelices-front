@@ -1,13 +1,13 @@
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
+import { useAuthContext } from '../../Context/Authentification/useAuthContext';
+import AddRecipeModal from '../CatalogPage/components/modal';
 import { IRecipe } from './models';
-import Slider from './components/slider/slider';
 import { fetchOneRandom } from './services';
+import Slider from './components/slider/slider';
 import './components/slider/slider.scss';
 import './homePage.scss';
-import AddRecipeModal from '../CatalogPage/components/modal';
-import { useAuthContext } from '../../Context/Authentification/useAuthContext';
-import { useMediaQuery } from 'react-responsive';
 
 function HomePage() {
     const [data, setData] = useState<IRecipe | null>(null);
@@ -36,55 +36,69 @@ function HomePage() {
     }
 
     return (
-        <div className="homePage">
+        <div className=" flex flex-col items-center p-5">
             {userAuth?.username && !isDesktop && (
                 <div className={` text-right text-skin text-base w-full mr-10`}>
                     Bienvenue {userAuth.username} !
                 </div>
             )}
-            <h1 className="homepage-title mb-2em">
+            <h1 className="text-center text-2xl md:text-4xl font-bold mb-8">
                 Bienvenue dans Ciné Délices !
                 <br />
-                Plongez dans un univers où la cuisine rencontre le cinéma...
+                <br /> Ici la cuisine rencontre le cinéma...
             </h1>
-            <h2 className="homepage-subtitle mb-2em">
+            <h2 className="text-center text-lg md:text-xl font-medium mb-8">
                 Pas d'idée pour ce soir ? Trouve l'inspiration avec des recettes
                 tirées de tes films et séries préférés !
             </h2>
 
-            <div className="container">
-                <div className="presentation">
-                    <img
-                        className="homepage-image-desktop"
-                        src="http://localhost:3000/movies/Cinédelices.webp"
-                        alt=""
-                    />
-                    <p>
-                        Bienvenue sur CinéDélices, votre destination
-                        incontournable pour découvrir des recettes inspirées des
-                        films cultes ! Plongez dans l'univers cinématographique
-                        à travers les plats emblématiques qui ont marqué
-                        l'histoire du grand écran. Chaque recette est
-                        soigneusement recréée pour vous permettre de goûter à la
-                        magie des scènes les plus gourmandes. Que vous soyez fan
-                        de banquets fantastiques, de festins royaux ou de petits
-                        plats simples mais mémorables, nous vous invitons à
-                        cuisiner comme vos personnages préférés. Préparez-vous à
-                        allier passion du cinéma et plaisir de la table ! Bon
-                        appétit et bon film !
+            <div className="flex flex-col md:flex-row items-center gap-8 border-8 border-double border-skin rounded-t-[15%] rounded-b-lg p-5 md:p-10">
+                <div className="text-center md:text-justify leading-6 text-base md:text-lg">
+                    {isDesktop && (
+                        <img
+                            className="rounded-lg w-1/2 float-right ml-4"
+                            src="http://localhost:3000/movies/Cinédelices.webp"
+                            alt="Image de présentation de Ciné Délices"
+                        />
+                    )}
+                    <p className="leading-relaxed text-justify text-base md:text-lg max-w-prose mx-auto">
+                        <strong>
+                            Bienvenue sur Ciné Délices, la destination
+                            incontournable pour découvrir des recettes inspirées
+                            de films cultes !
+                        </strong>
+                        <br />
+                        <br />
+                        Plonge dans l'univers cinématographique à travers les
+                        plats emblématiques qui ont marqué l'histoire du grand
+                        écran. Chaque recette est soigneusement recréée pour te
+                        permettre de goûter à la magie des scènes les plus
+                        gourmandes.
+                        <br />
+                        <br />
+                        Que tu sois un fan de banquets fantastiques, de festins
+                        royau ou de petits plats simples mais mémorables , nous
+                        t'invitons à cuisiner comme tes personnages préférés.
+                        Prépare-toi à allier passion du cinéma et plaisir de la
+                        table !
+                        <br />
+                        <br />
+                        <em>Bon appétit et bon film !</em>
                     </p>
                 </div>
 
-                <div className="img_presentation">
-                    <img
-                        className="homepage-image"
-                        src="http://localhost:3000/movies/Cinédelices.webp"
-                        alt=""
-                    />
-                </div>
+                {!isDesktop && (
+                    <div className="img_presentation w-3/4">
+                        <img
+                            className="rounded-lg object-cover"
+                            src="http://localhost:3000/movies/Cinédelices.webp"
+                            alt="Image de présentation de Ciné Délices"
+                        />
+                    </div>
+                )}
             </div>
 
-            <div className="homepage-button">
+            <div className="flex w-full justify-around my-8">
                 <button
                     className="button-link homepage-link-button"
                     onClick={() => {
@@ -97,8 +111,8 @@ function HomePage() {
             </div>
 
             <h4>
-                Met ton plus beau tablier et prépare ta soirée avec notre
-                proposition !
+                Met ton plus beau tablier et prépare ta soirée grâce à nos
+                propositions !
             </h4>
             <Slider></Slider>
         </div>

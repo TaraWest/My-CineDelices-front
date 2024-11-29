@@ -33,6 +33,7 @@ export interface InputFieldProps {
     type: string;
     name: string;
     value: string;
+    email?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     disabled: boolean;
     error?: string;

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
-import { getUserRecipes, updateUser } from './services';
-import { IRecipe, IUser } from './models';
+import { useAuthContext } from '../../Context/Authentification/useAuthContext';
+import { getUserRecipes, updateUser, fetchDeleteRecipe } from './services';
 import RecepiesTab from './components/RecepiesTab';
 import UserInfoForm from './components/UserInfoForm';
-import { useAuthContext } from '../../Context/Authentification/useAuthContext';
-import { fetchDeleteRecipe } from './services';
+import { IRecipe, IUser } from './models';
+// import sendEmailNotification from './components/emailUpdate';
 
 function ProfilePage() {
     const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
@@ -21,7 +21,7 @@ function ProfilePage() {
     //State for the tab
     // 1 : "mes recettes"
     // 2 : "informations personnelles"
-    const [switchTab, setSwitchTab] = useState('1');
+    const [switchTab, setSwitchTab] = useState(1);
 
     // The form is not editable by default
     const [editForm, setEditForm] = useState(false);
@@ -74,6 +74,14 @@ function ProfilePage() {
             // set inputs editables
             setEditForm(true);
         } else {
+            // send email if email changed
+            // if (
+            //     userAuth &&
+            //     userAuth?.email_address !== null &&
+            //     userAuth?.email_address !== email
+            // ) {
+            //     sendEmailNotification(userAuth.email_address, email);
+            // }
             if (userAuth && userAuth.id) {
                 // on submitForm if editForm=true
                 const dataToSend: IUser = {
@@ -92,7 +100,7 @@ function ProfilePage() {
         }
     }
 
-    // is user is connected, put his datas into states to be able to update them
+    // if user is connected, put his datas into states to be able to update them
     useEffect(() => {
         if (
             userAuth &&
@@ -120,11 +128,11 @@ function ProfilePage() {
 
     if (!userAuth) {
         return (
-            <div className="justify-center flex h-160">
-                <div className="flex flex-col max-w-xs m-6 items-center ">
+            <div className="flex justify-center items-center h-[calc(100vh-300px)]">
+                <div className="flex flex-col max-w-xs m-6">
                     <h4>Merci de vous connecter pour accéder à cette page</h4>
                     <button onClick={handleNavigate} className="button-link">
-                        Connectez vous!
+                        Connectez vous !
                     </button>
                 </div>
             </div>
@@ -136,21 +144,17 @@ function ProfilePage() {
         <div className={`flex m-2 ${isDesktop ? 'flex-row' : 'flex-col'}`}>
             <div className="flex m-4 flex-col">
                 <button
-                    onClick={() => setSwitchTab('1')}
-                    className={`px-4 py-2 rounded ${
-                        switchTab === '1'
-                            ? 'bg-dark-red text-skin'
-                            : 'bg-transparent text-skin'
+                    onClick={() => setSwitchTab(1)}
+                    className={`px-4 py-2 rounded bg-dark-red text-skin ${
+                        switchTab === 1 ? 'text-skin underline' : 'text-skin'
                     }`}
                 >
                     Mes Recettes
                 </button>
                 <button
-                    onClick={() => setSwitchTab('2')}
-                    className={`px-4 py-2 rounded ${
-                        switchTab === '2'
-                            ? 'bg-dark-red text-skin'
-                            : 'bg-transparent text-skin'
+                    onClick={() => setSwitchTab(2)}
+                    className={`px-4 py-2 rounded bg-dark-red text-skin ${
+                        switchTab === 2 ? 'text-skin underline' : 'text-skin'
                     }`}
                 >
                     Mes Informations personnelles
@@ -159,7 +163,7 @@ function ProfilePage() {
 
             {/* here the tab "Mes Informations personnelles" */}
             <div
-                className={`${switchTab === '2' ? 'flex justify-center items-center m-4 flex-col sm:flex-row' : 'hidden'}`}
+                className={`${switchTab === 2 ? 'flex justify-center items-center m-4 flex-col sm:flex-row' : 'hidden'}`}
             >
                 <UserInfoForm
                     firstName={firstName}
@@ -176,7 +180,7 @@ function ProfilePage() {
 
             {/* here the tab "mes recettes" */}
             <div
-                className={`${switchTab === '1' ? 'flex m-4 flex-col sm:flex-row' : 'hidden'}`}
+                className={`${switchTab === 1 ? 'flex m-4 flex-col sm:flex-row' : 'hidden'}`}
             >
                 <RecepiesTab
                     recipies={recipies}

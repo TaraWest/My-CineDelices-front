@@ -7,9 +7,12 @@
 //         width: calc(0.55 * #{var.$breakpoint-m});
 //     }
 // }
-.input-pro-container {
-    margin: 2em;
-}
+// .input-pro-container {
+//     margin: 2em;
+//     @media (min-width: var.$breakpoint-m) {
+//         margin: 0;
+//     }
+// }
 .input-pro {
     padding: 0.5em 1em;
     @apply bg-skin m-4 text-black
@@ -36,7 +39,6 @@
 
 .button-password {
     font-family: 'Cinzel', serif;
-    background-color: var.$color-light-red;
     color: var.$color-skin;
     padding: 0.2em;
     border: none;
@@ -45,15 +47,8 @@
     margin-bottom: 1rem;
     font-size: 1.1rem;
     text-decoration: none;
-
+    border-top: 2px solid var.$color-skin;
+    text-align: center;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-
-    &:hover {
-        background-color: var.$color-dark-red;
-        color: var.$color-skin;
-        transition-duration: 200ms;
-        font-weight: 600;
-    }
 }

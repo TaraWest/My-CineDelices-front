@@ -67,10 +67,20 @@ function Header() {
                     className="user-icon block py-2"
                 >
                     <div
-                        className="text-xl cursor-pointer "
+                        className="relative text-xl cursor-pointer "
                         onClick={closeMenu}
                     >
-                        <FontAwesomeIcon icon={faUser} />
+                        {userAuth?.username && (
+                            <div className="absolute top-0 right-0 rounded-full w-1 h-1 bg-green-500"></div>
+                        )}
+                        <FontAwesomeIcon
+                            icon={faUser}
+                            aria-label={
+                                userAuth?.username
+                                    ? 'Bonjour ${userAuth.username}'
+                                    : 'Profil utilisateur'
+                            }
+                        />
                     </div>
                 </Link>
 
@@ -135,19 +145,25 @@ function Header() {
                 >
                     {userAuth?.username && (
                         <div
-                            className={` text-center text-visited-link text-base w-full mt-1em m-0.5 px-0.5`}
+                            className={` text-center text-skin text-base w-full mt-1em m-0.5 px-0.5`}
                         >
-                            Connecté en tant que <br /> {userAuth.username} !
+                            Bonjour {userAuth.username} !
                         </div>
                     )}
                     {/* burger menu links */}
                     <div className="p-4" style={{ textAlign: 'center' }}>
-                        <Link to="/" className="block py-2" onClick={closeMenu}>
+                        <Link
+                            to="/"
+                            className="block py-2 text-skin no-underline"
+                            style={{ color: 'var(--color-skin)' }}
+                            onClick={closeMenu}
+                        >
                             Accueil
                         </Link>
                         <Link
                             to="/catalogue"
-                            className="block py-2"
+                            className="block no-underline py-2 text-skin"
+                            style={{ color: 'var(--color-skin)' }}
                             onClick={closeMenu}
                         >
                             Catalogue
@@ -157,14 +173,16 @@ function Header() {
                             <div>
                                 <Link
                                     to="/connexion"
-                                    className="block py-2"
+                                    className="block no-underline py-2 text-skin"
+                                    style={{ color: 'var(--color-skin)' }}
                                     onClick={closeMenu}
                                 >
                                     Connexion
                                 </Link>
                                 <Link
                                     to="/inscription"
-                                    className="block py-2"
+                                    className="block no-underline py-2 text-skin"
+                                    style={{ color: 'var(--color-skin)' }}
                                     onClick={closeMenu}
                                 >
                                     Inscription
@@ -176,7 +194,8 @@ function Header() {
                         {userAuth?.role_id === 1 && (
                             <Link
                                 to="http://localhost:3000/admin"
-                                className="block py-2 text-visited-link"
+                                className="block no-underline py-2 text-skin"
+                                style={{ color: 'var(--color-skin)' }}
                                 onClick={closeMenu}
                             >
                                 Admin
@@ -186,7 +205,8 @@ function Header() {
                         {userAuth?.username && (
                             <Link
                                 to="/profil/me"
-                                className="block py-2"
+                                className="block no-underline py-2 text-skin"
+                                style={{ color: 'var(--color-skin)' }}
                                 onClick={closeMenu}
                             >
                                 Mon profil
@@ -195,7 +215,8 @@ function Header() {
                         {/* logout */}
                         {userAuth?.username && (
                             <button
-                                className="block text-center font-body underline text-visited-link w-full mt-0 "
+                                className="block text-center font-body no-underline text-visited-link w-full mt-0 "
+                                style={{ color: 'var(--color-skin)' }}
                                 onClick={logout}
                             >
                                 Déconnexion
