@@ -37,11 +37,11 @@ function HomePage() {
 
     return (
         <div className=" flex flex-col items-center p-5">
-            {userAuth?.username && !isDesktop && (
+            {/* {userAuth?.username && !isDesktop && (
                 <div className={` text-right text-skin text-base w-full mr-10`}>
                     Bienvenue {userAuth.username} !
                 </div>
-            )}
+            )} */}
             <h1 className="text-center text-2xl md:text-4xl font-bold mb-8">
                 Bienvenue dans Ciné Délices !
                 <br />
@@ -53,15 +53,15 @@ function HomePage() {
             </h2>
 
             <div className="flex flex-col md:flex-row items-center gap-8 border-8 border-double border-skin rounded-t-[15%] rounded-b-lg p-5 md:p-10">
-                <div className="text-center md:text-justify leading-6 text-base md:text-lg">
+                <div className="text-center md:text-justify pt-5 leading-6 text-base md:text-lg">
                     {isDesktop && (
                         <img
                             className="rounded-lg w-1/2 float-right ml-4"
-                            src="http://localhost:3000/movies/Cinédelices.webp"
+                            src="http://localhost:3000/movies/cinedelices.webp"
                             alt="Image de présentation de Ciné Délices"
                         />
                     )}
-                    <p className="leading-relaxed text-justify text-base md:text-lg max-w-prose mx-auto">
+                    <p className="text-base md:text-lg mx-auto">
                         <strong>
                             Bienvenue sur Ciné Délices, la destination
                             incontournable pour découvrir des recettes inspirées
@@ -91,7 +91,7 @@ function HomePage() {
                     <div className="img_presentation w-3/4">
                         <img
                             className="rounded-lg object-cover"
-                            src="http://localhost:3000/movies/Cinédelices.webp"
+                            src="http://localhost:3000/movies/cinedelices_small.webp"
                             alt="Image de présentation de Ciné Délices"
                         />
                     </div>
@@ -100,7 +100,7 @@ function HomePage() {
 
             <div className="flex w-full justify-around my-8">
                 <button
-                    className="button-link homepage-link-button"
+                    className="button-link homepage-link-button mr-4"
                     onClick={() => {
                         navigate('/catalogue');
                     }}

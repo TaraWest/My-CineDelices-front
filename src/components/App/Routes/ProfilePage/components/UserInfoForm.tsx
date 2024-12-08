@@ -23,7 +23,7 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({
         }
     };
     const [seeUpdatePassword, setSeeUpdatePassword] = useState(false);
-    const [nouveauEmail, setNouveauEmail] = useState({ email });
+    // const [nouveauEmail, setNouveauEmail] = useState({ email });
 
     function seeModal() {
         setSeeUpdatePassword(!seeUpdatePassword);

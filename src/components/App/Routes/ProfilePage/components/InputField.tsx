@@ -26,6 +26,8 @@ const InputField: React.FC<InputFieldProps> = ({
                 : {})}
             id={name}
             name={name}
+            aria-label={label}
+            placeholder={name}
             value={value}
             onChange={onChange}
             disabled={disabled}

@@ -49,7 +49,7 @@ function Header() {
                     <span className="highlight">D</span>élices
                 </Link>
             </div>
-            {/*show this message when user is authentificated*/}
+            {/* show this message when user is authentificated
             {userAuth?.username && isDesktop && (
                 <div
                     // className={`absolute left-1/2 top-16 transform -translate-x-3/4 text-center text-skin`}
@@ -57,7 +57,7 @@ function Header() {
                 >
                     Bienvenue {userAuth.username} !
                 </div>
-            )}
+            )} */}
             {/* Icons and links container */}
             <div className="link-container flex items-center space-x-4 relative ml-2 text-skin ">
                 {/* User Icon*/}

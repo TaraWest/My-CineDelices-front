@@ -1,5 +1,3 @@
-//contexte authentification ici
-
 import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
 import { ILogin } from '../../Routes/LoginPage/models';
@@ -78,7 +76,7 @@ export const AuthProvider = ({
                 if (data) {
                     setUserAuth(data);
                     toast.success(`Connexion réussie, bienvenue!`);
-                    navigate('/catalogue');
+                    navigate('/profil/me');
                 }
             })
             .catch((error) => {

@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.scss';
 import HomePage from './components/App/Routes/HomePage/HomePage';
-
+import { useEffect } from 'react';
 import RecipePage from './components/App/Routes/RecipePage/RecipePage';
 import Header from './components/App/Header/Header';
 import Footer from './components/App/Footer/Footer';
@@ -16,10 +16,12 @@ import ContactForm from './components/App/Footer/Contact';
 import { LegalNotice } from './components/App/Footer/MentionsLegales';
 
 function App() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [window.location.pathname]);
     return (
         <div className="app">
             <Header />
-
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/catalogue" element={<CatalogPage />} />
@@ -32,10 +34,9 @@ function App() {
 
                 <Route path="/mentions-legales" element={<LegalNotice />} />
             </Routes>
-
             <Footer />
             <ToastContainer
-                position="bottom-right"
+                position="top-right"
                 autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}

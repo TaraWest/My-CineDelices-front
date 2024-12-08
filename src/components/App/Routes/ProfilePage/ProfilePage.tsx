@@ -6,6 +6,7 @@ import { getUserRecipes, updateUser, fetchDeleteRecipe } from './services';
 import RecepiesTab from './components/RecepiesTab';
 import UserInfoForm from './components/UserInfoForm';
 import { IRecipe, IUser } from './models';
+import { toast } from 'react-toastify';
 // import sendEmailNotification from './components/emailUpdate';
 
 function ProfilePage() {
@@ -93,7 +94,18 @@ function ProfilePage() {
                 };
                 console.log('log de data to send', dataToSend);
                 // fetch and update user info
-                updateUser(dataToSend);
+                updateUser(dataToSend)
+                    .then(() => {
+                        toast.success(
+                            'Vos informations ont été mises à jour avec succès.',
+                        );
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        toast.error(
+                            'Une erreur est survenue. Veuillez réessayer.',
+                        );
+                    });
                 // set input disable
                 setEditForm(false);
             }
@@ -102,17 +114,11 @@ function ProfilePage() {
 
     // if user is connected, put his datas into states to be able to update them
     useEffect(() => {
-        if (
-            userAuth &&
-            userAuth.first_name &&
-            userAuth.last_name &&
-            userAuth.username &&
-            userAuth.email_address
-        ) {
-            setFirstName(userAuth.first_name);
-            setLastName(userAuth.last_name);
-            setUserName(userAuth.username);
-            setEmail(userAuth.email_address);
+        if (userAuth) {
+            setFirstName(userAuth.first_name || '');
+            setLastName(userAuth.last_name || '');
+            setUserName(userAuth.username || '');
+            setEmail(userAuth.email_address || '');
 
             getUserRecipes()
                 .then((data) => {
